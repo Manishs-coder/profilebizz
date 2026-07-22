@@ -9,4 +9,5 @@ import type { SectionItem } from './sectionItem';
 
 export interface FounderSectionsInput {
   sections: SectionItem[];
+  locale?: string;
 }

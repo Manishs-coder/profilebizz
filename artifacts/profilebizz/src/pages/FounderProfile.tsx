@@ -302,13 +302,13 @@ const FOUNDERS: Record<string, any> = {
 /* ════════════════════════════════
    PAGE COMPONENT
 ════════════════════════════════ */
-export default function FounderProfile({ params }: { params?: { slug?: string } }) {
+export default function FounderProfile({ params, locale }: { params?: { slug?: string }; locale?: 'en' | 'hi' }) {
   const slug = params?.slug ?? 'rajesh-kumar-vedas';
   const founder = FOUNDERS[slug] ?? FOUNDERS['rajesh-kumar-vedas'];
+  const lang = locale ?? 'en';
 
   const [activeSection, setActiveSection] = useState('early-life');
   const [scrolled, setScrolled] = useState(false);
-  const [lang, setLang] = useState<'en' | 'hi'>('en');
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   // Hindi content available?
@@ -319,8 +319,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
   useEffect(() => {
     window.scrollTo(0, 0);
     setActiveSection('early-life');
-    setLang('en');
-  }, [slug]);
+  }, [slug, lang]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -455,17 +454,19 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
             ))}
           </div>
 
-          {/* ── Language switch button — below stats ── */}
+          {/* ── Language switch link — below stats ── */}
           {hasHindi && (
             <div className="mt-6 flex justify-center">
-              <button
-                onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
+              <a
+                href={lang === 'en'
+                  ? `${import.meta.env.BASE_URL}founder/hi/${slug}`
+                  : `${import.meta.env.BASE_URL}founder/${slug}`}
                 className="flex items-center gap-2 border border-gray-300 hover:border-black px-5 py-2 text-sm font-semibold text-gray-600 hover:text-black transition-all group"
                 style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
               >
                 <Languages className="w-4 h-4 flex-shrink-0 text-gray-400 group-hover:text-black transition-colors" />
                 {lang === 'en' ? 'हिंदी में पढ़ें' : 'Read in English'}
-              </button>
+              </a>
             </div>
           )}
         </div>

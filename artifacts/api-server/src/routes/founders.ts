@@ -5,7 +5,7 @@ import {
   founderSectionsTable,
   seoMetaTable,
 } from "@workspace/db";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, and } from "drizzle-orm";
 import {
   CreateFounderBody,
   UpdateFounderBody,
@@ -136,9 +136,10 @@ router.delete("/founders/:slug", requireAuth, async (req, res) => {
   res.json({ ok: true });
 });
 
-// GET /api/founders/:slug/sections
+// GET /api/founders/:slug/sections?locale=en
 router.get("/founders/:slug/sections", requireAuth, async (req, res) => {
   const slug = param(req.params.slug);
+  const locale = (req.query.locale as string) || "en";
   const [founder] = await db
     .select({ id: foundersTable.id })
     .from(foundersTable)
@@ -148,7 +149,7 @@ router.get("/founders/:slug/sections", requireAuth, async (req, res) => {
   const sections = await db
     .select()
     .from(founderSectionsTable)
-    .where(eq(founderSectionsTable.founderId, founder.id))
+    .where(and(eq(founderSectionsTable.founderId, founder.id), eq(founderSectionsTable.locale, locale)))
     .orderBy(founderSectionsTable.sortOrder);
   res.json(sections);
 });
@@ -158,16 +159,21 @@ router.put("/founders/:slug/sections", requireAuth, async (req, res) => {
   const slug = param(req.params.slug);
   const parsed = UpdateFounderSectionsBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: "Invalid request body" }); return; }
+  const locale = parsed.data.locale || "en";
   const [founder] = await db
     .select({ id: foundersTable.id })
     .from(foundersTable)
     .where(eq(foundersTable.slug, slug))
     .limit(1);
   if (!founder) { res.status(404).json({ error: "Founder not found" }); return; }
-  await db.delete(founderSectionsTable).where(eq(founderSectionsTable.founderId, founder.id));
+  // Delete only sections for this locale, preserving the other language
+  await db.delete(founderSectionsTable).where(
+    and(eq(founderSectionsTable.founderId, founder.id), eq(founderSectionsTable.locale, locale))
+  );
   if (parsed.data.sections.length === 0) { res.json([]); return; }
   const sections = parsed.data.sections.map((s, i) => ({
     founderId: founder.id,
+    locale,
     sectionKey: s.sectionKey,
     pullQuote: s.pullQuote ?? null,
     bodyParagraphs: s.bodyParagraphs ?? [],

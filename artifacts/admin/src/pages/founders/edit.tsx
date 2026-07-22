@@ -568,18 +568,24 @@ function InterviewsEditor({
 
 // ─── Sections Editor ─────────────────────────────────────────────────────────
 function SectionsEditor({ slug }: { slug: string }) {
-  const { data: sections, isLoading } = useGetFounderSections(slug, {
-    query: { enabled: !!slug, queryKey: getGetFounderSectionsQueryKey(slug) },
+  const [locale, setLocale] = React.useState<"en" | "hi">("en")
+  const { data: sections, isLoading } = useGetFounderSections(slug, locale, {
+    query: { enabled: !!slug, queryKey: getGetFounderSectionsQueryKey(slug, locale) },
   })
   const updateMutation = useUpdateFounderSections()
   const { toast } = useToast()
+  const queryClient = useQueryClient()
 
   const textSections = ["Early Life", "Education", "Career", "Entrepreneurial Journey", "Challenges", "Success", "Leadership Style"]
 
   type SectionData = { pullQuote: string; bodyParagraphs: string }
-  const [formData, setFormData] = React.useState<Record<string, SectionData>>({})
-  const [awards, setAwards] = React.useState<Award[]>([])
-  const [interviews, setInterviews] = React.useState<Interview[]>([])
+  const [formDataEn, setFormDataEn] = React.useState<Record<string, SectionData>>({})
+  const [formDataHi, setFormDataHi] = React.useState<Record<string, SectionData>>({})
+  const [awardsEn, setAwardsEn] = React.useState<Award[]>([])
+  const [interviewsEn, setInterviewsEn] = React.useState<Interview[]>([])
+
+  const formData = locale === "en" ? formDataEn : formDataHi
+  const setFormData = locale === "en" ? setFormDataEn : setFormDataHi
 
   React.useEffect(() => {
     if (!sections) return
@@ -591,18 +597,20 @@ function SectionsEditor({ slug }: { slug: string }) {
         bodyParagraphs: sec?.bodyParagraphs ? sec.bodyParagraphs.join("\n\n") : "",
       }
     })
-    setFormData(newData)
-
-    const awardsSection = sections.find((s) => s.sectionKey === "Awards")
-    if (awardsSection?.jsonData && Array.isArray(awardsSection.jsonData)) {
-      setAwards(awardsSection.jsonData as Award[])
+    if (locale === "en") {
+      setFormDataEn(newData)
+      const awardsSection = sections.find((s) => s.sectionKey === "Awards")
+      if (awardsSection?.jsonData && Array.isArray(awardsSection.jsonData)) {
+        setAwardsEn(awardsSection.jsonData as Award[])
+      }
+      const interviewsSection = sections.find((s) => s.sectionKey === "Interviews")
+      if (interviewsSection?.jsonData && Array.isArray(interviewsSection.jsonData)) {
+        setInterviewsEn(interviewsSection.jsonData as Interview[])
+      }
+    } else {
+      setFormDataHi(newData)
     }
-
-    const interviewsSection = sections.find((s) => s.sectionKey === "Interviews")
-    if (interviewsSection?.jsonData && Array.isArray(interviewsSection.jsonData)) {
-      setInterviews(interviewsSection.jsonData as Interview[])
-    }
-  }, [sections])
+  }, [sections, locale])
 
   const handleSave = () => {
     const textPayload = textSections.map((key) => {
@@ -620,12 +628,12 @@ function SectionsEditor({ slug }: { slug: string }) {
       }
     })
 
-    const awardsPayload = awards.filter((a) => a.title || a.organization).length > 0
-      ? [{ sectionKey: "Awards", pullQuote: "", bodyParagraphs: [], jsonData: awards }]
+    const awardsPayload = locale === "en" && awardsEn.filter((a) => a.title || a.organization).length > 0
+      ? [{ sectionKey: "Awards", pullQuote: "", bodyParagraphs: [], jsonData: awardsEn }]
       : []
 
-    const interviewsPayload = interviews.filter((i) => i.title || i.publication).length > 0
-      ? [{ sectionKey: "Interviews", pullQuote: "", bodyParagraphs: [], jsonData: interviews }]
+    const interviewsPayload = locale === "en" && interviewsEn.filter((i) => i.title || i.publication).length > 0
+      ? [{ sectionKey: "Interviews", pullQuote: "", bodyParagraphs: [], jsonData: interviewsEn }]
       : []
 
     const payload = [
@@ -635,9 +643,12 @@ function SectionsEditor({ slug }: { slug: string }) {
     ]
 
     updateMutation.mutate(
-      { slug, data: { sections: payload } },
+      { slug, data: { locale, sections: payload } },
       {
-        onSuccess: () => toast({ title: "Sections saved!", description: "All story sections have been updated." }),
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: getGetFounderSectionsQueryKey(slug, locale) })
+          toast({ title: `${locale === "en" ? "English" : "Hindi"} sections saved!`, description: "Story sections updated." })
+        },
         onError: () => toast({ title: "Error", description: "Failed to save sections.", variant: "destructive" }),
       }
     )
@@ -651,61 +662,98 @@ function SectionsEditor({ slug }: { slug: string }) {
     )
 
   return (
-    <div className="space-y-10">
-      {textSections.map((key) => (
-        <div key={key} className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
-          <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">{key}</h3>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Pull Quote</Label>
-              <Input
-                placeholder={`Highlight quote from ${key.toLowerCase()}...`}
-                value={formData[key]?.pullQuote || ""}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, [key]: { ...prev[key], pullQuote: e.target.value } }))
-                }
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Body Content</Label>
-              <p className="text-xs text-slate-500">Separate paragraphs with a blank line.</p>
-              <Textarea
-                className="min-h-[180px]"
-                placeholder="Write the story here..."
-                value={formData[key]?.bodyParagraphs || ""}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    [key]: { ...prev[key], bodyParagraphs: e.target.value },
-                  }))
-                }
-              />
+    <div className="space-y-6">
+      {/* Language tabs */}
+      <div className="flex items-center gap-4 pb-4 border-b">
+        <span className="text-sm font-semibold text-slate-600">Language:</span>
+        <div className="flex border border-slate-200 overflow-hidden rounded-lg">
+          <button
+            onClick={() => setLocale("en")}
+            className={`px-5 py-2 text-sm font-semibold transition-colors ${locale === "en" ? "bg-primary text-white" : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"}`}
+          >
+            English (EN)
+          </button>
+          <div className="w-px bg-slate-200" />
+          <button
+            onClick={() => setLocale("hi")}
+            className={`px-5 py-2 text-sm font-semibold transition-colors ${locale === "hi" ? "bg-primary text-white" : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"}`}
+            style={locale === "hi" ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
+          >
+            हिंदी (HI)
+          </button>
+        </div>
+        {locale === "hi" && (
+          <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-md">
+            Hindi content will be served at <code className="font-mono">/founder/hi/{slug}</code>
+          </p>
+        )}
+      </div>
+
+      <div className="space-y-10">
+        {textSections.map((key) => (
+          <div key={`${locale}-${key}`} className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
+            <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">{key}</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Pull Quote</Label>
+                <Input
+                  placeholder={locale === "hi" ? `${key} ka highlight quote...` : `Highlight quote from ${key.toLowerCase()}...`}
+                  value={formData[key]?.pullQuote || ""}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, [key]: { ...prev[key], pullQuote: e.target.value } }))
+                  }
+                  style={locale === "hi" ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Body Content</Label>
+                <p className="text-xs text-slate-500">Separate paragraphs with a blank line.</p>
+                <Textarea
+                  className="min-h-[180px]"
+                  placeholder={locale === "hi" ? "Hindi mein kahani likhein..." : "Write the story here..."}
+                  value={formData[key]?.bodyParagraphs || ""}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      [key]: { ...prev[key], bodyParagraphs: e.target.value },
+                    }))
+                  }
+                  style={locale === "hi" ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
+                />
+              </div>
             </div>
           </div>
+        ))}
+
+        {/* Awards — only for English */}
+        {locale === "en" && (
+          <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
+            <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Awards & Recognition</h3>
+            <AwardsEditor value={awardsEn} onChange={setAwardsEn} />
+          </div>
+        )}
+
+        {/* Interviews — only for English */}
+        {locale === "en" && (
+          <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
+            <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Interviews & Media</h3>
+            <InterviewsEditor value={interviewsEn} onChange={setInterviewsEn} />
+          </div>
+        )}
+
+        <div className="sticky bottom-4 bg-white/90 backdrop-blur border p-4 rounded-xl shadow-lg flex items-center justify-between">
+          <span className="text-sm text-slate-500">
+            Saving: <span className="font-semibold text-slate-800">{locale === "en" ? "English" : "Hindi"}</span> sections
+          </span>
+          <Button onClick={handleSave} disabled={updateMutation.isPending} className="gap-2 px-8">
+            {updateMutation.isPending ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Save className="h-4 w-4" />
+            )}
+            Save {locale === "en" ? "English" : "Hindi"} Sections
+          </Button>
         </div>
-      ))}
-
-      {/* Awards */}
-      <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
-        <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Awards & Recognition</h3>
-        <AwardsEditor value={awards} onChange={setAwards} />
-      </div>
-
-      {/* Interviews */}
-      <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
-        <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Interviews & Media</h3>
-        <InterviewsEditor value={interviews} onChange={setInterviews} />
-      </div>
-
-      <div className="sticky bottom-4 bg-white/90 backdrop-blur border p-4 rounded-xl shadow-lg flex justify-end">
-        <Button onClick={handleSave} disabled={updateMutation.isPending} className="gap-2 px-8">
-          {updateMutation.isPending ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Save className="h-4 w-4" />
-          )}
-          Save All Sections
-        </Button>
       </div>
     </div>
   )

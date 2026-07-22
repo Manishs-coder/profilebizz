@@ -894,6 +894,9 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/founder/:slug" component={FounderProfile} />
+      <Route path="/founder/hi/:slug">
+        {(params) => <FounderProfile params={params as { slug: string }} locale="hi" />}
+      </Route>
       <Route path="/brand/:slug" component={BrandStory} />
       <Route path="/industry/:slug" component={IndustryStory} />
       <Route path="/local/:slug" component={LocalBusiness} />

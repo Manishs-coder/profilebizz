@@ -805,20 +805,17 @@ export const useDeleteFounder = <TError = ErrorType<unknown>,
       return useMutation(getDeleteFounderMutationOptions(options));
     }
 
-export const getGetFounderSectionsUrl = (slug: string,) => {
-
-
-
-
-  return `/api/founders/${slug}/sections`
+export const getGetFounderSectionsUrl = (slug: string, locale?: string) => {
+  const qs = locale ? `?locale=${encodeURIComponent(locale)}` : '';
+  return `/api/founders/${slug}/sections${qs}`
 }
 
 /**
  * @summary Get all story sections for a founder
  */
-export const getFounderSections = async (slug: string, options?: RequestInit): Promise<FounderSection[]> => {
+export const getFounderSections = async (slug: string, locale?: string, options?: RequestInit): Promise<FounderSection[]> => {
 
-  return customFetch<FounderSection[]>(getGetFounderSectionsUrl(slug),
+  return customFetch<FounderSection[]>(getGetFounderSectionsUrl(slug, locale),
   {
     ...options,
     method: 'GET'
@@ -831,23 +828,23 @@ export const getFounderSections = async (slug: string, options?: RequestInit): P
 
 
 
-export const getGetFounderSectionsQueryKey = (slug: string,) => {
+export const getGetFounderSectionsQueryKey = (slug: string, locale?: string) => {
     return [
-    `/api/founders/${slug}/sections`
+    `/api/founders/${slug}/sections`, locale ?? 'en'
     ] as const;
     }
 
 
-export const getGetFounderSectionsQueryOptions = <TData = Awaited<ReturnType<typeof getFounderSections>>, TError = ErrorType<unknown>>(slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFounderSections>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+export const getGetFounderSectionsQueryOptions = <TData = Awaited<ReturnType<typeof getFounderSections>>, TError = ErrorType<unknown>>(slug: string, locale?: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFounderSections>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetFounderSectionsQueryKey(slug);
+  const queryKey =  queryOptions?.queryKey ?? getGetFounderSectionsQueryKey(slug, locale);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFounderSections>>> = ({ signal }) => getFounderSections(slug, { signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFounderSections>>> = ({ signal }) => getFounderSections(slug, locale, { signal, ...requestOptions });
 
 
 
@@ -865,11 +862,11 @@ export type GetFounderSectionsQueryError = ErrorType<unknown>
  */
 
 export function useGetFounderSections<TData = Awaited<ReturnType<typeof getFounderSections>>, TError = ErrorType<unknown>>(
- slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFounderSections>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+ slug: string, locale?: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFounderSections>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
 
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = getGetFounderSectionsQueryOptions(slug,options)
+  const queryOptions = getGetFounderSectionsQueryOptions(slug, locale, options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

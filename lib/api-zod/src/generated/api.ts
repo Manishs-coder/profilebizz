@@ -224,12 +224,14 @@ export const DeleteFounderResponse = zod.object({
  * @summary Get all story sections for a founder
  */
 export const GetFounderSectionsParams = zod.object({
-  "slug": zod.coerce.string()
+  "slug": zod.coerce.string(),
+  "locale": zod.string().optional()
 })
 
 export const GetFounderSectionsResponseItem = zod.object({
   "id": zod.number(),
   "founderId": zod.number(),
+  "locale": zod.string(),
   "sectionKey": zod.string(),
   "pullQuote": zod.string().nullish(),
   "bodyParagraphs": zod.array(zod.string()).optional(),
@@ -246,17 +248,20 @@ export const UpdateFounderSectionsParams = zod.object({
 })
 
 export const UpdateFounderSectionsBody = zod.object({
+  "locale": zod.string().optional(),
   "sections": zod.array(zod.object({
   "sectionKey": zod.string(),
   "pullQuote": zod.string().optional(),
   "bodyParagraphs": zod.array(zod.string()).optional(),
-  "jsonData": zod.unknown().nullish()
+  "jsonData": zod.unknown().nullish(),
+  "locale": zod.string().optional()
 }))
 })
 
 export const UpdateFounderSectionsResponseItem = zod.object({
   "id": zod.number(),
   "founderId": zod.number(),
+  "locale": zod.string(),
   "sectionKey": zod.string(),
   "pullQuote": zod.string().nullish(),
   "bodyParagraphs": zod.array(zod.string()).optional(),

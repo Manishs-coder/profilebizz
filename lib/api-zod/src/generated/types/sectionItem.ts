@@ -11,4 +11,5 @@ export interface SectionItem {
   pullQuote?: string;
   bodyParagraphs?: string[];
   jsonData?: unknown | null;
+  locale?: string;
 }

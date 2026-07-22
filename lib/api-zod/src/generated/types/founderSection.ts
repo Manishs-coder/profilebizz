@@ -9,6 +9,7 @@
 export interface FounderSection {
   id: number;
   founderId: number;
+  locale: string;
   sectionKey: string;
   /** @nullable */
   pullQuote?: string | null;

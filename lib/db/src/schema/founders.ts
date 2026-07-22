@@ -31,6 +31,7 @@ export type Founder = typeof foundersTable.$inferSelect;
 export const founderSectionsTable = pgTable("founder_sections", {
   id: serial("id").primaryKey(),
   founderId: integer("founder_id").notNull().references(() => foundersTable.id, { onDelete: "cascade" }),
+  locale: text("locale").notNull().default("en"),
   sectionKey: text("section_key").notNull(),
   pullQuote: text("pull_quote"),
   bodyParagraphs: text("body_paragraphs").array().default([]),
