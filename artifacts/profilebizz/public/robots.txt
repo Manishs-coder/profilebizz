@@ -1,2 +1,13 @@
 User-agent: *
 Allow: /
+
+# Sitemap
+Sitemap: https://profilebizz.com/sitemap.xml
+
+# Crawl-delay (polite crawling)
+Crawl-delay: 1
+
+# Block dev/build artifacts
+Disallow: /src/
+Disallow: /.local/
+Disallow: /node_modules/

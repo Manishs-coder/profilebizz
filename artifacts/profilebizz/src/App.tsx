@@ -87,21 +87,35 @@ function Home() {
       <header className={`fixed top-0 w-full z-50 bg-white transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
         {/* Top row: logo + nav + buttons */}
         <div className="border-b border-border">
-          <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
-            <div className="flex-shrink-0">
-              <span className="font-serif font-bold text-3xl tracking-tight">ProfileBizz</span>
+          <div className="max-w-[1400px] mx-auto px-4 md:px-8">
+
+            {/* ── Mobile Header — BikeDekho style ── */}
+            <div className="lg:hidden h-14 grid grid-cols-3 items-center">
+              <button
+                className="p-1 text-black hover:text-editorial transition-colors justify-self-start"
+                onClick={() => setMobileMenuOpen(o => !o)}
+                aria-label="Menu"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+              <a href="/" className="font-serif font-bold text-2xl tracking-tight text-center text-black hover:text-editorial transition-colors">ProfileBizz</a>
+              <div className="flex items-center justify-end gap-3">
+                <button className="p-1 text-black hover:text-editorial transition-colors" aria-label="Search">
+                  <Search className="w-5 h-5" />
+                </button>
+                <button className="text-[10px] font-bold tracking-widest uppercase bg-editorial text-white px-2.5 py-1.5 hover:bg-black transition-colors">
+                  Sub
+                </button>
+              </div>
             </div>
 
-            {/* Mobile hamburger */}
-            <button
-              className="lg:hidden p-2 text-black hover:text-editorial transition-colors"
-              onClick={() => setMobileMenuOpen(o => !o)}
-              aria-label="Menu"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* ── Desktop Header ── */}
+            <div className="hidden lg:flex h-16 items-center justify-between">
+              <div className="flex-shrink-0">
+                <span className="font-serif font-bold text-3xl tracking-tight">ProfileBizz</span>
+              </div>
 
-            <nav className="hidden lg:flex items-center gap-8 h-full">
+              <nav className="flex items-center gap-8 h-full">
               {[
                 { name: 'Social Hero Profile', active: false },
                 { name: 'Women Story', active: false },
@@ -335,6 +349,7 @@ function Home() {
                 Subscribe
               </button>
             </div>
+            </div>{/* end desktop header */}
           </div>
         </div>
 
@@ -344,7 +359,7 @@ function Home() {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setMobileMenuOpen(false)}>
           <div className="absolute inset-0 bg-black/50" />
-          <div className="absolute top-16 left-0 right-0 bg-white shadow-xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+          <div className="absolute top-14 left-0 right-0 bg-white shadow-xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
               <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">Browse Categories</span>
               <button onClick={() => setMobileMenuOpen(false)}><X className="w-5 h-5" /></button>
