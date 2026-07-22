@@ -7,6 +7,7 @@ import { Route, Switch, Router as WouterRouter } from 'wouter';
 import NotFound from '@/pages/not-found';
 import FounderProfile from '@/pages/FounderProfile';
 import BrandStory, { FEATURED_BRANDS } from '@/pages/BrandStory';
+import IndustryStory, { FEATURED_INDUSTRIES } from '@/pages/IndustryStory';
 
 const queryClient = new QueryClient();
 
@@ -41,9 +42,11 @@ function Home() {
   const [bizDropdown, setBizDropdown] = useState(false);
   const [founderDropdown, setFounderDropdown] = useState(false);
   const [brandDropdown, setBrandDropdown] = useState(false);
+  const [industryDropdown, setIndustryDropdown] = useState(false);
   const bizDropdownRef = useRef<HTMLDivElement>(null);
   const founderDropdownRef = useRef<HTMLDivElement>(null);
   const brandDropdownRef = useRef<HTMLDivElement>(null);
+  const industryDropdownRef = useRef<HTMLDivElement>(null);
   const startupScrollRef = useRef<HTMLDivElement>(null);
   const cityScrollRef = useRef<HTMLDivElement>(null);
 
@@ -226,6 +229,48 @@ function Home() {
                     </div>
                     <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
                       <span className="text-xs font-bold tracking-widest uppercase">View All Brand Stories</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Industry Stories dropdown */}
+              <div
+                ref={industryDropdownRef}
+                className="relative h-full flex items-center"
+                onMouseEnter={() => setIndustryDropdown(true)}
+                onMouseLeave={() => setIndustryDropdown(false)}
+              >
+                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                  Industry Stories
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${industryDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {industryDropdown && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[680px] bg-white border border-border shadow-lg z-50 p-6">
+                    <div className="border-b border-black pb-3 mb-5 flex items-center justify-between">
+                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">India's Key Industries — Explained in Depth</span>
+                      <span className="text-[10px] font-bold tracking-[0.1em] uppercase text-editorial">{FEATURED_INDUSTRIES.length} Industries</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mb-6">
+                      {FEATURED_INDUSTRIES.map((ind, idx) => (
+                        <a
+                          key={idx}
+                          href={`/industry/${ind.slug}`}
+                          className="group flex items-center gap-3 px-3 py-2.5 border border-gray-100 hover:border-black transition-colors duration-150"
+                        >
+                          <span className="text-xl flex-shrink-0">{ind.icon}</span>
+                          <div className="min-w-0 flex-1">
+                            <span className="block text-sm font-bold text-black group-hover:text-editorial transition-colors leading-tight">{ind.name}</span>
+                            <span className="block text-[10px] text-gray-400 mt-0.5">{ind.tag} · {ind.size}</span>
+                          </div>
+                          <ChevronRight className="w-3 h-3 text-gray-300 group-hover:text-editorial flex-shrink-0 transition-colors" />
+                        </a>
+                      ))}
+                    </div>
+                    <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
+                      <span className="text-xs font-bold tracking-widest uppercase">View All Industry Stories</span>
                       <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -662,6 +707,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/founder/:slug" component={FounderProfile} />
       <Route path="/brand/:slug" component={BrandStory} />
+      <Route path="/industry/:slug" component={IndustryStory} />
       <Route component={NotFound} />
     </Switch>
   );
