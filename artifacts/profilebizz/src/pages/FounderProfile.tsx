@@ -364,12 +364,21 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
         <div className="max-w-3xl mx-auto px-6 md:px-10 pt-12 pb-10 text-center">
 
           {/* Category badge */}
-          <div className="flex items-center justify-center gap-2 mb-7">
+          <div className="flex items-center justify-center gap-2 mb-8">
             <span className="inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.18em] uppercase text-editorial border border-editorial px-3 py-1.5">
               {founder.profileType}
               <ChevronRight className="w-3 h-3" />
             </span>
             <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-gray-400">{founder.profileTag}</span>
+          </div>
+
+          {/* Founder photo — large, above name */}
+          <div className="flex justify-center mb-7">
+            <img
+              src={founder.photo}
+              alt={founder.name}
+              className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-4 ring-white shadow-xl border border-gray-100"
+            />
           </div>
 
           {/* Founder name */}
@@ -394,13 +403,8 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Author meta row */}
+          {/* Meta row */}
           <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-gray-500 mb-10">
-            <img
-              src={founder.photo}
-              alt={founder.name}
-              className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-100"
-            />
             <span className="font-semibold text-black">ProfileBizz Editorial</span>
             <span className="text-gray-300">•</span>
             <span>{founder.location}</span>
@@ -424,15 +428,6 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Full-width cover image */}
-        <div className="w-full h-[420px] md:h-[580px] overflow-hidden border-t border-b border-gray-100">
-          <img
-            src={founder.coverPhoto}
-            alt={founder.name}
-            className="w-full h-full object-cover"
-          />
         </div>
       </div>
 
