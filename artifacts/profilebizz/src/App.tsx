@@ -436,294 +436,356 @@ function Home() {
 
       <main className="max-w-[1400px] mx-auto px-4 md:px-8 pt-36">
         
-        {/* 2. Hero Section */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b-[3px] border-black pb-12 mb-12">
-          
-          {/* Left Column - Main Story */}
-          <div className="lg:col-span-8 group cursor-pointer">
-            <div className="w-full aspect-[16/9] overflow-hidden mb-6 bg-muted">
-              <img 
-                src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=1600" 
-                alt="Bengaluru tech office" 
-                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+        {/* ── 2. FEATURED FOUNDER HERO ── */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-0 border-b-[3px] border-black pb-16 mb-16">
+
+          {/* LEFT: Featured Founder */}
+          <div className="lg:col-span-7 lg:pr-12 lg:border-r border-gray-200">
+
+            {/* Badge */}
+            <div className="flex items-center gap-3 mb-8">
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white bg-editorial px-3 py-1.5">
+                Featured Founder
+              </span>
+              <span className="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400">
+                Profile of the Week
+              </span>
+            </div>
+
+            {/* ① Photo */}
+            <div className="mb-6">
+              <img
+                src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&q=80"
+                alt="Nithin Kamath"
+                className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-4 ring-white shadow-xl border border-gray-100"
               />
             </div>
-            
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-bold tracking-widest text-editorial border-l-2 border-editorial pl-2 uppercase">Bharat Tech Spotlight</span>
-              <span className="text-xs font-medium text-muted-foreground tracking-widest uppercase">12 Min Read</span>
-            </div>
-            
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-[56px] leading-[1.1] mb-4 group-hover:text-editorial transition-colors duration-300">
-              The Rise of Bharat's Tech Giants: How Bengaluru is Redefining SaaS globally.
+
+            {/* ② Name */}
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-[68px] font-bold text-black leading-[1.02] tracking-tight mb-3">
+              Nithin Kamath
             </h1>
-            
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-6 max-w-3xl">
-              From Koramangala to the NASDAQ, Indian startups are pivoting from cost-arbitrage to product-led innovation, creating a new ₹50,000 Crore value proposition.
+
+            {/* ③ Designation */}
+            <p className="text-base md:text-lg text-gray-500 font-medium mb-6">
+              Co-Founder &amp; CEO, Zerodha
             </p>
-            
-            <p className="text-xs font-bold tracking-widest uppercase text-black">By Aditi Sharma</p>
-          </div>
-          
-          {/* Right Column - Secondary Stories */}
-          <div className="lg:col-span-4 flex flex-col justify-between">
-            
-            <div className="group cursor-pointer border-b border-border pb-8 mb-8 lg:mb-0">
-              <span className="inline-block text-xs font-bold tracking-widest text-authority uppercase mb-3">FinTech Pulse</span>
-              <h2 className="font-serif text-2xl md:text-3xl leading-snug mb-3 group-hover:text-authority transition-colors">
-                The UPI Revolution: How Digital Payments are Formalizing the Small Business Economy.
-              </h2>
-              <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
-                Mumbai's traditional markets are adopting digital ledgers at an unprecedented rate, creating a credit boom for the MSME sector.
-              </p>
-            </div>
-            
-            <div className="group cursor-pointer pt-4 lg:pt-0">
-              <span className="inline-block text-xs font-bold tracking-widest text-authority uppercase mb-3">D2C Markets</span>
-              <h2 className="font-serif text-2xl md:text-3xl leading-snug mb-3 group-hover:text-authority transition-colors">
-                The Gurgaon Playbook: Why Personal Care Brands are Winning with Localized Ingredients.
-              </h2>
-              <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
-                Legacy FMCG giants are struggling to keep up with agile digital-first brands focusing on traditional Indian wellness.
+
+            {/* ④ One-line Tagline */}
+            <div className="border-l-4 border-editorial pl-5 mb-7">
+              <p className="font-serif text-xl md:text-2xl text-black leading-[1.45] font-medium italic">
+                "The man who challenged traditional brokerages with a ₹20 flat-fee model—and transformed investing in India."
               </p>
             </div>
 
-          </div>
-        </section>
+            {/* ⑤ Executive Summary */}
+            <p className="text-base md:text-[17px] text-gray-600 leading-[1.9] mb-8 max-w-xl">
+              Starting with ₹15 lakh of personal savings and no outside investors, Nithin Kamath and his brother Nikhil built Zerodha into India's largest retail stockbroker — 73 lakh active clients, ₹8,320 crore in FY24 revenue, and a net profit of ₹4,700 crore. Fourteen years on, Zerodha has never raised a single rupee of external capital. The flat ₹20 fee he introduced in 2010 permanently restructured an entire industry's pricing model.
+            </p>
 
-
-        {/* 3. Two-Column Content + Sidebar */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-          
-          {/* LATEST STORIES (8 Cols) */}
-          <div className="lg:col-span-8">
-            <h3 className="text-xs font-bold tracking-widest uppercase border-b border-black pb-4 mb-8">Latest Stories</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+            {/* Key Stats */}
+            <div className="flex flex-wrap gap-6 mb-9">
               {[
-                {
-                  tag: "Cloud & Infra",
-                  title: "Hyderabad's New Data Sovereignty Hubs.",
-                  desc: "Policy shifts are driving a localized infrastructure boom, making the city a Tier-1 global cloud destination.",
-                  img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800"
-                },
-                {
-                  tag: "Founders",
-                  title: "The EQ Edge: Why Pune's Startups Prioritize Mental Wellness.",
-                  desc: "Meet the 5 entrepreneurs redefining high-performance culture without the burnout.",
-                  img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&q=80&w=800"
-                },
-                {
-                  tag: "WealthTech",
-                  title: "Retail Investing: The ₹10,000 Sip Revolution.",
-                  desc: "How algorithm-based platforms are democratizing asset management for India's middle class.",
-                  img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800"
-                },
-                {
-                  tag: "Mobility",
-                  title: "Chennai's EV Hub: Charging Toward 2030.",
-                  desc: "Massive infrastructure investments are turning the 'Detroit of India' into an electric powerhouse.",
-                  img: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&q=80&w=800"
-                }
-              ].map((story, i) => (
-                <div key={i} className="group cursor-pointer flex flex-col h-full">
-                  <div className="w-full aspect-[4/3] overflow-hidden mb-4 bg-muted">
-                    <img 
-                      src={story.img} 
-                      alt={story.title} 
-                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                    />
-                  </div>
-                  <span className="text-xs font-bold tracking-widest text-muted-foreground uppercase mb-2">{story.tag}</span>
-                  <h4 className="font-serif text-xl font-medium leading-snug mb-2 group-hover:text-editorial transition-colors">{story.title}</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed mt-auto">{story.desc}</p>
+                { l: 'FY24 Revenue', v: '₹8,320 Cr' },
+                { l: 'Active Clients', v: '73 Lakh+' },
+                { l: 'VC Raised', v: '₹0' },
+                { l: 'Founded', v: '2010' },
+              ].map(s => (
+                <div key={s.l} className="border-l-2 border-editorial pl-3">
+                  <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-0.5">{s.l}</p>
+                  <p className="font-serif text-xl font-bold text-black">{s.v}</p>
                 </div>
               ))}
             </div>
+
+            {/* CTA */}
+            <a href="/founder/nithin-kamath"
+              className="inline-flex items-center gap-2 bg-black text-white text-xs font-bold tracking-widest uppercase px-7 py-3.5 hover:bg-editorial transition-colors">
+              Read Full Biography
+              <ChevronRight className="w-4 h-4" />
+            </a>
           </div>
 
-          {/* SIDEBAR (4 Cols) */}
-          <div className="lg:col-span-4 flex flex-col gap-12">
-            
-            {/* Trending Now */}
-            <div>
-              <h3 className="text-xs font-bold tracking-widest uppercase border-b border-black pb-4 mb-6">Trending Now</h3>
-              <ul className="flex flex-col gap-6">
-                {[
-                  { title: "Reliance's AI Pivot: Challenging Global Giants.", reads: "52.4K READS" },
-                  { title: "The Death of the Traditional MBA? Startup Experience Wins.", reads: "41.8K READS" },
-                  { title: "Bengaluru Space-Tech Startups Ready for Launch.", reads: "29.2K READS" },
-                  { title: "Agritech: Why ₹5,000 Crore is Flowing into Soil Science.", reads: "25.5K READS" }
-                ].map((item, i) => (
-                  <li key={i} className="group cursor-pointer flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0">
-                    <span className="font-serif text-[40px] leading-none text-border font-bold">0{i+1}</span>
-                    <div>
-                      <h4 className="font-serif text-lg leading-snug mb-2 group-hover:text-editorial transition-colors">{item.title}</h4>
-                      <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">{item.reads}</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* RIGHT: More Profiles */}
+          <div className="lg:col-span-5 lg:pl-12 mt-14 lg:mt-0 flex flex-col">
+            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 border-b border-gray-200 pb-3 mb-7">
+              More Founder Profiles
+            </p>
 
-            {/* Editor's Picks */}
-            <div className="bg-black text-white p-8">
-              <h3 className="text-xs font-bold tracking-widest uppercase text-white/70 mb-6">Editor's Picks</h3>
-              
-              <div className="group cursor-pointer mb-8">
-                <h4 className="font-serif text-xl leading-snug mb-3">The Philosophical Case for Slower Growth in India.</h4>
-                <p className="text-sm text-white/60 leading-relaxed mb-4">Is the pursuit of unicorn status killing sustainable innovation? An interview with Rajesh Khanna.</p>
-                <span className="text-xs font-bold tracking-widest text-editorial uppercase group-hover:text-white transition-colors">Read Essay →</span>
-              </div>
-              
-              <div className="w-full h-px bg-white/20 mb-8"></div>
-              
-              <div className="group cursor-pointer">
-                <h4 className="font-serif text-xl leading-snug mb-3">Designing the Post-Remote Workplace in Mumbai.</h4>
-                <p className="text-sm text-white/60 leading-relaxed mb-4">Hybrid is broken. How BKC firms are reinventing what 'presence' means for a modern workforce.</p>
-                <span className="text-xs font-bold tracking-widest text-editorial uppercase group-hover:text-white transition-colors">Read Article →</span>
-              </div>
-            </div>
-
+            {[
+              {
+                photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
+                name: 'Rajesh Kumar Vedas',
+                designation: 'Founder & CEO, Vedas Agro Industries',
+                tag: 'Bharat Builder',
+                tagline: 'From a UP village to India\'s fastest-growing agri-processing company — ₹210 Cr revenue, 18,000 farmer partners.',
+                href: '/founder/rajesh-kumar-vedas',
+              },
+              {
+                photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80',
+                name: 'Falguni Nayar',
+                designation: 'Founder & CEO, Nykaa',
+                tag: 'Women Founder',
+                tagline: 'She built India\'s first profitable beauty unicorn at 50 — from an investment banking desk to a ₹50,000 Cr market cap.',
+                href: '#',
+              },
+              {
+                photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
+                name: 'Deepinder Goyal',
+                designation: 'Founder & CEO, Zomato',
+                tag: 'D2C Pioneer',
+                tagline: 'From a free restaurant menu site to India\'s most dominant food-delivery platform — the full story.',
+                href: '#',
+              },
+            ].map((f, i) => (
+              <a key={i} href={f.href}
+                className={`group flex items-start gap-4 ${i < 2 ? 'border-b border-gray-100 pb-7 mb-7' : ''}`}>
+                <img src={f.photo} alt={f.name}
+                  className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover flex-shrink-0 border border-gray-100 group-hover:ring-2 group-hover:ring-editorial transition-all" />
+                <div className="min-w-0">
+                  <span className="inline-block text-[10px] font-bold tracking-widest uppercase text-editorial mb-1">{f.tag}</span>
+                  <h3 className="font-serif text-lg md:text-xl font-bold text-black leading-snug mb-1 group-hover:text-editorial transition-colors">{f.name}</h3>
+                  <p className="text-xs text-gray-500 font-medium mb-2">{f.designation}</p>
+                  <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">{f.tagline}</p>
+                </div>
+              </a>
+            ))}
           </div>
         </section>
 
 
-        {/* 4. Startup Spotlights Carousel */}
-        <section className="mb-20">
+        {/* ── 3. BROWSE BY FOUNDER TYPE ── */}
+        <section className="mb-16">
+          <div className="flex items-baseline justify-between border-b border-black pb-4 mb-8">
+            <h2 className="font-serif text-2xl md:text-3xl font-bold">Browse by Founder Type</h2>
+            <a href="#" className="text-xs font-bold tracking-widest uppercase text-gray-400 hover:text-editorial transition-colors">
+              View All →
+            </a>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-200">
+            {[
+              { icon: '🚀', type: 'Zero to One',        desc: 'First-generation founders who started from scratch',         count: '24 Profiles' },
+              { icon: '👩‍💼', type: 'Women Founders',     desc: 'Indian women who built businesses against the odds',         count: '18 Profiles' },
+              { icon: '🌾', type: 'Bharat Builders',    desc: 'Rural & Tier-2 entrepreneurs rewriting the script',           count: '31 Profiles' },
+              { icon: '💻', type: 'Tech Founders',      desc: 'Engineers & product thinkers who scaled globally',            count: '42 Profiles' },
+              { icon: '🤖', type: 'AI Founders',        desc: 'Building India\'s next wave with artificial intelligence',     count: '15 Profiles' },
+              { icon: '✈️', type: 'Immigrant Founders', desc: 'Left abroad to build in Bharat — or vice versa',              count: '11 Profiles' },
+              { icon: '⚡', type: 'Under 30',           desc: 'Young founders who didn\'t wait for permission',              count: '19 Profiles' },
+              { icon: '💪', type: 'First-Gen Entrep.',  desc: 'No family business. No safety net. Just grit.',              count: '27 Profiles' },
+            ].map((cat, i) => (
+              <div key={i} className="bg-white px-5 py-6 group cursor-pointer hover:bg-[#f5f0ee] transition-colors">
+                <span className="text-3xl block mb-3">{cat.icon}</span>
+                <h4 className="font-serif text-base font-bold text-black group-hover:text-editorial transition-colors mb-1 leading-snug">{cat.type}</h4>
+                <p className="text-xs text-gray-500 leading-relaxed mb-3">{cat.desc}</p>
+                <span className="text-[10px] font-bold tracking-widest uppercase text-editorial">{cat.count}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+
+        {/* ── 4. RECENTLY ADDED PROFILES ── */}
+        <section className="mb-16">
           <div className="flex items-end justify-between border-b border-black pb-4 mb-8">
-            <h3 className="text-2xl font-serif font-bold">Startup Spotlights</h3>
+            <h2 className="font-serif text-2xl md:text-3xl font-bold">Recently Added</h2>
             <div className="flex items-center gap-2">
-              <button 
-                onClick={() => scrollLeft(startupScrollRef)}
-                className="w-10 h-10 flex items-center justify-center border border-border hover:border-black transition-colors"
-              >
-                <ChevronLeft className="w-5 h-5" />
+              <button onClick={() => scrollLeft(startupScrollRef)}
+                className="w-9 h-9 flex items-center justify-center border border-gray-200 hover:border-black transition-colors">
+                <ChevronLeft className="w-4 h-4" />
               </button>
-              <button 
-                onClick={() => scrollRight(startupScrollRef)}
-                className="w-10 h-10 flex items-center justify-center border border-border hover:border-black transition-colors"
-              >
-                <ChevronRight className="w-5 h-5" />
+              <button onClick={() => scrollRight(startupScrollRef)}
+                className="w-9 h-9 flex items-center justify-center border border-gray-200 hover:border-black transition-colors">
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          <div 
-            ref={startupScrollRef}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
-          >
+          <div ref={startupScrollRef} className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
             {[
               {
-                founder: "RAJESH KHANNA",
-                startup: "BharatChip AI",
-                desc: "Revolutionizing local edge computing through indigenous neural mimicry.",
-                img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=800"
+                photo: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&q=80',
+                name: 'Nithin Kamath',
+                designation: 'Co-Founder & CEO, Zerodha',
+                tag: 'Zero to One',
+                tagline: 'The man who challenged traditional brokerages with a ₹20 flat-fee model.',
+                href: '/founder/nithin-kamath',
+                badge: 'New',
               },
               {
-                founder: "MEERA IYER",
-                startup: "KisanTech Systems",
-                desc: "AI-driven automated vertical farming for Indian semi-arid climates.",
-                img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800"
+                photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
+                name: 'Rajesh Kumar Vedas',
+                designation: 'Founder & CEO, Vedas Agro Industries',
+                tag: 'Bharat Builder',
+                tagline: 'From a UP village to India\'s fastest-growing agri-processing company.',
+                href: '/founder/rajesh-kumar-vedas',
+                badge: 'New',
               },
               {
-                founder: "VIKRAM MEHTA",
-                startup: "Shakti Power",
-                desc: "Next-gen solid state batteries engineered for extreme Indian summers.",
-                img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800"
+                photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80',
+                name: 'Falguni Nayar',
+                designation: 'Founder & CEO, Nykaa',
+                tag: 'Women Founder',
+                tagline: 'She built India\'s first profitable beauty unicorn at 50.',
+                href: '#',
+                badge: 'Coming Soon',
               },
               {
-                founder: "DR. AMIT SHAH",
-                startup: "AyurGen Labs",
-                desc: "Bridging ancient wisdom and modern genetics for personalized healthcare.",
-                img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800"
-              }
-            ].map((spotlight, i) => (
-              <div key={i} className="min-w-[320px] md:min-w-[400px] snap-start group cursor-pointer">
-                <div className="w-full h-[250px] overflow-hidden mb-4 bg-muted">
-                  <img 
-                    src={spotlight.img} 
-                    alt={spotlight.founder} 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
+                photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
+                name: 'Deepinder Goyal',
+                designation: 'Founder & CEO, Zomato',
+                tag: 'D2C Pioneer',
+                tagline: 'From free restaurant menus to India\'s food-delivery leader.',
+                href: '#',
+                badge: 'Coming Soon',
+              },
+              {
+                photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+                name: 'Ritesh Agarwal',
+                designation: 'Founder & CEO, OYO',
+                tag: 'Under 30',
+                tagline: 'Dropped out at 17. Built a global hospitality network at 23.',
+                href: '#',
+                badge: 'Coming Soon',
+              },
+              {
+                photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80',
+                name: 'Ghazal Alagh',
+                designation: 'Co-Founder, Mamaearth',
+                tag: 'Women Founder',
+                tagline: 'Built a ₹10,000 Cr D2C empire from a mother\'s kitchen in Gurugram.',
+                href: '#',
+                badge: 'Coming Soon',
+              },
+            ].map((f, i) => (
+              <a key={i} href={f.href}
+                className="min-w-[260px] md:min-w-[300px] snap-start group flex flex-col bg-white border border-gray-100 hover:border-black transition-colors p-5">
+                <div className="flex items-center gap-3 mb-4">
+                  <img src={f.photo} alt={f.name}
+                    className="w-14 h-14 rounded-full object-cover border border-gray-100 flex-shrink-0 group-hover:ring-2 group-hover:ring-editorial transition-all" />
+                  <div className="min-w-0">
+                    <span className="inline-block text-[9px] font-bold tracking-widest uppercase text-white bg-editorial px-2 py-0.5 mb-1">{f.badge}</span>
+                    <p className="text-[10px] font-bold tracking-wider uppercase text-editorial leading-none">{f.tag}</p>
+                  </div>
                 </div>
-                <span className="text-[11px] font-bold tracking-widest text-editorial uppercase mb-1 block">Founder: {spotlight.founder}</span>
-                <h4 className="font-serif text-2xl font-medium leading-snug mb-2">{spotlight.startup}</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{spotlight.desc}</p>
-              </div>
+                <h4 className="font-serif text-lg font-bold text-black leading-snug mb-1 group-hover:text-editorial transition-colors">{f.name}</h4>
+                <p className="text-xs text-gray-500 font-medium mb-3">{f.designation}</p>
+                <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 flex-1">{f.tagline}</p>
+                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase text-gray-400 group-hover:text-editorial transition-colors">
+                  Read Biography <ChevronRight className="w-3 h-3" />
+                </div>
+              </a>
             ))}
           </div>
         </section>
 
 
-        {/* 5. Explore Stories by City */}
-        <section className="mb-24">
-          <div className="flex items-end justify-between border-b border-border pb-4 mb-8">
-            <h3 className="text-2xl font-serif font-bold">Explore Stories by City</h3>
-            <div className="flex items-center gap-2">
-              <button 
-                onClick={() => scrollLeft(cityScrollRef)}
-                className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors rounded-full"
-              >
-                <ChevronLeft className="w-5 h-5 text-muted-foreground" />
-              </button>
-              <button 
-                onClick={() => scrollRight(cityScrollRef)}
-                className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors rounded-full"
-              >
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
-              </button>
-            </div>
+        {/* ── 5. FEATURED PROFILES GRID ── */}
+        <section className="mb-16">
+          <div className="flex items-baseline justify-between border-b border-black pb-4 mb-8">
+            <h2 className="font-serif text-2xl md:text-3xl font-bold">Editor's Selection</h2>
+            <span className="text-xs font-bold tracking-widest uppercase text-gray-400">Curated Biographies</span>
           </div>
 
-          <div 
-            ref={cityScrollRef}
-            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
-          >
-            {[
-              { city: "Bengaluru", img: "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&q=80&w=800" },
-              { city: "Mumbai", img: "https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?auto=format&fit=crop&q=80&w=800" },
-              { city: "Delhi", img: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&q=80&w=800" },
-              { city: "Hyderabad", img: "https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&q=80&w=800" },
-              { city: "Pune", img: "https://images.unsplash.com/photo-1565016599144-8d451296bd84?auto=format&fit=crop&q=80&w=800" }
-            ].map((item, i) => (
-              <div key={i} className="min-w-[260px] md:min-w-[300px] snap-start group cursor-pointer relative overflow-hidden">
-                <div className="w-full aspect-[4/3] bg-muted relative">
-                  <img 
-                    src={item.img} 
-                    alt={item.city} 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                  <h4 className="absolute bottom-4 left-4 font-serif text-2xl text-white font-medium group-hover:text-editorial transition-colors">
-                    {item.city}
-                  </h4>
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            {/* Large card */}
+            <a href="/founder/nithin-kamath"
+              className="lg:col-span-5 group bg-black text-white p-8 flex flex-col justify-between min-h-[340px] hover:bg-editorial transition-colors cursor-pointer">
+              <div>
+                <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&q=80"
+                  alt="Nithin Kamath"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-white/20 mb-6" />
+                <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 block mb-3">Zero to One · FinTech</span>
+                <h3 className="font-serif text-3xl md:text-4xl font-bold text-white leading-[1.1] mb-4">Nithin Kamath</h3>
+                <p className="text-sm text-white/60 font-medium mb-4">Co-Founder &amp; CEO, Zerodha</p>
+                <p className="text-sm text-white/70 leading-relaxed">
+                  The man who charged ₹20 flat while everyone else charged a percentage — and built India's largest retail broker without a single outside investor.
+                </p>
               </div>
-            ))}
+              <div className="flex items-center gap-1 text-[11px] font-bold tracking-widest uppercase text-white/50 group-hover:text-white transition-colors mt-6">
+                Read Full Biography <ChevronRight className="w-3.5 h-3.5" />
+              </div>
+            </a>
+
+            {/* Small cards col */}
+            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                {
+                  photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
+                  name: 'Rajesh Kumar Vedas',
+                  designation: 'Vedas Agro Industries',
+                  tag: 'Bharat Builder · Agri',
+                  tagline: 'From a rented shed in Unnao to ₹210 Cr revenue — and 18,000 farmers paid on time.',
+                  href: '/founder/rajesh-kumar-vedas',
+                },
+                {
+                  photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80',
+                  name: 'Falguni Nayar',
+                  designation: 'Nykaa',
+                  tag: 'Women Founder · D2C',
+                  tagline: 'Quit investment banking at 49 to build beauty commerce. Became India\'s richest self-made woman.',
+                  href: '#',
+                },
+                {
+                  photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
+                  name: 'Deepinder Goyal',
+                  designation: 'Zomato',
+                  tag: 'D2C Pioneer · FoodTech',
+                  tagline: 'Started by photographing restaurant menus. Built a ₹1.5 lakh Cr company that feeds 20 million Indians daily.',
+                  href: '#',
+                },
+                {
+                  photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+                  name: 'Ritesh Agarwal',
+                  designation: 'OYO Rooms',
+                  tag: 'Under 30 · Hospitality',
+                  tagline: 'India\'s youngest self-made billionaire. Built a global hotel network from a rented room in Delhi.',
+                  href: '#',
+                },
+              ].map((f, i) => (
+                <a key={i} href={f.href}
+                  className="group bg-white border border-gray-100 hover:border-black transition-colors p-5 flex flex-col">
+                  <div className="flex items-center gap-3 mb-4">
+                    <img src={f.photo} alt={f.name}
+                      className="w-12 h-12 rounded-full object-cover border border-gray-100 flex-shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-bold tracking-wider uppercase text-editorial leading-none mb-0.5">{f.tag}</p>
+                      <p className="text-xs text-gray-500 truncate">{f.designation}</p>
+                    </div>
+                  </div>
+                  <h4 className="font-serif text-lg font-bold text-black group-hover:text-editorial transition-colors leading-snug mb-2">{f.name}</h4>
+                  <p className="text-sm text-gray-600 leading-relaxed line-clamp-2 flex-1">{f.tagline}</p>
+                  <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-1 text-[10px] font-bold tracking-widest uppercase text-gray-400 group-hover:text-editorial transition-colors">
+                    Read Biography <ChevronRight className="w-3 h-3" />
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
         </section>
 
 
-        {/* 6. Newsletter Banner */}
-        <section className="bg-border/30 border border-border p-8 md:p-16 mb-24 flex flex-col lg:flex-row items-center gap-12 justify-between">
+        {/* ── 6. Newsletter Banner ── */}
+        <section className="bg-black text-white p-8 md:p-16 mb-24 flex flex-col lg:flex-row items-center gap-12 justify-between">
           <div className="max-w-xl text-center lg:text-left">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">The India Briefing.</h2>
-            <p className="text-muted-foreground md:text-lg leading-relaxed">
-              Curated narratives from Bharat's business landscape and market insights delivered to your inbox every Monday at 6:00 AM IST.
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-editorial block mb-4">Weekly Founder Digest</span>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4 text-white">One New Biography. Every Week.</h2>
+            <p className="text-white/60 md:text-lg leading-relaxed">
+              Deep-dive founder biographies from Bharat's most remarkable builders — delivered to your inbox every Monday morning.
             </p>
           </div>
           <div className="w-full max-w-md">
-            <label className="text-[11px] font-bold tracking-widest uppercase text-muted-foreground block mb-2">
+            <label className="text-[11px] font-bold tracking-widest uppercase text-white/40 block mb-2">
               Your Email Address
             </label>
             <div className="flex items-end gap-4">
-              <input 
-                type="email" 
-                placeholder="founder@startup.in" 
-                className="w-full bg-transparent border-b-2 border-black/20 py-2 focus:outline-none focus:border-editorial text-lg transition-colors placeholder:text-muted-foreground/50"
+              <input
+                type="email"
+                placeholder="you@company.in"
+                className="w-full bg-transparent border-b-2 border-white/20 py-2 focus:outline-none focus:border-editorial text-lg text-white transition-colors placeholder:text-white/30"
               />
-              <button className="bg-black text-white text-sm font-bold tracking-widest uppercase px-6 py-3 hover:bg-editorial transition-colors flex-shrink-0">
+              <button className="bg-editorial text-white text-xs font-bold tracking-widest uppercase px-6 py-3 hover:bg-white hover:text-black transition-colors flex-shrink-0">
                 Subscribe
               </button>
             </div>
