@@ -394,7 +394,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
           </div>
 
           {/* Founder name */}
-          <h1 className="font-founder text-5xl md:text-[72px] font-bold text-black leading-[1.0] tracking-[-0.01em] mb-5">
+          <h1 className="font-serif text-5xl md:text-[68px] font-bold text-black leading-[1.06] tracking-tight mb-5">
             {founder.name}
           </h1>
 
@@ -516,12 +516,12 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
           <section id="early-life" ref={setRef('early-life')} className="mb-16 scroll-mt-24">
             <SectionLabel index="01" label="Early Life" />
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
-              <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">
+              <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic">
                 {founder.earlyLife.pullQuote}
               </p>
             </blockquote>
             {founder.earlyLife.body.map((p: string, i: number) => (
-              <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>
+              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -547,7 +547,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
               ))}
             </div>
             {founder.education.body.map((p: string, i: number) => (
-              <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>
+              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -571,7 +571,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
               ))}
             </div>
             {founder.career.body.map((p: string, i: number) => (
-              <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>
+              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -581,12 +581,12 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
           <section id="entrepreneurial-journey" ref={setRef('entrepreneurial-journey')} className="mb-16 scroll-mt-24">
             <SectionLabel index="04" label="Entrepreneurial Journey" />
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
-              <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">
+              <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic">
                 {founder.journey.pullQuote}
               </p>
             </blockquote>
             {founder.journey.body.map((p: string, i: number) => (
-              <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>
+              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -619,7 +619,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
               ))}
             </div>
             {founder.success.body.map((p: string, i: number) => (
-              <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>
+              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -629,7 +629,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
           <section id="leadership-style" ref={setRef('leadership-style')} className="mb-16 scroll-mt-24">
             <SectionLabel index="07" label="Leadership Style" />
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
-              <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">
+              <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic">
                 {founder.leadership.pullQuote}
               </p>
             </blockquote>

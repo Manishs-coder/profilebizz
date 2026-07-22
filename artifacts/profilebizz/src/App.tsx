@@ -462,7 +462,7 @@ function Home() {
             </div>
 
             {/* ② Name */}
-            <h1 className="font-founder text-5xl md:text-6xl lg:text-[72px] font-bold text-black leading-[1.0] tracking-[-0.01em] mb-3">
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-[68px] font-bold text-black leading-[1.02] tracking-tight mb-3">
               Nithin Kamath
             </h1>
 
