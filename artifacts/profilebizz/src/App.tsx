@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Share2, Mail, Rss, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Share2, Mail, Rss, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -8,8 +8,23 @@ import NotFound from '@/pages/not-found';
 
 const queryClient = new QueryClient();
 
+const businessStories = [
+  { name: 'Startup Story', example: 'How Vedas Agro Started' },
+  { name: 'MSME Success Story', example: 'From Small Shop to ₹100 Crore Business' },
+  { name: 'Manufacturing Story', example: "India's Fastest Growing Packaging Company" },
+  { name: 'Export Business Story', example: 'Made in India, Sold to the World' },
+  { name: 'Family Business Story', example: 'Third Generation, New Vision' },
+  { name: 'Women Entrepreneur Story', example: 'She Built a ₹50 Crore Brand from Home' },
+  { name: 'Rural Business Story', example: 'Village Startup Goes National' },
+  { name: 'Social Enterprise Story', example: 'Profit with Purpose in Tier-3 India' },
+  { name: 'Franchise Story', example: 'From One Store to 200 Outlets' },
+  { name: 'Brand Journey', example: 'How a Local Name Became a National Brand' },
+];
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [bizDropdown, setBizDropdown] = useState(false);
+  const bizDropdownRef = useRef<HTMLDivElement>(null);
   const startupScrollRef = useRef<HTMLDivElement>(null);
   const cityScrollRef = useRef<HTMLDivElement>(null);
 
@@ -48,10 +63,8 @@ function Home() {
             <nav className="hidden lg:flex items-center gap-8 h-full">
               {[
                 { name: 'Profile Story', active: true },
-                { name: 'Startup Story', active: false },
                 { name: 'Social Hero Profile', active: false },
                 { name: 'Women Story', active: false },
-                { name: 'Business Profile', active: false },
               ].map((link, idx) => (
                 <a
                   key={idx}
@@ -61,6 +74,50 @@ function Home() {
                   {link.name}
                 </a>
               ))}
+
+              {/* Business Stories dropdown */}
+              <div
+                ref={bizDropdownRef}
+                className="relative h-full flex items-center"
+                onMouseEnter={() => setBizDropdown(true)}
+                onMouseLeave={() => setBizDropdown(false)}
+              >
+                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                  Business Stories
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${bizDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {bizDropdown && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[680px] bg-white border border-border shadow-lg z-50 p-6">
+                    {/* Header */}
+                    <div className="border-b border-black pb-3 mb-5">
+                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">Browse by Story Type</span>
+                    </div>
+                    {/* Grid of categories */}
+                    <div className="grid grid-cols-2 gap-x-10 gap-y-1 mb-6">
+                      {businessStories.map((item, idx) => (
+                        <a
+                          key={idx}
+                          href="#"
+                          className="group flex flex-col py-2.5 border-b border-gray-100 last:border-0"
+                        >
+                          <span className="text-sm font-semibold text-black group-hover:text-editorial transition-colors duration-150">
+                            {item.name}
+                          </span>
+                          <span className="text-[11px] text-gray-400 mt-0.5 group-hover:text-gray-600 transition-colors duration-150">
+                            e.g. {item.example}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                    {/* Footer CTA */}
+                    <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
+                      <span className="text-xs font-bold tracking-widest uppercase">View All Business Stories</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                )}
+              </div>
             </nav>
 
             <div className="flex items-center gap-6">
