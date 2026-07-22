@@ -60,3 +60,17 @@ export const seoMetaTable = pgTable("seo_meta", {
 export const insertSeoMetaSchema = createInsertSchema(seoMetaTable).omit({ id: true });
 export type InsertSeoMeta = z.infer<typeof insertSeoMetaSchema>;
 export type SeoMeta = typeof seoMetaTable.$inferSelect;
+
+export const categoriesTable = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").unique().notNull(),
+  slug: text("slug").unique().notNull(),
+  description: text("description"),
+  color: text("color").default("#6B7280"),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const insertCategorySchema = createInsertSchema(categoriesTable).omit({ id: true, createdAt: true });
+export type InsertCategory = z.infer<typeof insertCategorySchema>;
+export type Category = typeof categoriesTable.$inferSelect;

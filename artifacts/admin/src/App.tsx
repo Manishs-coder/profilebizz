@@ -6,6 +6,7 @@ import Login from "./pages/login"
 import Dashboard from "./pages/dashboard"
 import FoundersList from "./pages/founders/index"
 import FounderEdit from "./pages/founders/edit"
+import CategoriesPage from "./pages/categories/index"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 
 const queryClient = new QueryClient({
@@ -32,6 +33,9 @@ function AppRoutes() {
       </Route>
       <Route path="/founders/:slug/edit">
         <AuthGuard><FounderEdit /></AuthGuard>
+      </Route>
+      <Route path="/categories">
+        <AuthGuard><CategoriesPage /></AuthGuard>
       </Route>
       <Route>
         <div className="min-h-screen flex items-center justify-center">

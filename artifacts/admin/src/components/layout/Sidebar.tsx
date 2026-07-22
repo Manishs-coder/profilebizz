@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link, useLocation } from "wouter"
-import { LayoutDashboard, Users, Settings, LogOut, FileText, Menu, X } from "lucide-react"
+import { LayoutDashboard, Users, Tag, LogOut, FileText, Menu, X } from "lucide-react"
 import { useLogout, useGetMe } from "@workspace/api-client-react"
 import { Button } from "../ui"
 
@@ -13,6 +13,7 @@ export function Sidebar() {
   const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/" },
     { icon: Users, label: "Founders", href: "/founders" },
+    { icon: Tag, label: "Categories", href: "/categories" },
   ]
 
   const handleLogout = () => {

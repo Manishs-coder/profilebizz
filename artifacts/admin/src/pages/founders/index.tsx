@@ -3,32 +3,91 @@ import { Link } from "wouter"
 import { useListFounders, useDeleteFounder, getListFoundersQueryKey } from "@workspace/api-client-react"
 import { AdminLayout } from "../../components/layout/AdminLayout"
 import { Button, Input } from "../../components/ui"
-import { Plus, Search, MoreVertical, Edit, Trash2, Globe, FileEdit, Users } from "lucide-react"
+import { Plus, Search, Edit, Trash2, Globe, FileEdit, Users, X, Loader2 } from "lucide-react"
 import { useQueryClient } from "@tanstack/react-query"
+import { useToast } from "../../hooks/use-toast"
+
+type FounderRow = {
+  id: number
+  slug: string
+  name: string
+  designation: string
+  category: string | null
+  photoUrl: string | null
+  published: boolean
+  createdAt: string
+}
+
+function DeleteModal({ founder, onConfirm, onCancel, isPending }: {
+  founder: FounderRow
+  onConfirm: () => void
+  onCancel: () => void
+  isPending: boolean
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onCancel} />
+      <div className="relative bg-white rounded-xl shadow-xl p-6 max-w-sm w-full mx-4">
+        <button onClick={onCancel} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+          <X className="h-5 w-5" />
+        </button>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-10 w-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+            <Trash2 className="h-5 w-5 text-red-600" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-slate-900">Delete Profile</h3>
+            <p className="text-sm text-slate-500">This action cannot be undone.</p>
+          </div>
+        </div>
+        <p className="text-sm text-slate-700 mb-6">
+          Are you sure you want to delete <span className="font-semibold">"{founder.name}"</span>? All story sections and SEO data will also be permanently removed.
+        </p>
+        <div className="flex gap-3 justify-end">
+          <Button variant="outline" onClick={onCancel} disabled={isPending}>Cancel</Button>
+          <Button
+            onClick={onConfirm}
+            disabled={isPending}
+            className="bg-red-600 hover:bg-red-700 text-white gap-2"
+          >
+            {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+            Delete Profile
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function FoundersList() {
   const { data: founders, isLoading } = useListFounders()
   const deleteMutation = useDeleteFounder()
   const queryClient = useQueryClient()
+  const { toast } = useToast()
   const [search, setSearch] = React.useState("")
+  const [deleteTarget, setDeleteTarget] = React.useState<FounderRow | null>(null)
 
   const filteredFounders = React.useMemo(() => {
     if (!founders) return []
-    return founders.filter(f => 
-      f.name.toLowerCase().includes(search.toLowerCase()) || 
+    return founders.filter(f =>
+      f.name.toLowerCase().includes(search.toLowerCase()) ||
       (f.designation && f.designation.toLowerCase().includes(search.toLowerCase())) ||
       (f.category && f.category.toLowerCase().includes(search.toLowerCase()))
     )
   }, [founders, search])
 
-  const handleDelete = (slug: string) => {
-    if (window.confirm("Are you sure you want to delete this profile? This cannot be undone.")) {
-      deleteMutation.mutate({ slug }, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getListFoundersQueryKey() })
-        }
-      })
-    }
+  const handleDeleteConfirm = () => {
+    if (!deleteTarget) return
+    deleteMutation.mutate({ slug: deleteTarget.slug }, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getListFoundersQueryKey() })
+        toast({ title: "Profile deleted", description: `"${deleteTarget.name}" has been removed.` })
+        setDeleteTarget(null)
+      },
+      onError: () => {
+        toast({ title: "Error", description: "Failed to delete profile. Please try again.", variant: "destructive" })
+      }
+    })
   }
 
   return (
@@ -51,8 +110,8 @@ export default function FoundersList() {
           <div className="p-4 border-b bg-slate-50/50 flex gap-4">
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <Input 
-                placeholder="Search profiles..." 
+              <Input
+                placeholder="Search profiles..."
                 className="pl-9 bg-white"
                 value={search}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
@@ -75,6 +134,7 @@ export default function FoundersList() {
                 {isLoading ? (
                   <tr>
                     <td colSpan={5} className="px-6 py-8 text-center text-slate-500">
+                      <Loader2 className="h-6 w-6 animate-spin text-slate-300 mx-auto mb-2" />
                       Loading profiles...
                     </td>
                   </tr>
@@ -93,7 +153,7 @@ export default function FoundersList() {
                     <tr key={founder.id} className="hover:bg-slate-50/50 transition-colors group">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-4">
-                          <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border">
+                          <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border shrink-0">
                             {founder.photoUrl ? (
                               <img src={founder.photoUrl} alt={founder.name} className="h-full w-full object-cover" />
                             ) : (
@@ -136,11 +196,11 @@ export default function FoundersList() {
                               <Edit className="h-4 w-4 mr-2" /> Edit
                             </Button>
                           </Link>
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             className="h-8 px-2 text-red-600 hover:text-red-700 hover:bg-red-50"
-                            onClick={() => handleDelete(founder.slug)}
+                            onClick={() => setDeleteTarget(founder as FounderRow)}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -154,6 +214,15 @@ export default function FoundersList() {
           </div>
         </div>
       </div>
+
+      {deleteTarget && (
+        <DeleteModal
+          founder={deleteTarget}
+          onConfirm={handleDeleteConfirm}
+          onCancel={() => setDeleteTarget(null)}
+          isPending={deleteMutation.isPending}
+        />
+      )}
     </AdminLayout>
   )
 }

@@ -266,6 +266,85 @@ export const UpdateFounderSectionsResponse = zod.array(UpdateFounderSectionsResp
 
 
 /**
+ * @summary List all categories
+ */
+export const ListCategoriesResponseItem = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "slug": zod.string(),
+  "description": zod.string().nullish(),
+  "color": zod.string().nullish(),
+  "sortOrder": zod.number(),
+  "createdAt": zod.string()
+})
+export const ListCategoriesResponse = zod.array(ListCategoriesResponseItem)
+
+
+/**
+ * @summary Create a new category
+ */
+
+
+
+export const CreateCategoryBody = zod.object({
+  "name": zod.string().min(1),
+  "description": zod.string().optional(),
+  "color": zod.string().optional(),
+  "sortOrder": zod.number().optional()
+})
+
+export const CreateCategoryResponse = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "slug": zod.string(),
+  "description": zod.string().nullish(),
+  "color": zod.string().nullish(),
+  "sortOrder": zod.number(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Update a category
+ */
+export const UpdateCategoryParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+
+
+
+export const UpdateCategoryBody = zod.object({
+  "name": zod.string().min(1),
+  "description": zod.string().optional(),
+  "color": zod.string().optional(),
+  "sortOrder": zod.number().optional()
+})
+
+export const UpdateCategoryResponse = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "slug": zod.string(),
+  "description": zod.string().nullish(),
+  "color": zod.string().nullish(),
+  "sortOrder": zod.number(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Delete a category
+ */
+export const DeleteCategoryParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const DeleteCategoryResponse = zod.object({
+  "ok": zod.boolean()
+})
+
+
+/**
  * @summary Get SEO meta for a founder
  */
 export const GetFounderSeoParams = zod.object({

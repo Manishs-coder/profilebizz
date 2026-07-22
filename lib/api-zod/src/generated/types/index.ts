@@ -7,6 +7,8 @@
  */
 
 export * from './authUser';
+export * from './category';
+export * from './categoryInput';
 export * from './dashboardStats';
 export * from './dashboardStatsCategoriesItem';
 export * from './errorResponse';

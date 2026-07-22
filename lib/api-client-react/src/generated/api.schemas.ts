@@ -167,6 +167,26 @@ export interface SeoMetaInput {
   robots?: string;
 }
 
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  /** @nullable */
+  description?: string | null;
+  /** @nullable */
+  color?: string | null;
+  sortOrder: number;
+  createdAt: string;
+}
+
+export interface CategoryInput {
+  /** @minLength 1 */
+  name: string;
+  description?: string;
+  color?: string;
+  sortOrder?: number;
+}
+
 export interface PhotoUploadResult {
   url: string;
 }
