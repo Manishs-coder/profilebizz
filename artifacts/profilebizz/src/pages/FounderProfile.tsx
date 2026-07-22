@@ -152,136 +152,135 @@ const FOUNDERS: Record<string, any> = {
   },
 
   /* ══════════════════════════════════════
-     2. Nikhil Agarwal — Zero to One
+     2. Nithin Kamath — Zero to One
   ══════════════════════════════════════ */
-  'nikhil-agarwal': {
-    name: 'Nikhil Agarwal',
-    title: 'Founder & CEO, KiranaOS Technologies',
+  'nithin-kamath': {
+    name: 'Nithin Kamath',
+    title: 'Co-Founder & CEO, Zerodha',
     profileType: 'Startup Founder',
     profileTag: 'Zero to One',
-    location: 'Jaipur, Rajasthan',
-    founded: '2021',
-    revenue: '₹8.4 Crore ARR',
-    employees: '68',
-    age: '26',
-    photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&q=80',
-    coverPhoto: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1600&q=80',
+    location: 'Bengaluru, Karnataka',
+    founded: '2010',
+    revenue: '₹4,700 Crore (FY23)',
+    employees: '1,200+',
+    age: '45',
+    photo: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&q=80',
+    coverPhoto: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1600&q=80',
     oneLiner:
-      'Nikhil Agarwal dropped out of NIT Jaipur in his final year to build KiranaOS — a SaaS platform that digitized 14,000 kirana stores in 18 months, going from ₹0 to ₹8.4 crore ARR with no prior business experience.',
+      'From a teenage trader losing money in the markets to building India\'s largest retail stock brokerage without raising a single rupee of venture capital — Nithin Kamath is India\'s most inspiring Zero-to-One founder.',
 
     earlyLife: {
-      pullQuote: '"My father ran a kirana store for 22 years. He knew every customer\'s name but had no idea what his margin on each product was. That gap — between relationship and data — became my company."',
+      pullQuote: '"Every great company begins with a problem. Zerodha began with a trader who believed investing in India could be simpler, fairer, and more affordable."',
       body: [
-        'Nikhil Agarwal was born in 1998 in Sikar, a mid-sized town in Rajasthan known for its coaching institutes and trading families. His father, Suresh Agarwal, ran a modest grocery store near the town\'s main market. His mother, Sunita, taught mathematics at a private school. Between them, they built a life that was stable but never comfortable.',
-        'Growing up behind the counter of his father\'s shop, Nikhil saw first-hand how India\'s 12 million kirana stores operated: paper ledgers, cash-only transactions, no inventory tracking, and supply decisions made purely by intuition. A Rs 50,000 stock would often carry Rs 8,000 in near-expiry goods that nobody tracked.',
-        '"I used to sit at the counter doing homework after school. I watched my father make the same restocking mistake every month because he had no system. By the time I was in Class 10, I had started maintaining an Excel sheet for him on an old laptop. His losses from expired goods dropped 60% in six months."',
-        'That early, accidental experiment with data and retail operations would define everything that came after. By the time Nikhil reached NIT Jaipur to study Computer Science in 2017, he already knew what problem he wanted to solve.',
+        'Unlike many entrepreneurs who inherited businesses or raised millions from investors, Nithin Kamath\'s journey began with curiosity. As a teenager growing up in Bengaluru, he became fascinated by the stock market and started trading at the age of seventeen. The market was unforgiving. He lost money, made wrong decisions, and experienced the emotional highs and lows that every trader eventually faces.',
+        'Instead of quitting, he chose to learn. To support himself financially, Nithin worked night shifts at a call center while spending his days studying the markets and improving his trading skills. Those difficult years were not wasted — they taught him discipline, patience, and risk management. Qualities that would later define both his leadership and his company.',
+        'It was during this period of learning through losses that Nithin began to see what others missed: the problem was not the market itself, but the system that surrounded it. Brokerage charges were high, investing platforms were complicated, and retail investors often paid far more than they should. For someone entering the market with limited capital, investing felt unnecessarily expensive and complex.',
       ],
     },
 
     education: {
       timeline: [
-        { year: '2014', event: 'Secondary School, Govt. Senior Secondary School, Sikar — State Merit List (Science)' },
-        { year: '2016', event: 'Class 12, Sikar — PCM, 96.2% — JEE Advanced qualified' },
-        { year: '2017', event: 'B.Tech Computer Science, NIT Jaipur — Enrolled (Left in final year)' },
-        { year: '2020', event: 'YCombinator Startup School — Online cohort (attended while in college)' },
-        { year: '2021', event: 'Dropped out of NIT Jaipur in 4th year to found KiranaOS' },
+        { year: 'Mid-1990s', event: 'Started trading in equity markets at age 17 — self-taught through trial, error, and loss' },
+        { year: '1999–2004', event: 'Worked night shifts at a BPO/call center while trading during the day' },
+        { year: '2004–2009', event: 'Full-time proprietary trader — developed deep market expertise across equities and derivatives' },
+        { year: '2010', event: 'Co-founded Zerodha with brother Nikhil Kamath — investment of ₹10 lakh' },
       ],
       body: [
-        'Nikhil was a strong but not exceptional student at NIT Jaipur — he ranked in the top 20% of his batch but rarely attended lectures after his second year. Instead, he spent his time building small apps, winning two national hackathons, and reading everything he could find about SaaS unit economics. He credits Paul Graham\'s essays and Sanjay Mehta\'s podcast on Indian D2C brands as his real education.',
-        '"College gave me the fundamentals of programming. But the real curriculum was YouTube, Hacker News, and going home every semester and watching my father run his shop. He was the user I was building for." His dropout was not impulsive — he had already built and tested a working prototype of KiranaOS with 14 stores before he submitted his resignation letter to the university.',
+        'Nithin Kamath\'s real education happened not in a classroom but in the markets — through years of trading his own capital, facing losses, and studying what separated consistently profitable traders from the rest. His self-taught expertise in market microstructure, brokerage economics, and retail investor psychology would later become Zerodha\'s competitive edge.',
+        '"The market is the most brutally honest teacher. It doesn\'t care about your degree or your background. It only rewards those who understand it deeply and stay disciplined." This philosophy — that first-hand experience beats theoretical knowledge — is reflected in how Zerodha was built: by traders, for traders.',
       ],
     },
 
     career: {
       timeline: [
-        { year: 'Summer 2019', role: 'Software Intern', org: 'Jaipur-based logistics startup (UnBox)' },
-        { year: 'Summer 2020', role: 'Product Intern (Remote)', org: 'Meesho — Seller Tools Team, Bengaluru' },
-        { year: '2021 (Jan)', role: 'Founder', org: 'KiranaOS Technologies, Jaipur' },
+        { year: '1997–2004', role: 'Night-shift employee', org: 'Call Center, Bengaluru (trading by day)' },
+        { year: '2004–2009', role: 'Full-time Proprietary Trader', org: 'Self-employed, Bengaluru' },
+        { year: '2010–Present', role: 'Co-Founder & CEO', org: 'Zerodha, Bengaluru' },
+        { year: '2014–Present', role: 'Founder', org: 'Rainmatter — FinTech Incubator & Investment Firm' },
       ],
       body: [
-        'Nikhil\'s two internships were both deliberate choices — not for salary (both paid ₹15,000/month), but for exposure. At UnBox, he worked on last-mile delivery routing for small retailers — his first close look at the operational chaos between a brand and a kirana store. At Meesho, he worked on the seller onboarding flow and saw how even small sellers could be given tools that transformed their business.',
-        '"At Meesho I saw Tier 2 sellers go from selling 10 items a week to 200 after we gave them a simple analytics dashboard. Same sellers. Same products. Better information. That was the proof I needed. Kirana stores needed the same thing — not an app to replace them, but a tool to make them smarter."',
+        'Nithin\'s career path was entirely unconventional by Indian standards. While his peers pursued engineering or MBA degrees, he spent his twenties trading markets and working night shifts to fund his passion. There was no corporate ladder, no prestigious employer, and no mentor. Just a young man sitting at a trading terminal, learning the hard way.',
+        'His years as a proprietary trader gave him something no MBA could — a visceral understanding of what retail investors experience daily. The frustration of opaque pricing. The confusion of poorly designed platforms. The silent erosion of returns through high brokerage. When he founded Zerodha, he was solving a problem he had lived for over a decade.',
       ],
     },
 
     journey: {
-      pullQuote: '"I showed my father the prototype first. He looked at it for five minutes, then looked at me and said: \'If someone had given me this 20 years ago, I\'d have opened four more stores.\' I didn\'t need another user interview after that."',
+      pullQuote: '"Great companies are not built by chasing money. They are built by solving problems that truly matter."',
       body: [
-        'In January 2021, Nikhil dropped out of NIT Jaipur two semesters before graduating and moved back to Sikar with his laptop and ₹2.8 lakh in savings — the sum of two internship salaries and money won at hackathons. He gave himself 12 months.',
-        'KiranaOS Version 1 was a simple Android app that let kirana owners scan barcodes to track inventory, set reorder alerts, and generate a daily sales report on WhatsApp. No AI. No dashboard. No subscription — completely free for the first 6 months. Nikhil personally onboarded the first 14 stores in Sikar, sitting with each owner for two hours to set up the app.',
-        'The product spread through word of mouth faster than he expected. Within 60 days, 140 stores were using it without any marketing. Nikhil would wake up at 5 AM to answer store owner WhatsApp messages before they opened. He personally called every store that went inactive for more than 3 days. "My churn rate in the first year was 4%. The industry average is 25%. The only reason was that I treated every owner like he was my father."',
-        'Revenue came in Month 7: a ₹299/month subscription that included WhatsApp-based sales reports, credit tracking for customers, and a supplier price comparison tool. Of the 500 stores on the free plan, 340 converted in the first month. By Month 12, KiranaOS had 2,400 paying stores and ₹72 lakh in annualised revenue. Nikhil then raised his seed round.',
+        'In 2010, Nithin Kamath and his younger brother Nikhil Kamath founded Zerodha with an investment of approximately ₹10 lakh — their own savings, no external capital. Their goal was not to build the biggest brokerage company. Their goal was to build the best experience for investors.',
+        'They introduced a discount brokerage model that dramatically reduced trading costs while using technology to simplify investing for ordinary people. At a time when traditional brokers charged a percentage of every trade, Zerodha offered flat-fee pricing — ₹20 per order, regardless of size. For the first time, retail investors could trade large volumes without being penalised for it.',
+        'Launching Zerodha was only the beginning. The brothers had no famous investors backing them, no massive advertising budget, and no corporate legacy to rely on. They had to convince thousands of traders that a company charging lower brokerage fees could still provide world-class service. Growth was slow in the early years. Every satisfied customer became their marketing team. Recommendations spread through word of mouth, and trust became Zerodha\'s strongest asset.',
+        'Instead of spending heavily on advertisements, the company invested in better technology, faster support, and a simpler investing experience. The Kite trading platform — clean, fast, and mobile-first — became the gold standard for retail trading interfaces in India. Varsity, Zerodha\'s free financial education platform, has educated over 10 million investors.',
       ],
     },
 
     challenges: [
       {
-        title: 'No Co-founder, No Investors, No Safety Net',
-        body: 'Nikhil built the first version of KiranaOS entirely alone — designing, coding, testing, and selling simultaneously. His father thought he had made a mistake leaving college. Three friends from NIT Jaipur who had promised to join him backed out when they received campus placements. For eight months, he worked 16-hour days with no salary, paying himself nothing. "There were weeks I would watch my bank account drop by ₹3,000 and calculate how many months I had left. But I kept going because the stores were growing."',
+        title: 'Winning Trust Without a Brand Name',
+        body: 'In 2010, no one had heard of Zerodha. The established players — ICICI Direct, HDFC Securities, Sharekhan — had decades of brand equity and millions of customers. For the first three years, Nithin and Nikhil personally called every new customer who signed up, explained the platform, and resolved complaints themselves. "We had to earn the right to be trusted one customer at a time. There was no shortcut." The trust they built in those years became the foundation of everything that followed.',
       },
       {
-        title: 'The Payment Gateway Freeze',
-        body: 'In Month 8, KiranaOS\'s payment processor froze ₹4.2 lakh in subscription revenue due to an automated fraud flag — a common problem for first-time SaaS founders with young businesses. The resolution took 34 days. Nikhil had no investor money to bridge the gap and nearly missed paying his one contracted developer. He personally called each of his 340 paying store owners to explain the situation — and not a single one cancelled their subscription. "That call told me more about our product-market fit than any metric."',
+        title: 'Scaling Without Venture Capital',
+        body: 'Zerodha grew entirely on customer revenue — never raising venture capital, angel investment, or private equity. This meant every technology upgrade, every new hire, and every product feature had to be funded from operations. In the early years, this created real constraints. Servers went down during high-traffic periods. Support response times were slow. But it also created discipline — a culture of building only what was needed, and building it well. "Not raising money forces you to be profitable from day one. That changes every decision you make."',
       },
       {
-        title: 'Building for Users Who Don\'t Read',
-        body: 'Over 60% of KiranaOS\'s early users were semi-literate in English and had never used a smartphone app beyond WhatsApp and YouTube. Every UI assumption Nikhil brought from his NIT education was wrong. He redesigned the app three times — removing all text labels and replacing them with icons, adding voice prompts in Hindi and Rajasthani, and making the daily report a WhatsApp image rather than an in-app dashboard. The third redesign cut support calls by 70% and doubled daily active usage.',
+        title: 'Regulatory Complexity in Financial Services',
+        body: 'Building a financial services company in India means operating under SEBI, NSE, BSE, and multiple other regulatory bodies. Every product feature requires compliance review. Every new offering — mutual funds, bonds, derivatives — needs fresh regulatory approvals. Nithin navigated this complexity without a large legal team in the early years, learning regulations the hard way and building a compliance culture that today makes Zerodha one of the cleanest-regulated brokerages in India.',
       },
     ],
 
     success: {
       stats: [
-        { label: 'ARR (FY24)', value: '₹8.4 Crore' },
-        { label: 'Paying Stores', value: '14,000+' },
-        { label: 'Cities', value: '22' },
-        { label: 'Monthly Churn', value: '3.1%' },
-        { label: 'Seed Funding Raised', value: '₹4.8 Crore' },
-        { label: 'Team Size', value: '68' },
+        { label: 'Founded', value: '2010' },
+        { label: 'Active Customers', value: '70 Lakh+' },
+        { label: 'Valuation', value: '₹70,000–80,000 Cr' },
+        { label: 'FY23 Revenue', value: '₹4,700 Crore' },
+        { label: 'VC Raised', value: '₹0' },
+        { label: 'Nithin\'s Net Worth', value: '₹40,000 Cr+' },
       ],
       body: [
-        'In 18 months from first revenue, KiranaOS crossed ₹8.4 crore in ARR with 14,000 paying kirana stores across 22 cities in Rajasthan, UP, and Madhya Pradesh. The company raised a ₹4.8 crore seed round in December 2022 from 100X.VC and two Rajasthan-based angel investors. The round was oversubscribed in 11 days.',
-        'KiranaOS was featured in Economic Times Startup Awards 2023 as one of the top 10 emerging SaaS startups in India. NASSCOM listed Nikhil in its "25 Under 25 Startup Founders" cohort. The company is now building a B2B supply marketplace within the app — connecting kirana stores directly to FMCG distributors, cutting the traditional 3-layer distribution chain to a single click.',
-        'His father\'s store in Sikar was the 14th store onboarded on KiranaOS. It is now the pilot for every new feature Nikhil builds.',
+        'From a small startup founded by two brothers with ₹10 lakh, Zerodha has grown into India\'s largest retail stock brokerage. Today, more than 70 lakh investors use Zerodha as their gateway to India\'s financial markets — making it the single largest broker on NSE by active client count.',
+        'Perhaps the most remarkable chapter of Zerodha\'s story is what never happened. The company never raised venture capital. It never accepted angel investment. It never brought in private equity. It has never gone public through an IPO. While many startups chased funding rounds, Zerodha focused on profitability — making it one of the world\'s most successful bootstrapped fintech companies.',
+        'Success did not mark the end of Nithin\'s entrepreneurial journey. He later founded Rainmatter, an investment and incubation initiative that supports startups working in fintech, health technology, climate innovation, and sustainability. Instead of simply building wealth, he chose to help the next generation of entrepreneurs build meaningful companies.',
       ],
     },
 
     leadership: {
-      pullQuote: '"I have 68 people working with me. Most of them are older than me. The only thing I can offer them that older founders can\'t is total honesty about what I don\'t know. I think that\'s why they stay."',
+      pullQuote: '"Not raising money forces you to be profitable from day one. That changes every decision you make — for the better."',
       traits: [
-        { trait: 'User Obsession', desc: 'Nikhil spends one day every two weeks visiting stores in person — not for sales, but to watch owners use the product. Every feature in KiranaOS came from a store visit, not a board meeting.' },
-        { trait: 'Frugality as Design', desc: 'With limited capital, KiranaOS was built to be profitable by Month 18. The engineering team of 8 runs infrastructure that serves 14,000 stores on a monthly AWS bill of ₹1.4 lakh.' },
-        { trait: 'No Hierarchy', desc: 'The entire company works on a single WhatsApp group. Support calls, product bugs, sales wins — everything is visible to everyone. Nikhil responds personally to user complaints, even at midnight.' },
-        { trait: 'Language-First Product', desc: 'KiranaOS is built in Hindi first, English second. Voice UI was added before dark mode. This principle — serve the user\'s language, not the engineer\'s — is enshrined in the company\'s product charter.' },
+        { trait: 'Bootstrapped Discipline', desc: 'Zerodha was profitable from its first year and has never taken external capital. This forces a clarity of priorities that funded companies rarely develop — every rupee spent must earn its place.' },
+        { trait: 'Customer as Marketing', desc: 'Zerodha has never run a mass advertising campaign. Growth came entirely from satisfied customers recommending the platform. Nithin\'s philosophy: build a product so good that your customers do the selling.' },
+        { trait: 'Education as Moat', desc: 'Varsity — Zerodha\'s free financial education platform — has educated over 10 million investors. Nithin believes that an educated investor is a better customer: lower churn, higher engagement, and more trust.' },
+        { trait: 'Transparency First', desc: 'Zerodha publishes its financials voluntarily, posts openly about SEBI orders, and Nithin regularly discusses mistakes on social media. In an industry known for opacity, this radical transparency has become a competitive advantage.' },
       ],
     },
 
     awards: [
-      { year: '2023', award: 'Economic Times Startup Awards — Top 10 Emerging SaaS Startups', body: 'Economic Times' },
-      { year: '2023', award: '25 Under 25 Startup Founders', body: 'NASSCOM' },
-      { year: '2023', award: 'Best Retail Tech Solution — SME Category', body: 'Retail Association of India' },
-      { year: '2022', award: 'Top 10 D2N (Direct to Neighbourhood) Startups', body: 'DPIIT Startup India' },
-      { year: '2022', award: 'National Hackathon Winner — SaaSBee India', body: 'T-Hub, Hyderabad' },
+      { year: '2023', award: 'Forbes India Rich List — Youngest self-made billionaire in financial services', body: 'Forbes India' },
+      { year: '2022', award: 'CNBC-TV18 India Business Leader Award — FinTech', body: 'CNBC-TV18' },
+      { year: '2021', award: 'Economic Times Startup of the Year', body: 'Economic Times' },
+      { year: '2020', award: 'Business Today Most Powerful CEO in FinTech', body: 'Business Today' },
+      { year: '2019', award: 'Hurun India Future Unicorn — Zerodha', body: 'Hurun Research Institute' },
     ],
 
     interviews: [
       {
-        outlet: 'YourStory',
-        date: 'February 2024',
-        question: 'You dropped out of NIT with a semester left. What made you so sure?',
-        answer: 'I wasn\'t sure. That\'s the honest answer. But I had 14 stores using my product every day, and two of them told me it had saved them money. That felt more real than my degree. The degree would still exist if I failed. The product window wouldn\'t. Kirana digitisation was happening — either I would be part of building it, or someone else would. I chose to be part of it.',
-      },
-      {
-        outlet: 'Inc42',
-        date: 'August 2023',
-        question: 'You grew to 14,000 stores without a sales team. How?',
-        answer: 'Every store owner in India knows 20 other store owners. When you do right by one, you get 20 referrals. We gave owners a referral code — if 5 of their contacts subscribed, they got 3 months free. But honestly, the referral programme wasn\'t the main driver. The product was. If the product doesn\'t make someone\'s daily life better within the first week, no referral programme in the world will save you.',
-      },
-      {
         outlet: 'The Ken',
-        date: 'November 2023',
-        question: 'What do you think most people get wrong about building for Bharat?',
-        answer: 'They build for Bharat from Bengaluru. They read research reports and think they understand a kirana owner\'s life. I grew up in a kirana. My user is my father. You cannot design empathy into a product from a whiteboard. You have to live it. The founders who will win in Tier 2 and 3 India are the ones who grew up there and came back — not the ones who parachute in with an MBA thesis.',
+        date: 'March 2023',
+        question: 'You built India\'s largest brokerage without raising a rupee. Was that always the plan?',
+        answer: 'Not raising money was never a grand philosophy — it was a constraint we turned into a strength. In the early years we simply couldn\'t raise money even if we wanted to. No VC was interested in a discount brokerage in 2010. So we had to make the business work from day one. That forced us to be profitable, to be frugal, to hire slowly and carefully. Looking back, it was the best thing that could have happened to us.',
+      },
+      {
+        outlet: 'Moneycontrol',
+        date: 'November 2022',
+        question: 'What is the one thing retail investors in India still get wrong?',
+        answer: 'They confuse activity with progress. They trade too much, pay too much in costs, and chase short-term returns. The data from our own platform is clear: the accounts that do the best are usually the ones that trade the least. The biggest edge a retail investor has over an institutional one is patience — and most retail investors throw it away within the first six months.',
+      },
+      {
+        outlet: 'YourStory',
+        date: 'August 2021',
+        question: 'What advice would you give someone building a fintech startup today?',
+        answer: 'Understand regulation deeply before you build. In financial services, the regulator is not your enemy — they are your co-founder whether you like it or not. The companies that have gotten into trouble are almost always the ones that treated compliance as an afterthought. And focus on the customer\'s outcome, not your product\'s features. If your customer makes money or saves money because of you, everything else follows.',
       },
     ],
   },
