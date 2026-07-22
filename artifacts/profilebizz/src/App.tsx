@@ -424,6 +424,25 @@ function Home() {
               </div>
             </div>
 
+            {/* Categories */}
+            <div className="md:col-span-3">
+              <h5 className="text-xs font-bold tracking-widest uppercase mb-4 text-black">Categories</h5>
+              <div className="grid grid-cols-2 gap-3">
+                <ul className="flex flex-col gap-3">
+                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Bharat Tech</a></li>
+                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">FinTech Pulse</a></li>
+                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">D2C Markets</a></li>
+                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Cloud & Infra</a></li>
+                </ul>
+                <ul className="flex flex-col gap-3">
+                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Founders</a></li>
+                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">WealthTech</a></li>
+                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Mobility</a></li>
+                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Agritech</a></li>
+                </ul>
+              </div>
+            </div>
+
             {/* Legal Links */}
             <div className="md:col-span-3">
               <h5 className="text-xs font-bold tracking-widest uppercase mb-4 text-black">Legal</h5>
