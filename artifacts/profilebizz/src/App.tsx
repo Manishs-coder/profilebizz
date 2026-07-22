@@ -89,17 +89,21 @@ function Home() {
         <div className="border-b border-border">
           <div className="max-w-[1400px] mx-auto px-4 md:px-8">
 
-            {/* ── Mobile Header — BikeDekho style ── */}
-            <div className="lg:hidden h-14 grid grid-cols-3 items-center">
-              <button
-                className="p-1 text-black hover:text-editorial transition-colors justify-self-start"
-                onClick={() => setMobileMenuOpen(o => !o)}
-                aria-label="Menu"
-              >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-              <a href="/" className="font-serif font-bold text-2xl tracking-tight text-center text-black hover:text-editorial transition-colors">ProfileBizz</a>
-              <div className="flex items-center justify-end gap-3">
+            {/* ── Mobile Header Row 1: hamburger + logo (left) | search + sub (right) ── */}
+            <div className="lg:hidden h-14 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <button
+                  className="p-1 text-black hover:text-editorial transition-colors"
+                  onClick={() => setMobileMenuOpen(o => !o)}
+                  aria-label="Menu"
+                >
+                  {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
+                <a href="/" className="font-serif font-bold text-2xl tracking-tight text-black hover:text-editorial transition-colors">
+                  ProfileBizz
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
                 <button className="p-1 text-black hover:text-editorial transition-colors" aria-label="Search">
                   <Search className="w-5 h-5" />
                 </button>
@@ -350,6 +354,32 @@ function Home() {
               </button>
             </div>
             </div>{/* end desktop header */}
+          </div>
+        </div>
+
+        {/* ── Mobile Category Tab Bar (Row 2) ── */}
+        <div className="lg:hidden border-t border-gray-100 overflow-x-auto scrollbar-hide">
+          <div className="flex items-center whitespace-nowrap px-1 py-0">
+            {[
+              { label: 'Brand Stories',    href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
+              { label: 'Industry Stories', href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
+              { label: 'Success Stories',  href: `/success/business-growth` },
+              { label: 'Social Impact',    href: `/impact/ngo` },
+              { label: 'Founders',         href: `/founder/rajesh-kumar-vedas` },
+              { label: 'Business News',    href: `/news/funding` },
+            ].map((tab, i) => (
+              <a
+                key={i}
+                href={tab.href}
+                className="inline-block text-[13px] font-semibold text-gray-700 hover:text-editorial transition-colors px-3 py-2.5 border-b-2 border-transparent hover:border-editorial whitespace-nowrap"
+              >
+                {tab.label}
+              </a>
+            ))}
+            <button className="inline-flex items-center gap-0.5 text-[13px] font-semibold text-gray-700 hover:text-editorial transition-colors px-3 py-2.5 border-b-2 border-transparent hover:border-editorial"
+              onClick={() => setMobileMenuOpen(o => !o)}>
+              More <ChevronDown className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
