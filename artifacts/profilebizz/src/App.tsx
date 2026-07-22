@@ -8,6 +8,19 @@ import NotFound from '@/pages/not-found';
 
 const queryClient = new QueryClient();
 
+const founderProfiles = [
+  { name: 'Startup Founder', tag: 'Zero to One', example: 'How Rahul Built a ₹10 Cr App from His Bedroom' },
+  { name: 'Serial Entrepreneur', tag: 'Multi-Venture', example: '5 Companies, 1 Vision — The Rohit Mehta Story' },
+  { name: 'First-Gen Entrepreneur', tag: 'New Blood', example: 'No Family Business, No Investors — Just Grit' },
+  { name: 'Rural Founder', tag: 'Bharat Builder', example: 'From a UP Village to a National Supply Chain' },
+  { name: 'Women Founder', tag: 'Trailblazer', example: 'She Left a MNC Job to Build India\'s Top EdTech' },
+  { name: 'Young Founder (Under 30)', tag: 'Gen Z CEO', example: '22 Years Old, ₹5 Crore in Revenue' },
+  { name: 'Immigrant Founder', tag: 'NRI Returns', example: 'Left Silicon Valley to Build in Bharat' },
+  { name: 'Second-Gen Business Leader', tag: 'New Chapter', example: 'How He Took His Father\'s Shop Global' },
+  { name: 'Social Entrepreneur', tag: 'Impact First', example: 'Profit is a By-product — Purpose is the Product' },
+  { name: 'Tech Founder', tag: 'Deep Tech', example: 'IIT Dropout Builds India\'s First AI Hardware Chip' },
+];
+
 const businessStories = [
   { name: 'Startup Story', example: 'How Vedas Agro Started' },
   { name: 'MSME Success Story', example: 'From Small Shop to ₹100 Crore Business' },
@@ -24,7 +37,9 @@ const businessStories = [
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [bizDropdown, setBizDropdown] = useState(false);
+  const [founderDropdown, setFounderDropdown] = useState(false);
   const bizDropdownRef = useRef<HTMLDivElement>(null);
+  const founderDropdownRef = useRef<HTMLDivElement>(null);
   const startupScrollRef = useRef<HTMLDivElement>(null);
   const cityScrollRef = useRef<HTMLDivElement>(null);
 
@@ -113,6 +128,58 @@ function Home() {
                     {/* Footer CTA */}
                     <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
                       <span className="text-xs font-bold tracking-widest uppercase">View All Business Stories</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Founder Stories dropdown */}
+              <div
+                ref={founderDropdownRef}
+                className="relative h-full flex items-center"
+                onMouseEnter={() => setFounderDropdown(true)}
+                onMouseLeave={() => setFounderDropdown(false)}
+              >
+                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                  Founder Stories
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${founderDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {founderDropdown && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[760px] bg-white border border-border shadow-lg z-50 p-6">
+                    {/* Header */}
+                    <div className="border-b border-black pb-3 mb-5 flex items-center justify-between">
+                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">Every Founder. A Unique Profile.</span>
+                      <span className="text-[10px] font-bold tracking-[0.1em] uppercase text-editorial">10 Profile Types</span>
+                    </div>
+                    {/* Grid of founder types */}
+                    <div className="grid grid-cols-2 gap-x-10 gap-y-1 mb-6">
+                      {founderProfiles.map((item, idx) => (
+                        <a
+                          key={idx}
+                          href="#"
+                          className="group flex items-start gap-3 py-3 border-b border-gray-100 last:border-0"
+                        >
+                          <div className="flex-shrink-0 mt-0.5">
+                            <span className="inline-block text-[9px] font-bold tracking-wider uppercase bg-black text-white px-2 py-0.5 group-hover:bg-editorial transition-colors duration-150">
+                              {item.tag}
+                            </span>
+                          </div>
+                          <div className="min-w-0">
+                            <span className="block text-sm font-semibold text-black group-hover:text-editorial transition-colors duration-150">
+                              {item.name}
+                            </span>
+                            <span className="block text-[11px] text-gray-400 mt-0.5 leading-snug group-hover:text-gray-600 transition-colors duration-150 truncate">
+                              e.g. {item.example}
+                            </span>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                    {/* Footer CTA */}
+                    <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
+                      <span className="text-xs font-bold tracking-widest uppercase">Explore All Founder Profiles</span>
                       <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
