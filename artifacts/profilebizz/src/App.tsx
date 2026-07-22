@@ -8,6 +8,7 @@ import NotFound from '@/pages/not-found';
 import FounderProfile from '@/pages/FounderProfile';
 import BrandStory, { FEATURED_BRANDS } from '@/pages/BrandStory';
 import IndustryStory, { FEATURED_INDUSTRIES } from '@/pages/IndustryStory';
+import LocalBusiness, { FEATURED_CITIES } from '@/pages/LocalBusiness';
 
 const queryClient = new QueryClient();
 
@@ -43,10 +44,12 @@ function Home() {
   const [founderDropdown, setFounderDropdown] = useState(false);
   const [brandDropdown, setBrandDropdown] = useState(false);
   const [industryDropdown, setIndustryDropdown] = useState(false);
+  const [localDropdown, setLocalDropdown] = useState(false);
   const bizDropdownRef = useRef<HTMLDivElement>(null);
   const founderDropdownRef = useRef<HTMLDivElement>(null);
   const brandDropdownRef = useRef<HTMLDivElement>(null);
   const industryDropdownRef = useRef<HTMLDivElement>(null);
+  const localDropdownRef = useRef<HTMLDivElement>(null);
   const startupScrollRef = useRef<HTMLDivElement>(null);
   const cityScrollRef = useRef<HTMLDivElement>(null);
 
@@ -271,6 +274,52 @@ function Home() {
                     </div>
                     <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
                       <span className="text-xs font-bold tracking-widest uppercase">View All Industry Stories</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Local Business Stories dropdown */}
+              <div
+                ref={localDropdownRef}
+                className="relative h-full flex items-center"
+                onMouseEnter={() => setLocalDropdown(true)}
+                onMouseLeave={() => setLocalDropdown(false)}
+              >
+                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                  Local Business
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${localDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {localDropdown && (
+                  <div className="absolute top-full right-0 w-[560px] bg-white border border-border shadow-lg z-50 p-6">
+                    <div className="border-b border-black pb-3 mb-5 flex items-center justify-between">
+                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">City-Wise Business Directory & Stories</span>
+                      <span className="text-[10px] font-bold tracking-[0.1em] uppercase text-editorial">{FEATURED_CITIES.length} Cities</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 mb-6">
+                      {FEATURED_CITIES.map((city, idx) => (
+                        <a
+                          key={idx}
+                          href={`/local/${city.slug}`}
+                          className="group flex items-start gap-3 p-3 border border-gray-100 hover:border-black transition-colors duration-150"
+                        >
+                          <span className="text-2xl flex-shrink-0 mt-0.5">{city.icon}</span>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-sm font-bold text-black group-hover:text-editorial transition-colors">{city.name}</span>
+                              <span className="text-[10px] text-gray-400">{city.state}</span>
+                            </div>
+                            <span className="block text-[10px] text-gray-400 mt-0.5 leading-tight">{city.tag}</span>
+                            <span className="block text-[11px] font-bold text-editorial mt-1">{city.businesses} businesses</span>
+                          </div>
+                          <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-editorial flex-shrink-0 mt-1 transition-colors" />
+                        </a>
+                      ))}
+                    </div>
+                    <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
+                      <span className="text-xs font-bold tracking-widest uppercase">Explore All Cities</span>
                       <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -708,6 +757,7 @@ function Router() {
       <Route path="/founder/:slug" component={FounderProfile} />
       <Route path="/brand/:slug" component={BrandStory} />
       <Route path="/industry/:slug" component={IndustryStory} />
+      <Route path="/local/:slug" component={LocalBusiness} />
       <Route component={NotFound} />
     </Switch>
   );
