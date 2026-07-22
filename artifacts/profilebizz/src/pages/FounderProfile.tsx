@@ -394,7 +394,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
           </div>
 
           {/* Founder name */}
-          <h1 className="font-serif text-5xl md:text-[68px] font-bold text-black leading-[1.06] tracking-tight mb-5">
+          <h1 className="font-founder text-5xl md:text-[72px] font-bold text-black leading-[1.0] tracking-[-0.01em] mb-5">
             {founder.name}
           </h1>
 
