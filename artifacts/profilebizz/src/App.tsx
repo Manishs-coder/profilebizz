@@ -37,43 +37,63 @@ function Home() {
     <div className="min-h-screen bg-[#f9f9f9] text-black selection:bg-editorial selection:text-white pb-20">
       
       {/* 1. Sticky Top Navbar */}
-      <header className={`fixed top-0 w-full z-50 bg-white border-b border-border transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
-        <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
-          
-          <div className="flex-shrink-0">
-            <span className="font-serif font-bold text-3xl tracking-tight">ProfileBizz</span>
-          </div>
+      <header className={`fixed top-0 w-full z-50 bg-white transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
+        {/* Top row: logo + nav + buttons */}
+        <div className="border-b border-border">
+          <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+            <div className="flex-shrink-0">
+              <span className="font-serif font-bold text-3xl tracking-tight">ProfileBizz</span>
+            </div>
 
-          <nav className="hidden lg:flex items-center gap-8 h-full">
+            <nav className="hidden lg:flex items-center gap-8 h-full">
+              {[
+                { name: 'Profile Story', active: true },
+                { name: 'Startup Story', active: false },
+                { name: 'Social Hero Profile', active: false },
+                { name: 'Women Story', active: false },
+                { name: 'Business Profile', active: false },
+              ].map((link, idx) => (
+                <a
+                  key={idx}
+                  href="#"
+                  className={`text-sm font-medium h-full flex items-center border-b-2 transition-colors duration-200 hover:text-editorial ${link.active ? 'border-editorial text-editorial' : 'border-transparent text-foreground'}`}
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-6">
+              <button className="text-foreground hover:text-editorial transition-colors">
+                <Search className="w-5 h-5" />
+              </button>
+              <button className="bg-black text-white text-xs font-bold tracking-widest uppercase px-6 py-2.5 hover:bg-editorial transition-colors">
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Categories row */}
+        <div className="hidden lg:block bg-white border-b border-border">
+          <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-10 flex items-center gap-8 overflow-x-auto">
             {[
-              { name: 'Profile Story', active: true },
-              { name: 'Startup Story', active: false },
-              { name: 'Social Hero Profile', active: false },
-              { name: 'Women Story', active: false },
-              { name: 'Business Profile', active: false },
-            ].map((link, idx) => (
-              <a 
-                key={idx} 
-                href="#" 
-                className={`text-sm font-medium h-full flex items-center border-b-2 transition-colors duration-200 hover:text-editorial ${link.active ? 'border-editorial text-editorial' : 'border-transparent text-foreground'}`}
+              'Bharat Tech', 'FinTech Pulse', 'D2C Markets', 'Cloud & Infra',
+              'Founders', 'WealthTech', 'Mobility', 'Agritech', 'Space Tech', 'EV & Energy',
+            ].map((cat, idx) => (
+              <a
+                key={idx}
+                href="#"
+                className="text-[11px] font-bold tracking-widest uppercase whitespace-nowrap text-gray-500 hover:text-editorial transition-colors duration-200 flex-shrink-0"
               >
-                {link.name}
+                {cat}
               </a>
             ))}
-          </nav>
-
-          <div className="flex items-center gap-6">
-            <button className="text-foreground hover:text-editorial transition-colors">
-              <Search className="w-5 h-5" />
-            </button>
-            <button className="bg-black text-white text-xs font-bold tracking-widest uppercase px-6 py-2.5 hover:bg-editorial transition-colors">
-              Subscribe
-            </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-[1400px] mx-auto px-4 md:px-8 pt-28">
+      <main className="max-w-[1400px] mx-auto px-4 md:px-8 pt-36">
         
         {/* 2. Hero Section */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b-[3px] border-black pb-12 mb-12">
