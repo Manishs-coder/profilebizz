@@ -12,6 +12,8 @@ import LocalBusiness, { FEATURED_CITIES } from '@/pages/LocalBusiness';
 import SuccessStory, { SUCCESS_CATEGORIES } from '@/pages/SuccessStory';
 import SocialImpact, { IMPACT_CATEGORIES } from '@/pages/SocialImpact';
 import BusinessNews, { NEWS_CATEGORIES } from '@/pages/BusinessNews';
+import SocialHeroProfile from '@/pages/SocialHeroProfile';
+import WomenStory from '@/pages/WomenStory';
 
 const queryClient = new QueryClient();
 
@@ -121,12 +123,12 @@ function Home() {
 
               <nav className="flex items-center gap-8 h-full">
               {[
-                { name: 'Social Hero Profile', active: false },
-                { name: 'Women Story', active: false },
+                { name: 'Social Hero Profile', active: false, href: '/social-hero' },
+                { name: 'Women Story', active: false, href: '/women-story' },
               ].map((link, idx) => (
                 <a
                   key={idx}
-                  href="#"
+                  href={link.href}
                   className={`text-sm font-medium h-full flex items-center border-b-2 transition-colors duration-200 hover:text-editorial ${link.active ? 'border-editorial text-editorial' : 'border-transparent text-foreground'}`}
                 >
                   {link.name}
@@ -890,6 +892,10 @@ function Router() {
       <Route path="/success/:slug" component={SuccessStory} />
       <Route path="/impact/:slug" component={SocialImpact} />
       <Route path="/news/:slug" component={BusinessNews} />
+      <Route path="/social-hero" component={SocialHeroProfile} />
+      <Route path="/social-hero/:slug" component={SocialHeroProfile} />
+      <Route path="/women-story" component={WomenStory} />
+      <Route path="/women-story/:slug" component={WomenStory} />
       <Route component={NotFound} />
     </Switch>
   );
