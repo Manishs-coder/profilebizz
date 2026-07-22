@@ -310,12 +310,11 @@ function Home() {
         <div className="lg:hidden border-t border-gray-100 overflow-x-auto scrollbar-hide">
           <div className="flex items-center whitespace-nowrap px-1 py-0">
             {[
-              { label: 'Brand Stories',    href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
-              { label: 'Industry Stories', href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
-              { label: 'Success Stories',  href: `/success/business-growth` },
-              { label: 'Social Impact',    href: `/impact/ngo` },
-              { label: 'Founders',         href: `/founder/rajesh-kumar-vedas` },
-              { label: 'Business News',    href: `/news/funding` },
+              { label: 'Social Hero Profile', href: `/social-hero` },
+              { label: 'Founder Story',        href: `/founder/nithin-kamath` },
+              { label: 'Business Stories',     href: `#` },
+              { label: 'Brand Stories',        href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
+              { label: 'Industry Stories',     href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
             ].map((tab, i) => (
               <a
                 key={i}
