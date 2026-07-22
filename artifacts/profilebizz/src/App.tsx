@@ -18,16 +18,14 @@ import WomenStory from '@/pages/WomenStory';
 const queryClient = new QueryClient();
 
 const founderProfiles = [
-  { name: 'Startup Founder', tag: 'Zero to One', example: 'How Rahul Built a ₹10 Cr App from His Bedroom' },
-  { name: 'Serial Entrepreneur', tag: 'Multi-Venture', example: '5 Companies, 1 Vision — The Rohit Mehta Story' },
-  { name: 'First-Gen Entrepreneur', tag: 'New Blood', example: 'No Family Business, No Investors — Just Grit' },
-  { name: 'Rural Founder', tag: 'Bharat Builder', example: 'From a UP Village to a National Supply Chain' },
-  { name: 'Women Founder', tag: 'Trailblazer', example: 'She Left a MNC Job to Build India\'s Top EdTech' },
-  { name: 'Young Founder (Under 30)', tag: 'Gen Z CEO', example: '22 Years Old, ₹5 Crore in Revenue' },
-  { name: 'Immigrant Founder', tag: 'NRI Returns', example: 'Left Silicon Valley to Build in Bharat' },
-  { name: 'Second-Gen Business Leader', tag: 'New Chapter', example: 'How He Took His Father\'s Shop Global' },
-  { name: 'Social Entrepreneur', tag: 'Impact First', example: 'Profit is a By-product — Purpose is the Product' },
-  { name: 'Tech Founder', tag: 'Deep Tech', example: 'IIT Dropout Builds India\'s First AI Hardware Chip' },
+  { name: 'Zero to One',           icon: '🚀', example: 'How Nithin Kamath Built Zerodha with ₹10 Lakh' },
+  { name: 'First Gen Entrepreneur', icon: '💪', example: 'No Family Business, No Investors — Just Grit' },
+  { name: 'Women Founder',          icon: '👩‍💼', example: 'She Left a MNC Job to Build India\'s Top EdTech' },
+  { name: 'Immigrant Founder',      icon: '✈️', example: 'Left Silicon Valley to Build in Bharat' },
+  { name: 'Rural Bharat Founder',   icon: '🌾', example: 'From a UP Village to a ₹50 Cr National Brand' },
+  { name: 'Under 30 Millennial',    icon: '⚡', example: '24 Years Old, ₹10 Crore in Revenue, Zero Funding' },
+  { name: 'Tech Founder',           icon: '💻', example: 'IIT Dropout Builds India\'s First AI Hardware Chip' },
+  { name: 'AI Founder',             icon: '🤖', example: 'How This Founder Is Replacing 50 Jobs with One Model' },
 ];
 
 const businessStories = [
@@ -122,18 +120,49 @@ function Home() {
               </div>
 
               <nav className="flex items-center gap-8 h-full">
-              {[
-                { name: 'Social Hero Profile', active: false, href: '/social-hero' },
-                { name: 'Women Story', active: false, href: '/women-story' },
-              ].map((link, idx) => (
-                <a
-                  key={idx}
-                  href={link.href}
-                  className={`text-sm font-medium h-full flex items-center border-b-2 transition-colors duration-200 hover:text-editorial ${link.active ? 'border-editorial text-editorial' : 'border-transparent text-foreground'}`}
-                >
-                  {link.name}
-                </a>
-              ))}
+              <a href="/social-hero" className="text-sm font-medium h-full flex items-center border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                Social Hero Profile
+              </a>
+
+              {/* Founder Story dropdown */}
+              <div
+                ref={founderDropdownRef}
+                className="relative h-full flex items-center"
+                onMouseEnter={() => setFounderDropdown(true)}
+                onMouseLeave={() => setFounderDropdown(false)}
+              >
+                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                  Founder Story
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${founderDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {founderDropdown && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[660px] bg-white border border-border shadow-lg z-50 p-6">
+                    <div className="border-b border-black pb-3 mb-5">
+                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">Browse by Founder Type</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-x-10 gap-y-1 mb-6">
+                      {founderProfiles.map((item, idx) => (
+                        <a
+                          key={idx}
+                          href="/founder/nithin-kamath"
+                          className="group flex items-center gap-3 py-2.5 border-b border-gray-100 last:border-0"
+                        >
+                          <span className="text-xl flex-shrink-0">{item.icon}</span>
+                          <div className="min-w-0">
+                            <span className="block text-sm font-semibold text-black group-hover:text-editorial transition-colors duration-150">{item.name}</span>
+                            <span className="block text-[11px] text-gray-400 mt-0.5 group-hover:text-gray-600 transition-colors duration-150">e.g. {item.example}</span>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                    <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
+                      <span className="text-xs font-bold tracking-widest uppercase">View All Founder Stories</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Business Stories dropdown */}
               <div
