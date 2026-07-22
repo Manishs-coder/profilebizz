@@ -93,7 +93,6 @@ function Home() {
 
             <nav className="hidden lg:flex items-center gap-8 h-full">
               {[
-                { name: 'Profile Story', active: true },
                 { name: 'Social Hero Profile', active: false },
                 { name: 'Women Story', active: false },
               ].map((link, idx) => (
@@ -144,58 +143,6 @@ function Home() {
                     {/* Footer CTA */}
                     <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
                       <span className="text-xs font-bold tracking-widest uppercase">View All Business Stories</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Founder Stories dropdown */}
-              <div
-                ref={founderDropdownRef}
-                className="relative h-full flex items-center"
-                onMouseEnter={() => setFounderDropdown(true)}
-                onMouseLeave={() => setFounderDropdown(false)}
-              >
-                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
-                  Founder Stories
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${founderDropdown ? 'rotate-180' : ''}`} />
-                </button>
-
-                {founderDropdown && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[760px] bg-white border border-border shadow-lg z-50 p-6">
-                    {/* Header */}
-                    <div className="border-b border-black pb-3 mb-5 flex items-center justify-between">
-                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">Every Founder. A Unique Profile.</span>
-                      <span className="text-[10px] font-bold tracking-[0.1em] uppercase text-editorial">10 Profile Types</span>
-                    </div>
-                    {/* Grid of founder types */}
-                    <div className="grid grid-cols-2 gap-x-10 gap-y-1 mb-6">
-                      {founderProfiles.map((item, idx) => (
-                        <a
-                          key={idx}
-                          href="#"
-                          className="group flex items-start gap-3 py-3 border-b border-gray-100 last:border-0"
-                        >
-                          <div className="flex-shrink-0 mt-0.5">
-                            <span className="inline-block text-[9px] font-bold tracking-wider uppercase bg-black text-white px-2 py-0.5 group-hover:bg-editorial transition-colors duration-150">
-                              {item.tag}
-                            </span>
-                          </div>
-                          <div className="min-w-0">
-                            <span className="block text-sm font-semibold text-black group-hover:text-editorial transition-colors duration-150">
-                              {item.name}
-                            </span>
-                            <span className="block text-[11px] text-gray-400 mt-0.5 leading-snug group-hover:text-gray-600 transition-colors duration-150 truncate">
-                              e.g. {item.example}
-                            </span>
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                    {/* Footer CTA */}
-                    <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
-                      <span className="text-xs font-bold tracking-widest uppercase">Explore All Founder Profiles</span>
                       <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -409,51 +356,6 @@ function Home() {
                 )}
               </div>
 
-              {/* Local Business Stories dropdown */}
-              <div
-                ref={localDropdownRef}
-                className="relative h-full flex items-center"
-                onMouseEnter={() => setLocalDropdown(true)}
-                onMouseLeave={() => setLocalDropdown(false)}
-              >
-                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
-                  Local Business
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${localDropdown ? 'rotate-180' : ''}`} />
-                </button>
-
-                {localDropdown && (
-                  <div className="absolute top-full right-0 w-[560px] bg-white border border-border shadow-lg z-50 p-6">
-                    <div className="border-b border-black pb-3 mb-5 flex items-center justify-between">
-                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">City-Wise Business Directory & Stories</span>
-                      <span className="text-[10px] font-bold tracking-[0.1em] uppercase text-editorial">{FEATURED_CITIES.length} Cities</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      {FEATURED_CITIES.map((city, idx) => (
-                        <a
-                          key={idx}
-                          href={`/local/${city.slug}`}
-                          className="group flex items-start gap-3 p-3 border border-gray-100 hover:border-black transition-colors duration-150"
-                        >
-                          <span className="text-2xl flex-shrink-0 mt-0.5">{city.icon}</span>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-baseline gap-2">
-                              <span className="text-sm font-bold text-black group-hover:text-editorial transition-colors">{city.name}</span>
-                              <span className="text-[10px] text-gray-400">{city.state}</span>
-                            </div>
-                            <span className="block text-[10px] text-gray-400 mt-0.5 leading-tight">{city.tag}</span>
-                            <span className="block text-[11px] font-bold text-editorial mt-1">{city.businesses} businesses</span>
-                          </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-editorial flex-shrink-0 mt-1 transition-colors" />
-                        </a>
-                      ))}
-                    </div>
-                    <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
-                      <span className="text-xs font-bold tracking-widest uppercase">Explore All Cities</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </div>
-                  </div>
-                )}
-              </div>
             </nav>
 
             <div className="flex items-center gap-6">
