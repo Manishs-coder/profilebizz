@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Quote } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Quote, Languages } from 'lucide-react';
+import { FOUNDERS_HI, SECTIONS_HI } from '../data/foundersHi';
 
 const SECTIONS = [
   { id: 'early-life',              label: 'Early Life' },
@@ -307,18 +308,25 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
 
   const [activeSection, setActiveSection] = useState('early-life');
   const [scrolled, setScrolled] = useState(false);
+  const [lang, setLang] = useState<'en' | 'hi'>('en');
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  // Hindi content available?
+  const hasHindi = Boolean(FOUNDERS_HI[slug]);
+  const activeFounder = (lang === 'hi' && hasHindi) ? { ...founder, ...FOUNDERS_HI[slug] } : founder;
+  const activeSections = lang === 'hi' ? SECTIONS_HI : SECTIONS;
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setActiveSection('early-life');
+    setLang('en');
   }, [slug]);
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
       let current = 'early-life';
-      for (const s of SECTIONS) {
+      for (const s of activeSections) {
         const el = sectionRefs.current[s.id];
         if (el) {
           const top = el.getBoundingClientRect().top;
@@ -329,7 +337,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
     };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [activeSections]);
 
   const scrollTo = (id: string) => {
     sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -358,11 +366,31 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
             <span className="text-gray-300">|</span>
             <span className="text-[11px] font-bold tracking-widest uppercase bg-editorial text-white px-2 py-0.5">{founder.profileTag}</span>
           </div>
-          <div className="hidden md:flex items-center gap-3">
-            <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-gray-500 hover:text-black transition-colors px-3 py-1.5 border border-gray-200 hover:border-black">
+          <div className="flex items-center gap-2 md:gap-3">
+            {/* Language toggle — only when Hindi content exists */}
+            {hasHindi && (
+              <div className="flex items-center border border-gray-200 overflow-hidden">
+                <button
+                  onClick={() => setLang('en')}
+                  className={`flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-bold tracking-wider transition-colors ${lang === 'en' ? 'bg-black text-white' : 'text-gray-500 hover:text-black'}`}
+                >
+                  <Languages className="w-3 h-3" />
+                  EN
+                </button>
+                <div className="w-px h-5 bg-gray-200" />
+                <button
+                  onClick={() => setLang('hi')}
+                  style={{ fontFamily: "'Noto Sans Devanagari', sans-serif" }}
+                  className={`px-2.5 py-1.5 text-[13px] font-semibold transition-colors ${lang === 'hi' ? 'bg-black text-white' : 'text-gray-500 hover:text-black'}`}
+                >
+                  हि
+                </button>
+              </div>
+            )}
+            <button className="hidden md:flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-gray-500 hover:text-black transition-colors px-3 py-1.5 border border-gray-200 hover:border-black">
               <Share2 className="w-3.5 h-3.5" /> Share
             </button>
-            <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-white bg-black hover:bg-editorial transition-colors px-3 py-1.5">
+            <button className="hidden md:flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-white bg-black hover:bg-editorial transition-colors px-3 py-1.5">
               <BookmarkPlus className="w-3.5 h-3.5" /> Save Profile
             </button>
           </div>
@@ -378,34 +406,39 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
           {/* Category badge */}
           <div className="flex items-center justify-center gap-2 mb-8">
             <span className="inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.18em] uppercase text-editorial border border-editorial px-3 py-1.5">
-              {founder.profileType}
+              {activeFounder.profileType}
               <ChevronRight className="w-3 h-3" />
             </span>
-            <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-gray-400">{founder.profileTag}</span>
+            <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-gray-400">{activeFounder.profileTag}</span>
           </div>
 
           {/* Founder photo — large, above name */}
           <div className="flex justify-center mb-7">
             <img
               src={founder.photo}
-              alt={founder.name}
+              alt={activeFounder.name}
               className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-4 ring-white shadow-xl border border-gray-100"
             />
           </div>
 
           {/* Founder name */}
-          <h1 className="font-serif text-5xl md:text-[68px] font-bold text-black leading-[1.06] tracking-tight mb-5">
-            {founder.name}
+          <h1
+            className="font-serif text-5xl md:text-[68px] font-bold text-black leading-[1.06] tracking-tight mb-5"
+            style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", fontSize: '3rem', lineHeight: '1.3' } : {}}
+          >
+            {activeFounder.name}
           </h1>
 
           {/* Title & company */}
-          <p className="text-lg md:text-xl text-gray-500 font-medium mb-5">
-            {founder.title}
+          <p className="text-lg md:text-xl text-gray-500 font-medium mb-5"
+            style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}>
+            {activeFounder.title}
           </p>
 
           {/* One-liner */}
-          <p className="text-base md:text-[17px] text-gray-600 leading-relaxed max-w-2xl mx-auto mb-9">
-            {founder.oneLiner}
+          <p className="text-base md:text-[17px] text-gray-600 leading-relaxed max-w-2xl mx-auto mb-9"
+            style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '2' } : {}}>
+            {activeFounder.oneLiner}
           </p>
 
           {/* Divider */}
@@ -419,23 +452,24 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
           <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-gray-500 mb-10">
             <span className="font-semibold text-black">ProfileBizz Editorial</span>
             <span className="text-gray-300">•</span>
-            <span>{founder.location}</span>
+            <span>{activeFounder.location}</span>
             <span className="text-gray-300">•</span>
             <span>Founded {founder.founded}</span>
             <span className="text-gray-300">•</span>
-            <span className="text-editorial font-semibold">8 min read</span>
+            <span className="text-editorial font-semibold">{lang === 'hi' ? '8 मिनट पढ़ें' : '8 min read'}</span>
           </div>
 
           {/* Stats strip */}
           <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 divide-x divide-gray-200">
             {[
-              { l: 'Revenue',   v: founder.revenue },
-              { l: 'Employees', v: founder.employees },
-              { l: 'Age',       v: founder.age },
-              { l: 'Founded',   v: founder.founded },
+              { l: lang === 'hi' ? 'राजस्व' : 'Revenue',   v: founder.revenue },
+              { l: lang === 'hi' ? 'कर्मचारी' : 'Employees', v: founder.employees },
+              { l: lang === 'hi' ? 'आयु' : 'Age',           v: founder.age },
+              { l: lang === 'hi' ? 'स्थापना' : 'Founded',   v: founder.founded },
             ].map((s) => (
               <div key={s.l} className="px-5 py-4 text-left">
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-1">{s.l}</p>
+                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-1"
+                  style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", letterSpacing: '0' } : {}}>{s.l}</p>
                 <p className="font-serif text-2xl font-bold text-black">{s.v}</p>
               </div>
             ))}
@@ -444,9 +478,9 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
       </div>
 
       {/* ── Mobile Section Nav (visible only on mobile) ── */}
-      <div className="lg:hidden bg-white border-b border-gray-200 sticky top-14 z-40 overflow-x-auto">
+      <div className={`lg:hidden bg-white border-b border-gray-200 sticky top-14 z-40 overflow-x-auto ${lang === 'hi' ? 'lang-hi' : ''}`}>
         <div className="flex">
-          {SECTIONS.map(s => (
+          {activeSections.map(s => (
             <button key={s.id} onClick={() => scrollTo(s.id)}
               className={`flex-shrink-0 px-4 py-3 text-xs font-medium whitespace-nowrap border-b-2 transition-colors
                 ${activeSection === s.id ? 'border-editorial text-editorial font-semibold' : 'border-transparent text-gray-500 hover:text-black'}`}>
@@ -460,11 +494,13 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-10 flex flex-col lg:flex-row gap-10">
 
         {/* Sticky Section Nav */}
-        <aside className="hidden lg:block lg:w-56 flex-shrink-0">
+        <aside className={`hidden lg:block lg:w-56 flex-shrink-0 ${lang === 'hi' ? 'lang-hi' : ''}`}>
           <div className="lg:sticky lg:top-20">
-            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4">In This Profile</p>
+            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4">
+              {lang === 'hi' ? 'इस प्रोफाइल में' : 'In This Profile'}
+            </p>
             <nav className="flex flex-col gap-0">
-              {SECTIONS.map((s) => (
+              {activeSections.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => scrollTo(s.id)}
@@ -510,17 +546,17 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
         </aside>
 
         {/* Main Content */}
-        <article className="flex-1 min-w-0 max-w-3xl">
+        <article className={`flex-1 min-w-0 max-w-3xl ${lang === 'hi' ? 'lang-hi' : ''}`}>
 
           {/* ── 1. Early Life ── */}
           <section id="early-life" ref={setRef('early-life')} className="mb-16 scroll-mt-24">
-            <SectionLabel index="01" label="Early Life" />
+            <SectionLabel index="01" label={activeSections[0].label} />
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
               <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic">
-                {founder.earlyLife.pullQuote}
+                {activeFounder.earlyLife.pullQuote}
               </p>
             </blockquote>
-            {founder.earlyLife.body.map((p: string, i: number) => (
+            {activeFounder.earlyLife.body.map((p: string, i: number) => (
               <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
@@ -529,13 +565,13 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
 
           {/* ── 2. Education ── */}
           <section id="education" ref={setRef('education')} className="mb-16 scroll-mt-24">
-            <SectionLabel index="02" label="Education" />
+            <SectionLabel index="02" label={activeSections[1].label} />
             <div className="my-6 space-y-0">
-              {founder.education.timeline.map((e: any, i: number) => (
+              {activeFounder.education.timeline.map((e: any, i: number) => (
                 <div key={i} className="flex gap-4 group">
                   <div className="flex flex-col items-center">
                     <div className="w-2.5 h-2.5 rounded-full bg-black group-first:bg-editorial mt-1.5 flex-shrink-0" />
-                    {i < founder.education.timeline.length - 1 && (
+                    {i < activeFounder.education.timeline.length - 1 && (
                       <div className="w-px flex-1 bg-gray-200 mt-1" />
                     )}
                   </div>
@@ -546,7 +582,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
                 </div>
               ))}
             </div>
-            {founder.education.body.map((p: string, i: number) => (
+            {activeFounder.education.body.map((p: string, i: number) => (
               <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
@@ -555,14 +591,14 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
 
           {/* ── 3. Career ── */}
           <section id="career" ref={setRef('career')} className="mb-16 scroll-mt-24">
-            <SectionLabel index="03" label="Career" />
+            <SectionLabel index="03" label={activeSections[2].label} />
             <div className="my-6 border border-gray-200 divide-y divide-gray-200">
               <div className="grid grid-cols-3 bg-black text-white px-4 py-2.5">
-                <span className="text-[10px] font-bold tracking-widest uppercase">Period</span>
-                <span className="text-[10px] font-bold tracking-widest uppercase">Role</span>
-                <span className="text-[10px] font-bold tracking-widest uppercase">Organisation</span>
+                <span className="text-[10px] font-bold tracking-widest uppercase">{lang === 'hi' ? 'अवधि' : 'Period'}</span>
+                <span className="text-[10px] font-bold tracking-widest uppercase">{lang === 'hi' ? 'भूमिका' : 'Role'}</span>
+                <span className="text-[10px] font-bold tracking-widest uppercase">{lang === 'hi' ? 'संगठन' : 'Organisation'}</span>
               </div>
-              {founder.career.timeline.map((c: any, i: number) => (
+              {activeFounder.career.timeline.map((c: any, i: number) => (
                 <div key={i} className="grid grid-cols-3 px-4 py-3 hover:bg-gray-50 transition-colors">
                   <span className="text-xs font-bold text-editorial">{c.year}</span>
                   <span className="text-sm text-gray-800 font-medium">{c.role}</span>
@@ -570,7 +606,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
                 </div>
               ))}
             </div>
-            {founder.career.body.map((p: string, i: number) => (
+            {activeFounder.career.body.map((p: string, i: number) => (
               <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
@@ -579,13 +615,13 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
 
           {/* ── 4. Entrepreneurial Journey ── */}
           <section id="entrepreneurial-journey" ref={setRef('entrepreneurial-journey')} className="mb-16 scroll-mt-24">
-            <SectionLabel index="04" label="Entrepreneurial Journey" />
+            <SectionLabel index="04" label={activeSections[3].label} />
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
               <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic">
-                {founder.journey.pullQuote}
+                {activeFounder.journey.pullQuote}
               </p>
             </blockquote>
-            {founder.journey.body.map((p: string, i: number) => (
+            {activeFounder.journey.body.map((p: string, i: number) => (
               <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
@@ -594,9 +630,9 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
 
           {/* ── 5. Challenges ── */}
           <section id="challenges" ref={setRef('challenges')} className="mb-16 scroll-mt-24">
-            <SectionLabel index="05" label="Challenges" />
+            <SectionLabel index="05" label={activeSections[4].label} />
             <div className="mt-6 space-y-6">
-              {founder.challenges.map((c: any, i: number) => (
+              {activeFounder.challenges.map((c: any, i: number) => (
                 <div key={i} className="border-l-4 border-gray-300 pl-5 py-1 hover:border-editorial transition-colors group">
                   <h4 className="text-base font-bold font-serif mb-2 group-hover:text-editorial transition-colors">{c.title}</h4>
                   <p className="text-sm text-gray-600 leading-relaxed">{c.body}</p>
@@ -609,16 +645,16 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
 
           {/* ── 6. Success ── */}
           <section id="success" ref={setRef('success')} className="mb-16 scroll-mt-24">
-            <SectionLabel index="06" label="Success" />
+            <SectionLabel index="06" label={activeSections[5].label} />
             <div className="my-6 grid grid-cols-2 md:grid-cols-3 gap-px bg-gray-200">
-              {founder.success.stats.map((s: any, i: number) => (
+              {activeFounder.success.stats.map((s: any, i: number) => (
                 <div key={i} className="bg-white px-5 py-4">
                   <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400 mb-1">{s.label}</p>
                   <p className="font-serif text-2xl font-bold text-black">{s.value}</p>
                 </div>
               ))}
             </div>
-            {founder.success.body.map((p: string, i: number) => (
+            {activeFounder.success.body.map((p: string, i: number) => (
               <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
@@ -627,14 +663,14 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
 
           {/* ── 7. Leadership Style ── */}
           <section id="leadership-style" ref={setRef('leadership-style')} className="mb-16 scroll-mt-24">
-            <SectionLabel index="07" label="Leadership Style" />
+            <SectionLabel index="07" label={activeSections[6].label} />
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
               <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic">
-                {founder.leadership.pullQuote}
+                {activeFounder.leadership.pullQuote}
               </p>
             </blockquote>
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {founder.leadership.traits.map((t: any, i: number) => (
+              {activeFounder.leadership.traits.map((t: any, i: number) => (
                 <div key={i} className="bg-white border border-gray-200 p-5 hover:border-black transition-colors group">
                   <span className="inline-block text-[9px] font-bold tracking-widest uppercase bg-black text-white px-2 py-0.5 mb-3 group-hover:bg-editorial transition-colors">
                     {t.trait}
@@ -649,9 +685,9 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
 
           {/* ── 8. Awards ── */}
           <section id="awards" ref={setRef('awards')} className="mb-16 scroll-mt-24">
-            <SectionLabel index="08" label="Awards & Recognition" />
+            <SectionLabel index="08" label={lang === 'hi' ? 'पुरस्कार एवं सम्मान' : 'Awards & Recognition'} />
             <div className="mt-6 space-y-0 border border-gray-200 divide-y divide-gray-100">
-              {founder.awards.map((a: any, i: number) => (
+              {activeFounder.awards.map((a: any, i: number) => (
                 <div key={i} className="flex items-start gap-5 px-5 py-4 hover:bg-gray-50 transition-colors group">
                   <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-black group-hover:bg-editorial transition-colors">
                     <Award className="w-4 h-4 text-white" />
@@ -670,9 +706,9 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
 
           {/* ── 9. Interviews ── */}
           <section id="interviews" ref={setRef('interviews')} className="mb-16 scroll-mt-24">
-            <SectionLabel index="09" label="Interviews" />
+            <SectionLabel index="09" label={activeSections[8].label} />
             <div className="mt-6 space-y-8">
-              {founder.interviews.map((iv: any, i: number) => (
+              {activeFounder.interviews.map((iv: any, i: number) => (
                 <div key={i} className="bg-white border border-gray-200">
                   <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-gray-50">
                     <div className="flex items-center gap-2">
@@ -683,7 +719,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
                   </div>
                   <div className="px-5 py-5">
                     <p className="text-sm font-semibold text-black mb-3 leading-snug">
-                      <span className="text-editorial font-bold mr-1.5">Q.</span>{iv.question}
+                      <span className="text-editorial font-bold mr-1.5">{lang === 'hi' ? 'प्र.' : 'Q.'}</span>{iv.question}
                     </p>
                     <p className="text-sm text-gray-700 leading-relaxed pl-4 border-l-2 border-gray-200">
                       {iv.answer}
@@ -701,7 +737,7 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
               className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-gray-500 hover:text-editorial transition-colors border border-gray-200 hover:border-editorial px-5 py-2.5"
             >
               <ChevronLeft className="w-3.5 h-3.5 rotate-90" />
-              Back to Top
+              {lang === 'hi' ? 'ऊपर जाएं' : 'Back to Top'}
             </button>
           </div>
 
