@@ -1,0 +1,378 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&amp;family=Playfair+Display:wght@400;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-border": "#E5E5E5",
+                        "surface-bright": "#f9f9f9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-primary-fixed-variant": "#474747",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-error-container": "#93000a",
+                        "primary": "#000000",
+                        "on-background": "#1a1c1c",
+                        "tertiary-container": "#1b1b1b",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "text-high-contrast": "#000000",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-container": "#eeeeee",
+                        "outline": "#7e7576",
+                        "surface-tint": "#5e5e5e",
+                        "secondary-fixed-dim": "#9dcaff",
+                        "on-surface": "#1a1c1c",
+                        "primary-container": "#1b1b1b",
+                        "text-muted": "#555555",
+                        "on-secondary-container": "#00406c",
+                        "primary-fixed": "#e2e2e2",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "surface-container-high": "#e8e8e8",
+                        "authority-blue": "#002B49",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#00497b",
+                        "surface-dim": "#dadada",
+                        "secondary-fixed": "#d1e4ff",
+                        "secondary": "#0062a2",
+                        "error": "#ba1a1a",
+                        "editorial-red": "#E50B16",
+                        "secondary-container": "#58adff",
+                        "inverse-surface": "#2f3131",
+                        "on-tertiary-container": "#848484",
+                        "on-error": "#ffffff",
+                        "tertiary": "#000000",
+                        "outline-variant": "#cfc4c5",
+                        "on-primary-container": "#848484",
+                        "surface-variant": "#e2e2e2",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#001d35",
+                        "success-green": "#5EC25F",
+                        "surface": "#f9f9f9",
+                        "on-surface-variant": "#4c4546",
+                        "inverse-primary": "#c6c6c6",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary": "#ffffff",
+                        "background": "#f9f9f9",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "5rem",
+                        "margin-desktop": "4rem",
+                        "stack-lg": "2rem",
+                        "margin-mobile": "1rem",
+                        "gutter": "1.5rem",
+                        "stack-md": "1rem",
+                        "stack-sm": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "quote": ["Playfair Display"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Playfair Display"],
+                        "label-caps": ["Inter"],
+                        "headline-xl-mobile": ["Playfair Display"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "30px", "fontWeight": "400"}],
+                        "quote": ["24px", {"lineHeight": "36px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                        "headline-xl-mobile": ["32px", {"lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["36px", {"lineHeight": "44px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    }catch(_e){}</script><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Playfair+Display:wght@100..900&amp;display=swap" rel="stylesheet"></head><body class="bg-surface text-primary font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface border-b border-surface-border dark:border-on-surface-variant sticky top-0 z-50">
+<nav class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1280px] mx-auto">
+<div class="flex items-center gap-8">
+<a class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary dark:text-primary-fixed" href="#">ProfileBizz</a>
+<div class="hidden md:flex items-center space-x-6"><a class="font-label-caps text-label-caps transition-colors duration-200 text-primary dark:text-primary-fixed border-b-2 border-primary pb-1" href="#">Profile Story</a><a class="font-label-caps text-label-caps transition-colors duration-200 text-text-muted dark:text-on-primary-container hover:text-primary dark:hover:text-primary-fixed" href="#">Startup Story</a><a class="font-label-caps text-label-caps transition-colors duration-200 text-text-muted dark:text-on-primary-container hover:text-primary dark:hover:text-primary-fixed" href="#">Social Hero Profile</a><a class="font-label-caps text-label-caps transition-colors duration-200 text-text-muted dark:text-on-primary-container hover:text-primary dark:hover:text-primary-fixed" href="#">Women Story</a><a class="font-label-caps text-label-caps transition-colors duration-200 text-text-muted dark:text-on-primary-container hover:text-primary dark:hover:text-primary-fixed" href="#">Business Profile</a></div>
+</div>
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined cursor-pointer text-primary" data-icon="search">search</span>
+<button class="hidden md:block bg-primary text-on-primary font-label-caps text-label-caps px-6 py-2">SUBSCRIBE</button>
+</div>
+</nav>
+</header>
+<main class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop mt-stack-lg">
+<!-- Hero Section -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter border-b border-surface-border pb-section-gap">
+<div class="md:col-span-8 group cursor-pointer">
+<div class="overflow-hidden aspect-[16/9] mb-stack-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" data-alt="A cinematic editorial photograph of a modern, glass-walled office in Bengaluru's tech corridor. Outside the window, a glimpse of the bustling urban landscape and green spaces. Inside, young Indian entrepreneurs in smart casual attire are engaged in a high-stakes discussion. Crisp lighting, sophisticated deep grays and pristine whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOT7c7d3GZ9npjeeCF9DW9-p9Ym8tic9f4gi00BD60Stzv5bOLrQRgzxcWqNSy4aelCeHKdAu6HQdhP1E-4yanzQwfbhT1UVqgTlo6vIhiR9P5GR0c-3dPX50GMsgwcJtjWevMdt__5HVPgKHUDuYNdaHv-QjjrRnrDSL7-oD06SVGlkXgrQn2iYkDdQXgdgnyo-6wq8B3ecMEKoUEv_mTH-7cp_WaikD77gsVmSTidBqREVxA8l4E">
+</div>
+<div class="flex items-center gap-2 mb-stack-sm">
+<span class="font-label-caps text-label-caps text-editorial-red border-l-2 border-editorial-red pl-2 uppercase">Bharat Tech Spotlight</span>
+<span class="font-label-caps text-label-caps text-text-muted">12 MIN READ</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl mb-stack-md group-hover:text-opacity-80 transition-opacity">The Rise of Bharat's Tech Giants: How Bengaluru is Redefining SaaS globally.</h1>
+<p class="font-body-lg text-body-lg text-text-muted max-w-2xl">From Koramangala to the NASDAQ, Indian startups are pivoting from cost-arbitrage to product-led innovation, creating a new ₹50,000 Crore value proposition.</p>
+<div class="mt-stack-md flex items-center gap-2">
+<span class="font-label-caps text-label-caps">BY ADITI SHARMA</span>
+</div>
+</div>
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<div class="border-b border-surface-border pb-gutter last:border-0 group cursor-pointer">
+<div class="flex items-center gap-2 mb-stack-sm">
+<span class="font-label-caps text-label-caps text-authority-blue border-l-2 border-authority-blue pl-2 uppercase">FinTech Pulse</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-stack-sm group-hover:text-editorial-red transition-colors">The UPI Revolution: How Digital Payments are Formalizing the Small Business Economy.</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Mumbai's traditional markets are adopting digital ledgers at an unprecedented rate, creating a credit boom for the MSME sector.</p>
+</div>
+<div class="border-b border-surface-border pb-gutter last:border-0 group cursor-pointer">
+<div class="flex items-center gap-2 mb-stack-sm">
+<span class="font-label-caps text-label-caps text-authority-blue border-l-2 border-authority-blue pl-2 uppercase">D2C Markets</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-stack-sm group-hover:text-editorial-red transition-colors">The Gurgaon Playbook: Why Personal Care Brands are Winning with Localized Ingredients.</h3>
+<p class="font-body-sm text-body-sm text-text-muted">Legacy FMCG giants are struggling to keep up with agile digital-first brands focusing on traditional Indian wellness.</p>
+</div>
+</div>
+</section>
+<!-- Multi-Column Content & Sidebar -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter mt-stack-lg">
+<!-- Main Content: Latest Stories Grid -->
+<div class="md:col-span-8">
+<h2 class="font-label-caps text-label-caps text-primary border-b border-primary pb-2 mb-stack-lg inline-block">LATEST STORIES</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<!-- Article Card -->
+<div class="group cursor-pointer border-b border-surface-border pb-stack-md">
+<div class="aspect-[4/3] overflow-hidden mb-stack-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern data center in Hyderabad, featuring symmetrical server racks and vibrant lighting. Minimalist editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVHLwCYGmrrycMRIvDd73LRU4YQT-GvR6-HZcaW26hYXmtnBSJHJZZS2rF2-kyIV2xnsF51pVqkePqPuGeYQiv5u1RZORN4JCq3L5JgAOE0fUDQ44_exuhJ_zjpSsi4RDkuEUv09lBM8nqlMhgWkGsV9C1iUdOf7heffkElV6wb994at8COKqkC-cmxANO7nQM3yYtgYo9O4Kw_ijW_WQpJPylF8BffSr2ek6vfyxn77z-jPUeG5i1">
+</div>
+<span class="font-label-caps text-label-caps text-text-muted mb-2 block uppercase">Cloud &amp; Infra</span>
+<h4 class="font-headline-md text-headline-md mb-2">Hyderabad’s New Data Sovereignty Hubs.</h4>
+<p class="font-body-sm text-body-sm text-text-muted">Policy shifts are driving a localized infrastructure boom, making the city a Tier-1 global cloud destination.</p>
+</div>
+<!-- Article Card -->
+<div class="group cursor-pointer border-b border-surface-border pb-stack-md">
+<div class="aspect-[4/3] overflow-hidden mb-stack-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of a young Indian woman entrepreneur in a modern office setting in Pune. Soft, airy lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0C_Gf7_sdhAL-uA9M-aHuBZAbP0gkHYtaV9Gqcvnp2xFxuEt3xkBjeGXkbako3MXt2sQTpoh3NXT-eJSXMRxRq8OVveGleE7eOVbRM3XwVKA6F6a6OZ25F4rHwDQkvhaoix-eSoPbDMeD8q8dXqTHP7YC_j0YJE2vN0xSMoqFP118deAsXKHUzmlGFE1Bb9z9ZjbnO8HjeHemR85I8JOKl1UAvuOLdzpvCH05GPm2MTP1WAr4ISeA">
+</div>
+<span class="font-label-caps text-label-caps text-text-muted mb-2 block uppercase">Founders</span>
+<h4 class="font-headline-md text-headline-md mb-2">The EQ Edge: Why Pune’s Startups Prioritize Mental Wellness.</h4>
+<p class="font-body-sm text-body-sm text-text-muted">Meet the 5 entrepreneurs redefining high-performance culture without the burnout.</p>
+</div>
+<!-- Article Card -->
+<div class="group cursor-pointer border-b border-surface-border pb-stack-md">
+<div class="aspect-[4/3] overflow-hidden mb-stack-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Abstract finance illustration with digital gold symbols in a dark metallic environment. Professional business style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB65bh3qn5E7b2hPin5eFzCbapy5ONjq6GYMg5CVRyXeXBUAZ1qKAMasJqk09QeizCsHc_v8U79euzuUAB1RA0c4BCFp-XTrjxLruBIhvB_NVT_uLr84biuPxKnTDjBiAE7FCRe8LqOYjdtZJm1--7SRPsWREVZbPZuFiT5tRvU1guzEJK9s8gUpvPbMEicRdBX1oXsM739UJIEDt67u2m3o0TI5L3GxqK-n-TFYxxXJWvlok1mGXgb">
+</div>
+<span class="font-label-caps text-label-caps text-text-muted mb-2 block uppercase">WealthTech</span>
+<h4 class="font-headline-md text-headline-md mb-2">Retail Investing: The ₹10,000 Sip Revolution.</h4>
+<p class="font-body-sm text-body-sm text-text-muted">How algorithm-based platforms are democratizing asset management for India's middle class.</p>
+</div>
+<!-- Article Card -->
+<div class="group cursor-pointer border-b border-surface-border pb-stack-md">
+<div class="aspect-[4/3] overflow-hidden mb-stack-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek electric scooter in a bright, modern showroom in Chennai. Premium editorial look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjoQFkfzGTCFtx12R396Oc24aq2DsfCKE1shjA1o3eOT8rT2FW148hoGvsVJnM1xVLp5aEQonuWe0yk7ZNBBw5UfmTGFcimwiZfTrHC9LyEoijR1fFbFWiSZOPb25TgtWmb3hsSxmO9g8DjXWDgThz1PCuEXuwFTkQHOQJueJ56oNlVq-l57_T6UlQtD7TC6bQq_FKWCepKPH0qI4Nd1RshIzxHFpFoa2c_Fgposz7OiAC4DhAHH0u">
+</div>
+<span class="font-label-caps text-label-caps text-text-muted mb-2 block uppercase">Mobility</span>
+<h4 class="font-headline-md text-headline-md mb-2">Chennai’s EV Hub: Charging Toward 2030.</h4>
+<p class="font-body-sm text-body-sm text-text-muted">Massive infrastructure investments are turning the 'Detroit of India' into an electric powerhouse.</p>
+</div>
+</div>
+</div>
+<!-- Sidebar -->
+<aside class="md:col-span-4">
+<!-- Trending Now -->
+<div class="mb-section-gap">
+<h2 class="font-label-caps text-label-caps text-primary border-b border-primary pb-2 mb-stack-md inline-block">TRENDING NOW</h2>
+<ul class="space-y-gutter">
+<li class="flex items-start gap-4 group cursor-pointer">
+<span class="font-headline-lg text-surface-container-highest text-[40px] leading-none font-bold">01</span>
+<div>
+<h5 class="font-body-md font-bold leading-snug group-hover:text-editorial-red transition-colors">Reliance’s AI Pivot: Challenging Global Giants.</h5>
+<span class="font-label-caps text-label-caps text-text-muted">52.4K READS</span>
+</div>
+</li>
+<li class="flex items-start gap-4 group cursor-pointer">
+<span class="font-headline-lg text-surface-container-highest text-[40px] leading-none font-bold">02</span>
+<div>
+<h5 class="font-body-md font-bold leading-snug group-hover:text-editorial-red transition-colors">The Death of the Traditional MBA? Startup Experience Wins.</h5>
+<span class="font-label-caps text-label-caps text-text-muted">41.8K READS</span>
+</div>
+</li>
+<li class="flex items-start gap-4 group cursor-pointer">
+<span class="font-headline-lg text-surface-container-highest text-[40px] leading-none font-bold">03</span>
+<div>
+<h5 class="font-body-md font-bold leading-snug group-hover:text-editorial-red transition-colors">Bengaluru Space-Tech Startups Ready for Launch.</h5>
+<span class="font-label-caps text-label-caps text-text-muted">29.2K READS</span>
+</div>
+</li>
+<li class="flex items-start gap-4 group cursor-pointer">
+<span class="font-headline-lg text-surface-container-highest text-[40px] leading-none font-bold">04</span>
+<div>
+<h5 class="font-body-md font-bold leading-snug group-hover:text-editorial-red transition-colors">Agritech: Why ₹5,000 Crore is Flowing into Soil Science.</h5>
+<span class="font-label-caps text-label-caps text-text-muted">25.5K READS</span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Editor's Picks -->
+<div class="bg-primary p-6 text-on-primary">
+<h2 class="font-label-caps text-label-caps border-b border-on-primary pb-2 mb-stack-lg inline-block">EDITOR'S PICKS</h2>
+<div class="space-y-stack-lg">
+<div class="cursor-pointer group">
+<h4 class="font-headline-md text-headline-md mb-2 leading-tight group-hover:text-surface-container-highest transition-colors">The Philosophical Case for Slower Growth in India.</h4>
+<p class="text-on-primary-container font-body-sm mb-2 opacity-80">Is the pursuit of unicorn status killing sustainable innovation? An interview with Rajesh Khanna.</p>
+<span class="font-label-caps text-label-caps border-b border-on-primary border-opacity-30">READ ESSAY</span>
+</div>
+<div class="cursor-pointer group border-t border-on-primary border-opacity-20 pt-stack-lg">
+<h4 class="font-headline-md text-headline-md mb-2 leading-tight group-hover:text-surface-container-highest transition-colors">Designing the Post-Remote Workplace in Mumbai.</h4>
+<p class="text-on-primary-container font-body-sm mb-2 opacity-80">Hybrid is broken. How BKC firms are reinventing what 'presence' means for a modern workforce.</p>
+<span class="font-label-caps text-label-caps border-b border-on-primary border-opacity-30">READ ARTICLE</span>
+</div>
+</div>
+</div>
+</aside>
+</section>
+<!-- Startup Spotlights Carousel -->
+<section class="mt-section-gap mb-section-gap overflow-hidden">
+<div class="flex justify-between items-end border-b border-primary pb-2 mb-stack-lg">
+<h2 class="font-label-caps text-label-caps text-primary uppercase">Startup Spotlights</h2>
+<div class="flex space-x-4">
+<button class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-container transition-colors p-1" data-icon="arrow_back" id="prevBtn">arrow_back</button>
+<button class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-container transition-colors p-1" data-icon="arrow_forward" id="nextBtn">arrow_forward</button>
+</div>
+</div>
+<div class="flex gap-gutter overflow-x-auto hide-scrollbar snap-x snap-mandatory transition-all duration-500 ease-in-out pb-4" id="carousel">
+<!-- Carousel Items -->
+<div class="min-w-[300px] md:min-w-[400px] snap-start flex flex-col group cursor-pointer">
+<div class="h-[250px] overflow-hidden mb-stack-sm bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="High-tech semiconductor design in Bengaluru laboratory. Editorial photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkW3A2H3HiRCqVqLwy7hI5Ex8Lk6sXtBaH7nZCYna9oSSaxkbQvIUZ2ZnQ-LpT00MQLQgmL25ue-eJGib5J6h6QOlhYoJhZpDxHpvA_eBmfBZGIBQ81WjgHQ-QAJmXjdZ_Hy0HYi2rKL71CwZREAOsTn16phoKbOMA4gLTyTG3gvD3kHieu1sUZ-KzCBUAtth2ebILFyAg3vUwBtFrk_rHmeTAHGUqfHtQULUcT51g9LYfusgaPd_d">
+</div>
+<span class="font-label-caps text-label-caps text-editorial-red mb-1">FOUNDER: RAJESH KHANNA</span>
+<h4 class="font-headline-md text-headline-md mb-2">BharatChip AI</h4>
+<p class="font-body-sm text-body-sm text-text-muted">Revolutionizing local edge computing through indigenous neural mimicry.</p>
+</div>
+<div class="min-w-[300px] md:min-w-[400px] snap-start flex flex-col group cursor-pointer">
+<div class="h-[250px] overflow-hidden mb-stack-sm bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Modern vertical hydroponic farm in a Gurgaon facility. Bright, editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPKEtLoMOZwYW8Aeeo9ucSNa6wAXW4EwWVmoPQ3VMXx7J6cee7s8QEZgGCQ85LOhjJP48HWvh5ZGWZt1E56unYq0OpwHdkTrw9WcwQVmiq3J5amBzl7X0rDa8jxnQeMFGVmwDJ7M1sjiYme0-GnGPuxVPfdSEQBehqNRNSEgC-0uS2x3Lv9-CupHgFj4n4otAZRE8UwNzDQRce8jebdDvgImK2iL4VJvv4PBt_AiEkHr4DYFPIXvYF">
+</div>
+<span class="font-label-caps text-label-caps text-editorial-red mb-1">FOUNDER: MEERA IYER</span>
+<h4 class="font-headline-md text-headline-md mb-2">KisanTech Systems</h4>
+<p class="font-body-sm text-body-sm text-text-muted">AI-driven automated vertical farming for Indian semi-arid climates.</p>
+</div>
+<div class="min-w-[300px] md:min-w-[400px] snap-start flex flex-col group cursor-pointer">
+<div class="h-[250px] overflow-hidden mb-stack-sm bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Futuristic energy cell design. High-concept science photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2pBwGb_bbUbMdMR2ULdukBK_UiS5XPZ5PLd2ALmJ3LaVZEgDbuSIhrbG7YE6Rbyh1S6ZeiwWu-td4lKRYlzIx-aZbzwA_r-UdfQ82TrOwfR9XPQ9ea80AUgwBkA2IYWscBXGlO-jDrLbmMtFQ5XuXKbUZ3ouZhlqNa6LTaEPucfYuIc2ttxB3EhUii95v9JXY1voB2ULxJHDuinamf-U4fD5SdpdsyAR_HejUTFlFJdiUdnY4E4d5">
+</div>
+<span class="font-label-caps text-label-caps text-editorial-red mb-1">FOUNDER: VIKRAM MEHTA</span>
+<h4 class="font-headline-md text-headline-md mb-2">Shakti Power</h4>
+<p class="font-body-sm text-body-sm text-text-muted">Next-gen solid state batteries engineered for extreme Indian summers.</p>
+</div>
+<div class="min-w-[300px] md:min-w-[400px] snap-start flex flex-col group cursor-pointer">
+<div class="h-[250px] overflow-hidden mb-stack-sm bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Clean laboratory setting. Professional biotech editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnDs2m4jio4ddcDZUwFm13z2o4L8YCdjWi7IN0-GaTiTd_VFF8fdpqlr7MUgDi0F_jCK1AHKivklZd6bi6ZTx_umzZcCnAsdG5IZKGdR-iHYusJjmzghvAZDjGZwCq-mLHacJEcMrxmiFgYn3h2ohu5EPNo4ZeST7XfQSrEMt9sBxYge39A7KNMDORbCjsyI2RDiRFD8obswjkiy0_1L86galK0keKNKmWTCBQ9qvbhljpME6A_fZ8">
+</div>
+<span class="font-label-caps text-label-caps text-editorial-red mb-1">FOUNDER: DR. AMIT SHAH</span>
+<h4 class="font-headline-md text-headline-md mb-2">AyurGen Labs</h4>
+<p class="font-body-sm text-body-sm text-text-muted">Bridging ancient wisdom and modern genetics for personalized healthcare.</p>
+</div>
+</div>
+</section>
+<!-- Newsletter Banner -->
+<section class="mb-section-gap">
+  <div class="flex justify-between items-end border-b border-primary pb-2 mb-stack-lg">
+    <h2 class="font-label-caps text-label-caps text-primary uppercase">Explore Stories by City</h2>
+  </div>
+  <div class="flex gap-gutter overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4">
+    <!-- Bengaluru -->
+    <div class="min-w-[240px] md:min-w-[300px] snap-start group cursor-pointer">
+      <div class="aspect-[4/3] overflow-hidden mb-stack-sm bg-surface-container">
+        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOT7c7d3GZ9npjeeCF9DW9-p9Ym8tic9f4gi00BD60Stzv5bOLrQRgzxcWqNSy4aelCeHKdAu6HQdhP1E-4yanzQwfbhT1UVqgTlo6vIhiR9P5GR0c-3dPX50GMsgwcJtjWevMdt__5HVPgKHUDuYNdaHv-QjjrRnrDSL7-oD06SVGlkXgrQn2iYkDdQXgdgnyo-6wq8B3ecMEKoUEv_mTH-7cp_WaikD77gsVmSTidBqREVxA8l4E" alt="Bengaluru Cityscape">
+      </div>
+      <h4 class="font-headline-md text-headline-md group-hover:text-editorial-red transition-colors">Bengaluru</h4>
+    </div>
+    <!-- Mumbai -->
+    <div class="min-w-[240px] md:min-w-[300px] snap-start group cursor-pointer">
+      <div class="aspect-[4/3] overflow-hidden mb-stack-sm bg-surface-container">
+        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjoQFkfzGTCFtx12R396Oc24aq2DsfCKE1shjA1o3eOT8rT2FW148hoGvsVJnM1xVLp5aEQonuWe0yk7ZNBBw5UfmTGFcimwiZfTrHC9LyEoijR1fFbFWiSZOPb25TgtWmb3hsSxmO9g8DjXWDgThz1PCuEXuwFTkQHOQJueJ56oNlVq-l57_T6UlQtD7TC6bQq_FKWCepKPH0qI4Nd1RshIzxHFpFoa2c_Fgposz7OiAC4DhAHH0u" alt="Mumbai Cityscape">
+      </div>
+      <h4 class="font-headline-md text-headline-md group-hover:text-editorial-red transition-colors">Mumbai</h4>
+    </div>
+    <!-- Delhi -->
+    <div class="min-w-[240px] md:min-w-[300px] snap-start group cursor-pointer">
+      <div class="aspect-[4/3] overflow-hidden mb-stack-sm bg-surface-container">
+        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPKEtLoMOZwYW8Aeeo9ucSNa6wAXW4EwWVmoPQ3VMXx7J6cee7s8QEZgGCQ85LOhjJP48HWvh5ZGWZt1E56unYq0OpwHdkTrw9WcwQVmiq3J5amBzl7X0rDa8jxnQeMFGVmwDJ7M1sjiYme0-GnGPuxVPfdSEQBehqNRNSEgC-0uS2x3Lv9-CupHgFj4n4otAZRE8UwNzDQRce8jebdDvgImK2iL4VJvv4PBt_AiEkHr4DYFPIXvYF" alt="Delhi Cityscape">
+      </div>
+      <h4 class="font-headline-md text-headline-md group-hover:text-editorial-red transition-colors">Delhi</h4>
+    </div>
+    <!-- Hyderabad -->
+    <div class="min-w-[240px] md:min-w-[300px] snap-start group cursor-pointer">
+      <div class="aspect-[4/3] overflow-hidden mb-stack-sm bg-surface-container">
+        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVHLwCYGmrrycMRIvDd73LRU4YQT-GvR6-HZcaW26hYXmtnBSJHJZZS2rF2-kyIV2xnsF51pVqkePqPuGeYQiv5u1RZORN4JCq3L5JgAOE0fUDQ44_exuhJ_zjpSsi4RDkuEUv09lBM8nqlMhgWkGsV9C1iUdOf7heffkElV6wb994at8COKqkC-cmxANO7nQM3yYtgYo9O4Kw_ijW_WQpJPylF8BffSr2ek6vfyxn77z-jPUeG5i1" alt="Hyderabad Cityscape">
+      </div>
+      <h4 class="font-headline-md text-headline-md group-hover:text-editorial-red transition-colors">Hyderabad</h4>
+    </div>
+    <!-- Pune -->
+    <div class="min-w-[240px] md:min-w-[300px] snap-start group cursor-pointer">
+      <div class="aspect-[4/3] overflow-hidden mb-stack-sm bg-surface-container">
+        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0C_Gf7_sdhAL-uA9M-aHuBZAbP0gkHYtaV9Gqcvnp2xFxuEt3xkBjeGXkbako3MXt2sQTpoh3NXT-eJSXMRxRq8OVveGleE7eOVbRM3XwVKA6F6a6OZ25F4rHwDQkvhaoix-eSoPbDMeD8q8dXqTHP7YC_j0YJE2vN0xSMoqFP118deAsXKHUzmlGFE1Bb9z9ZjbnO8HjeHemR85I8JOKl1UAvuOLdzpvCH05GPm2MTP1WAr4ISeA" alt="Pune Cityscape">
+      </div>
+      <h4 class="font-headline-md text-headline-md group-hover:text-editorial-red transition-colors">Pune</h4>
+    </div>
+  </div>
+</section><section class="bg-surface-container border border-surface-border p-margin-mobile md:p-12 mb-section-gap flex flex-col md:flex-row justify-between items-center gap-stack-lg">
+<div class="max-w-xl">
+<h2 class="font-headline-lg text-headline-lg mb-stack-sm">The India Briefing.</h2>
+<p class="font-body-lg text-body-lg text-text-muted">Curated narratives from Bharat's business landscape and market insights delivered to your inbox every Monday at 6:00 AM IST.</p>
+</div>
+<div class="w-full md:w-auto flex flex-col sm:flex-row gap-4 items-stretch">
+<div class="relative min-w-[300px]">
+<input class="w-full bg-transparent border-b border-primary px-0 py-3 font-body-md focus:outline-none focus:ring-0 placeholder:text-text-muted" placeholder="email@address.in" type="email">
+<label class="absolute -top-4 left-0 font-label-caps text-[10px] text-text-muted">YOUR EMAIL ADDRESS</label>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-10 py-4 hover:bg-opacity-90 transition-all uppercase tracking-widest">Subscribe</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container dark:bg-surface-container-highest border-t border-surface-border dark:border-outline-variant mt-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-mobile md:px-margin-desktop py-12 max-w-[1280px] mx-auto"><div class="md:col-span-4 flex flex-col gap-stack-md"><span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">ProfileBizz India</span><p class="font-body-sm text-body-sm text-text-muted pr-12">The authoritative source for breakthrough startup stories across Bharat. Reimagining editorial journalism for the new Indian economy.</p><div class="flex space-x-4"><span class="material-symbols-outlined text-primary cursor-pointer" data-icon="share">share</span><span class="material-symbols-outlined text-primary cursor-pointer" data-icon="alternate_email">alternate_email</span><span class="material-symbols-outlined text-primary cursor-pointer" data-icon="rss_feed">rss_feed</span></div></div><div class="md:col-span-2"><h6 class="font-label-caps text-label-caps text-primary mb-stack-md uppercase">Company</h6><ul class="space-y-2"><li class=""><a class="font-body-sm text-body-sm text-text-muted hover:text-editorial-red transition-colors" href="#">About</a></li><li class=""><a class="font-body-sm text-body-sm text-text-muted hover:text-editorial-red transition-colors" href="#">Contact</a></li></ul></div><div class="md:col-span-2"><h6 class="font-label-caps text-label-caps text-primary mb-stack-md uppercase">Explore</h6><ul class="space-y-2"><li class=""><a class="font-body-sm text-body-sm text-text-muted hover:text-editorial-red transition-colors" href="#">Categories</a></li><li class=""><a class="font-body-sm text-body-sm text-text-muted hover:text-editorial-red transition-colors" href="#">Cities</a></li></ul></div><div class="md:col-span-2"><h6 class="font-label-caps text-label-caps text-primary mb-stack-md uppercase">Legal</h6><ul class="space-y-2"><li class=""><a class="font-body-sm text-body-sm text-text-muted hover:text-editorial-red transition-colors" href="#">Privacy</a></li><li class=""><a class="font-body-sm text-body-sm text-text-muted hover:text-editorial-red transition-colors" href="#">Terms</a></li></ul></div><div class="md:col-span-12 border-t border-surface-border pt-8 mt-8 flex flex-col md:flex-row justify-between items-center gap-4"><p class="font-label-caps text-label-caps text-text-muted">© 2024 ProfileBizz India. All rights reserved.</p><div class="flex space-x-6"><span class="font-label-caps text-label-caps text-text-muted">MUMBAI</span><span class="font-label-caps text-label-caps text-text-muted">BENGALURU</span><span class="font-label-caps text-label-caps text-text-muted">DELHI NCR</span></div></div></div>
+</footer>
+<script class="">
+        // Simple Carousel Logic
+        const carousel = document.getElementById('carousel');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+
+        nextBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: 350, behavior: 'smooth' });
+        });
+
+        prevBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: -350, behavior: 'smooth' });
+        });
+
+        // Sticky Header Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-sm');
+            } else {
+                header.classList.remove('shadow-sm');
+            }
+        });
+    </script>
+
+
+</body></html>
