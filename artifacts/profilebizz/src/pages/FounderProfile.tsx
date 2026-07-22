@@ -357,48 +357,82 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
         </div>
       </header>
 
-      {/* ── Hero Cover ── */}
-      <div className="relative h-[420px] md:h-[520px] overflow-hidden mt-14">
-        <img src={founder.coverPhoto} alt="cover" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-        <div className="absolute top-6 left-8">
-          <span className="bg-editorial text-white text-[10px] font-bold tracking-[0.2em] uppercase px-3 py-1.5">
-            {founder.profileType}
-          </span>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 max-w-[1400px] mx-auto px-4 md:px-8 pb-10">
-          <p className="text-white/60 text-xs font-bold tracking-[0.2em] uppercase mb-3">{founder.location} · Founded {founder.founded}</p>
-          <h1 className="font-serif text-white text-4xl md:text-6xl font-bold leading-tight mb-3">{founder.name}</h1>
-          <p className="text-white/80 text-base md:text-lg font-medium">{founder.title}</p>
-        </div>
-      </div>
+      {/* ── Article Hero (YourStory-style) ── */}
+      <div className="bg-white mt-14">
 
-      {/* ── Founder Photo + Quick Stats Bar ── */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-6 flex flex-col md:flex-row gap-6 items-start md:items-center">
-          <div className="flex-shrink-0">
+        {/* Centered text header */}
+        <div className="max-w-3xl mx-auto px-6 md:px-10 pt-12 pb-10 text-center">
+
+          {/* Category badge */}
+          <div className="flex items-center justify-center gap-2 mb-7">
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.18em] uppercase text-editorial border border-editorial px-3 py-1.5">
+              {founder.profileType}
+              <ChevronRight className="w-3 h-3" />
+            </span>
+            <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-gray-400">{founder.profileTag}</span>
+          </div>
+
+          {/* Founder name */}
+          <h1 className="font-serif text-5xl md:text-[68px] font-bold text-black leading-[1.06] tracking-tight mb-5">
+            {founder.name}
+          </h1>
+
+          {/* Title & company */}
+          <p className="text-lg md:text-xl text-gray-500 font-medium mb-5">
+            {founder.title}
+          </p>
+
+          {/* One-liner */}
+          <p className="text-base md:text-[17px] text-gray-600 leading-relaxed max-w-2xl mx-auto mb-9">
+            {founder.oneLiner}
+          </p>
+
+          {/* Divider */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-gray-300 text-lg">◆</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+
+          {/* Author meta row */}
+          <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-gray-500 mb-10">
             <img
               src={founder.photo}
               alt={founder.name}
-              className="w-20 h-20 md:w-24 md:h-24 object-cover border-4 border-white shadow-lg rounded-full -mt-14 md:-mt-16 ring-2 ring-black/10"
+              className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-100"
             />
+            <span className="font-semibold text-black">ProfileBizz Editorial</span>
+            <span className="text-gray-300">•</span>
+            <span>{founder.location}</span>
+            <span className="text-gray-300">•</span>
+            <span>Founded {founder.founded}</span>
+            <span className="text-gray-300">•</span>
+            <span className="text-editorial font-semibold">8 min read</span>
           </div>
-          <div className="flex flex-wrap gap-x-10 gap-y-3">
+
+          {/* Stats strip */}
+          <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 divide-x divide-gray-200">
             {[
-              { l: 'Revenue', v: founder.revenue },
+              { l: 'Revenue',   v: founder.revenue },
               { l: 'Employees', v: founder.employees },
-              { l: 'Age', v: founder.age },
-              { l: 'Founded', v: founder.founded },
+              { l: 'Age',       v: founder.age },
+              { l: 'Founded',   v: founder.founded },
             ].map((s) => (
-              <div key={s.l} className="flex flex-col">
-                <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">{s.l}</span>
-                <span className="text-xl font-serif font-bold text-black">{s.v}</span>
+              <div key={s.l} className="px-5 py-4 text-left">
+                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-1">{s.l}</p>
+                <p className="font-serif text-2xl font-bold text-black">{s.v}</p>
               </div>
             ))}
           </div>
-          <p className="md:ml-auto md:max-w-sm text-sm text-gray-600 leading-relaxed italic border-l-2 border-editorial pl-4">
-            {founder.oneLiner}
-          </p>
+        </div>
+
+        {/* Full-width cover image */}
+        <div className="w-full h-[420px] md:h-[580px] overflow-hidden border-t border-b border-gray-100">
+          <img
+            src={founder.coverPhoto}
+            alt={founder.name}
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
 
