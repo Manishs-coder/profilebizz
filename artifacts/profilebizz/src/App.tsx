@@ -328,23 +328,6 @@ function Home() {
           </div>
         </div>
 
-        {/* Categories row */}
-        <div className="hidden lg:block bg-white border-b border-border">
-          <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-10 flex items-center gap-8 overflow-x-auto">
-            {[
-              'Bharat Tech', 'FinTech Pulse', 'D2C Markets', 'Cloud & Infra',
-              'Founders', 'WealthTech', 'Mobility', 'Agritech', 'Space Tech', 'EV & Energy',
-            ].map((cat, idx) => (
-              <a
-                key={idx}
-                href="#"
-                className="text-[11px] font-bold tracking-widest uppercase whitespace-nowrap text-gray-500 hover:text-editorial transition-colors duration-200 flex-shrink-0"
-              >
-                {cat}
-              </a>
-            ))}
-          </div>
-        </div>
       </header>
 
       <main className="max-w-[1400px] mx-auto px-4 md:px-8 pt-36">
