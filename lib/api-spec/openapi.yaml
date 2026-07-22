@@ -1,22 +1,26 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: ProfileBizz API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Admin authentication
+  - name: founders
+    description: Founder profile management
+  - name: dashboard
+    description: Admin dashboard stats
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +28,530 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ── Auth ──────────────────────────────────────────
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current admin user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ── Dashboard ─────────────────────────────────────
+  /dashboard/stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get dashboard statistics
+      responses:
+        "200":
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
+  # ── Founders ──────────────────────────────────────
+  /founders:
+    get:
+      operationId: listFounders
+      tags: [founders]
+      summary: List all founders
+      responses:
+        "200":
+          description: List of founders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FounderSummary"
+    post:
+      operationId: createFounder
+      tags: [founders]
+      summary: Create a new founder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FounderInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Founder"
+
+  /founders/{slug}:
+    get:
+      operationId: getFounder
+      tags: [founders]
+      summary: Get founder by slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Founder detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Founder"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateFounder
+      tags: [founders]
+      summary: Update founder basic info
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FounderInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Founder"
+    delete:
+      operationId: deleteFounder
+      tags: [founders]
+      summary: Delete a founder
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /founders/{slug}/sections:
+    get:
+      operationId: getFounderSections
+      tags: [founders]
+      summary: Get all story sections for a founder
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Sections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FounderSection"
+    put:
+      operationId: updateFounderSections
+      tags: [founders]
+      summary: Replace all sections for a founder
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FounderSectionsInput"
+      responses:
+        "200":
+          description: Updated sections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FounderSection"
+
+  /founders/{slug}/seo:
+    get:
+      operationId: getFounderSeo
+      tags: [founders]
+      summary: Get SEO meta for a founder
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: SEO meta
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeoMeta"
+    put:
+      operationId: updateFounderSeo
+      tags: [founders]
+      summary: Update SEO meta for a founder
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SeoMetaInput"
+      responses:
+        "200":
+          description: Updated SEO
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeoMeta"
+
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+
+    SuccessResponse:
+      type: object
+      required: [ok]
+      properties:
+        ok:
+          type: boolean
+
+    LoginInput:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    AuthUser:
+      type: object
+      required: [id, username]
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+
+    DashboardStats:
+      type: object
+      required: [totalFounders, publishedFounders, draftFounders, categories]
+      properties:
+        totalFounders:
+          type: integer
+        publishedFounders:
+          type: integer
+        draftFounders:
+          type: integer
+        categories:
+          type: array
+          items:
+            type: object
+            required: [name, count]
+            properties:
+              name:
+                type: string
+              count:
+                type: integer
+
+    FounderSummary:
+      type: object
+      required: [id, slug, name, designation, category, published, createdAt]
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        name:
+          type: string
+        designation:
+          type: string
+        profileTag:
+          type: ["string", "null"]
+        category:
+          type: ["string", "null"]
+        photoUrl:
+          type: ["string", "null"]
+        published:
+          type: boolean
+        createdAt:
+          type: string
+
+    Founder:
+      type: object
+      required: [id, slug, name, designation, published, createdAt, updatedAt]
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        name:
+          type: string
+        designation:
+          type: string
+        profileType:
+          type: ["string", "null"]
+        profileTag:
+          type: ["string", "null"]
+        category:
+          type: ["string", "null"]
+        location:
+          type: ["string", "null"]
+        founded:
+          type: ["string", "null"]
+        revenue:
+          type: ["string", "null"]
+        employees:
+          type: ["string", "null"]
+        age:
+          type: ["string", "null"]
+        photoUrl:
+          type: ["string", "null"]
+        coverPhotoUrl:
+          type: ["string", "null"]
+        oneLiner:
+          type: ["string", "null"]
+        executiveSummary:
+          type: ["string", "null"]
+        published:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+
+    FounderInput:
+      type: object
+      required: [name, designation]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        designation:
+          type: string
+          minLength: 1
+        profileType:
+          type: string
+        profileTag:
+          type: string
+        category:
+          type: string
+        location:
+          type: string
+        founded:
+          type: string
+        revenue:
+          type: string
+        employees:
+          type: string
+        age:
+          type: string
+        photoUrl:
+          type: string
+        coverPhotoUrl:
+          type: string
+        oneLiner:
+          type: string
+        executiveSummary:
+          type: string
+        published:
+          type: boolean
+
+    FounderSection:
+      type: object
+      required: [id, founderId, sectionKey]
+      properties:
+        id:
+          type: integer
+        founderId:
+          type: integer
+        sectionKey:
+          type: string
+        pullQuote:
+          type: ["string", "null"]
+        bodyParagraphs:
+          type: array
+          items:
+            type: string
+        jsonData:
+          nullable: true
+
+    FounderSectionsInput:
+      type: object
+      required: [sections]
+      properties:
+        sections:
+          type: array
+          items:
+            $ref: "#/components/schemas/SectionItem"
+
+    SectionItem:
+      type: object
+      required: [sectionKey]
+      properties:
+        sectionKey:
+          type: string
+        pullQuote:
+          type: string
+        bodyParagraphs:
+          type: array
+          items:
+            type: string
+        jsonData:
+          nullable: true
+
+    SeoMeta:
+      type: object
+      required: [founderId]
+      properties:
+        id:
+          type: integer
+        founderId:
+          type: integer
+        seoTitle:
+          type: ["string", "null"]
+        seoDescription:
+          type: ["string", "null"]
+        keywords:
+          type: ["string", "null"]
+        canonicalUrl:
+          type: ["string", "null"]
+        ogImage:
+          type: ["string", "null"]
+        ogTitle:
+          type: ["string", "null"]
+        twitterCard:
+          type: ["string", "null"]
+        schemaType:
+          type: ["string", "null"]
+        focusKeyword:
+          type: ["string", "null"]
+        robots:
+          type: ["string", "null"]
+
+    SeoMetaInput:
+      type: object
+      properties:
+        seoTitle:
+          type: string
+        seoDescription:
+          type: string
+        keywords:
+          type: string
+        canonicalUrl:
+          type: string
+        ogImage:
+          type: string
+        ogTitle:
+          type: string
+        twitterCard:
+          type: string
+        schemaType:
+          type: string
+        focusKeyword:
+          type: string
+        robots:
+          type: string
+
+    PhotoUploadResult:
+      type: object
+      required: [url]
+      properties:
+        url:
+          type: string
