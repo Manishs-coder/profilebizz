@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Share2, Mail, Rss, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import { Search, Share2, Mail, Rss, ChevronLeft, ChevronRight, ChevronDown, Menu, X } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -51,6 +51,7 @@ function Home() {
   const [successDropdown, setSuccessDropdown] = useState(false);
   const [impactDropdown, setImpactDropdown] = useState(false);
   const [newsDropdown, setNewsDropdown] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const bizDropdownRef = useRef<HTMLDivElement>(null);
   const founderDropdownRef = useRef<HTMLDivElement>(null);
   const brandDropdownRef = useRef<HTMLDivElement>(null);
@@ -90,6 +91,15 @@ function Home() {
             <div className="flex-shrink-0">
               <span className="font-serif font-bold text-3xl tracking-tight">ProfileBizz</span>
             </div>
+
+            {/* Mobile hamburger */}
+            <button
+              className="lg:hidden p-2 text-black hover:text-editorial transition-colors"
+              onClick={() => setMobileMenuOpen(o => !o)}
+              aria-label="Menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
 
             <nav className="hidden lg:flex items-center gap-8 h-full">
               {[
@@ -329,6 +339,107 @@ function Home() {
         </div>
 
       </header>
+
+      {/* ── Mobile Menu Drawer ── */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setMobileMenuOpen(false)}>
+          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute top-16 left-0 right-0 bg-white shadow-xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">Browse Categories</span>
+              <button onClick={() => setMobileMenuOpen(false)}><X className="w-5 h-5" /></button>
+            </div>
+
+            {/* Brand Stories */}
+            <div className="px-5 py-4 border-b border-gray-100">
+              <p className="text-[10px] font-bold tracking-widest uppercase text-editorial mb-3">Brand Stories</p>
+              <div className="grid grid-cols-2 gap-2">
+                {FEATURED_BRANDS.map(b => (
+                  <a key={b.slug} href={`/brand/${b.slug}`} onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-2 p-2 border border-gray-100 hover:border-black transition-colors">
+                    <span className="text-xl">{b.logo}</span>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold truncate">{b.name}</p>
+                      <p className="text-[10px] text-gray-400 truncate">{b.sector}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Industry Stories */}
+            <div className="px-5 py-4 border-b border-gray-100">
+              <p className="text-[10px] font-bold tracking-widest uppercase text-editorial mb-3">Industry Stories</p>
+              <div className="grid grid-cols-2 gap-2">
+                {FEATURED_INDUSTRIES.map(i => (
+                  <a key={i.slug} href={`/industry/${i.slug}`} onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-2 p-2 border border-gray-100 hover:border-black transition-colors">
+                    <span className="text-lg">{i.icon}</span>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold truncate">{i.name}</p>
+                      <p className="text-[10px] text-gray-400 truncate">{i.size}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Social Impact */}
+            <div className="px-5 py-4 border-b border-gray-100">
+              <p className="text-[10px] font-bold tracking-widest uppercase text-editorial mb-3">Social Impact</p>
+              <div className="grid grid-cols-2 gap-2">
+                {IMPACT_CATEGORIES.map(c => (
+                  <a key={c.slug} href={`/impact/${c.slug}`} onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-2 p-2 border border-gray-100 hover:border-black transition-colors">
+                    <span className="text-lg">{c.icon}</span>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold truncate">{c.label}</p>
+                      <p className="text-[10px] text-gray-400 truncate">{c.tag}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Success Stories */}
+            <div className="px-5 py-4 border-b border-gray-100">
+              <p className="text-[10px] font-bold tracking-widest uppercase text-editorial mb-3">Success Stories</p>
+              <div className="grid grid-cols-2 gap-2">
+                {SUCCESS_CATEGORIES.map(c => (
+                  <a key={c.slug} href={`/success/${c.slug}`} onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-2 p-2 border border-gray-100 hover:border-black transition-colors">
+                    <span className="text-lg">{c.icon}</span>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold truncate">{c.label}</p>
+                      <p className="text-[10px] text-gray-400 truncate">{c.tag}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Founder Stories */}
+            <div className="px-5 py-4 border-b border-gray-100">
+              <p className="text-[10px] font-bold tracking-widest uppercase text-editorial mb-3">Founder Stories</p>
+              <div className="flex flex-col gap-1">
+                {[{ slug: 'rajesh-kumar-vedas', name: 'Rajesh Kumar Vedas', tag: 'Bharat Builder' }, { slug: 'nithin-kamath', name: 'Nithin Kamath', tag: 'Zero to One' }].map(f => (
+                  <a key={f.slug} href={`/founder/${f.slug}`} onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between p-2.5 border border-gray-100 hover:border-black transition-colors">
+                    <span className="text-sm font-bold">{f.name}</span>
+                    <span className="text-[10px] font-bold tracking-wider uppercase text-editorial">{f.tag}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="px-5 py-4">
+              <button className="w-full bg-black text-white text-xs font-bold tracking-widest uppercase py-3 hover:bg-editorial transition-colors">
+                Subscribe to ProfileBizz
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <main className="max-w-[1400px] mx-auto px-4 md:px-8 pt-36">
         

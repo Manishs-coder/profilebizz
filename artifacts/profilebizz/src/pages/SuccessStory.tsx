@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Star, Users, Globe, Sprout, Award } from 'lucide-react';
 
 /* ── Category config ──────────────────── */
@@ -371,6 +371,7 @@ export default function SuccessStory({ params }: { params?: { slug?: string } })
 
   const [active, setActive] = useState<Story>(featured);
   const [scrolled, setScrolled] = useState(false);
+  const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -451,7 +452,7 @@ export default function SuccessStory({ params }: { params?: { slug?: string } })
             <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-4">{allStories.length} Stories in {cat.label}</p>
             <div className="space-y-3">
               {allStories.map(story => (
-                <button key={story.id} onClick={() => { setActive(story); window.scrollTo({ top: 120, behavior: 'smooth' }); }}
+                <button key={story.id} onClick={() => { setActive(story); if (window.innerWidth < 1024) { setTimeout(() => detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50); } else { window.scrollTo({ top: 120, behavior: 'smooth' }); } }}
                   className={`w-full text-left border transition-all duration-150 overflow-hidden group ${active.id === story.id ? 'border-black' : 'border-gray-200 hover:border-gray-400'}`}>
                   <div className="flex gap-0">
                     <div className="w-24 h-20 flex-shrink-0 overflow-hidden">
@@ -475,7 +476,7 @@ export default function SuccessStory({ params }: { params?: { slug?: string } })
           </div>
 
           {/* Right: Active Story Detail */}
-          <div className="lg:col-span-2">
+          <div ref={detailRef} className="lg:col-span-2">
             {active && (
               <div className="bg-white border border-gray-200">
                 {/* Story Hero */}

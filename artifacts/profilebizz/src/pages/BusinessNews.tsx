@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, Share2, BookmarkPlus, TrendingUp, ChevronRight, Calendar, MapPin, Tag, ExternalLink } from 'lucide-react';
 
 /* ── Category config ──────────────────── */
@@ -464,6 +464,7 @@ export default function BusinessNews({ params }: { params?: { slug?: string } })
 
   const [active, setActive] = useState<NewsItem>(featured);
   const [scrolled, setScrolled] = useState(false);
+  const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -540,7 +541,7 @@ export default function BusinessNews({ params }: { params?: { slug?: string } })
             <div className="space-y-3">
               {items.map(item => (
                 <button key={item.id}
-                  onClick={() => { setActive(item); window.scrollTo({ top: 140, behavior: 'smooth' }); }}
+                  onClick={() => { setActive(item); if (window.innerWidth < 1024) { setTimeout(() => detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50); } else { window.scrollTo({ top: 140, behavior: 'smooth' }); } }}
                   className={`w-full text-left border transition-all duration-150 overflow-hidden group ${active.id === item.id ? 'border-black' : 'border-gray-200 hover:border-gray-400'}`}>
                   <div className="flex">
                     <div className="w-24 h-20 flex-shrink-0 overflow-hidden">
@@ -566,7 +567,7 @@ export default function BusinessNews({ params }: { params?: { slug?: string } })
           </div>
 
           {/* ─ News Detail ─ */}
-          <div className="lg:col-span-2">
+          <div ref={detailRef} className="lg:col-span-2">
             {active && (
               <div className="bg-white border border-gray-200">
                 {/* Hero image */}

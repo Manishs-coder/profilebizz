@@ -402,11 +402,24 @@ export default function FounderProfile({ params }: { params?: { slug?: string } 
         </div>
       </div>
 
+      {/* ── Mobile Section Nav (visible only on mobile) ── */}
+      <div className="lg:hidden bg-white border-b border-gray-200 sticky top-14 z-40 overflow-x-auto">
+        <div className="flex">
+          {SECTIONS.map(s => (
+            <button key={s.id} onClick={() => scrollTo(s.id)}
+              className={`flex-shrink-0 px-4 py-3 text-xs font-medium whitespace-nowrap border-b-2 transition-colors
+                ${activeSection === s.id ? 'border-editorial text-editorial font-semibold' : 'border-transparent text-gray-500 hover:text-black'}`}>
+              {s.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* ── Body: Sidebar + Content ── */}
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-10 flex flex-col lg:flex-row gap-10">
 
         {/* Sticky Section Nav */}
-        <aside className="lg:w-56 flex-shrink-0">
+        <aside className="hidden lg:block lg:w-56 flex-shrink-0">
           <div className="lg:sticky lg:top-20">
             <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4">In This Profile</p>
             <nav className="flex flex-col gap-0">
