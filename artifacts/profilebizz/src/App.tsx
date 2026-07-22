@@ -263,47 +263,6 @@ function Home() {
                 )}
               </div>
 
-              {/* Social Impact Stories dropdown */}
-              <div
-                className="relative h-full flex items-center"
-                onMouseEnter={() => setImpactDropdown(true)}
-                onMouseLeave={() => setImpactDropdown(false)}
-              >
-                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
-                  Social Impact
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${impactDropdown ? 'rotate-180' : ''}`} />
-                </button>
-
-                {impactDropdown && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[580px] bg-white border border-border shadow-lg z-50 p-6">
-                    <div className="border-b border-black pb-3 mb-5 flex items-center justify-between">
-                      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">NGOs, CSR & Changemakers Shaping India</span>
-                      <span className="text-[10px] font-bold tracking-[0.1em] uppercase text-editorial">{IMPACT_CATEGORIES.length} Categories</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      {IMPACT_CATEGORIES.map((cat, idx) => (
-                        <a
-                          key={idx}
-                          href={`/impact/${cat.slug}`}
-                          className="group flex items-center gap-3 p-3 border border-gray-100 hover:border-black transition-colors duration-150"
-                        >
-                          <span className="text-2xl flex-shrink-0">{cat.icon}</span>
-                          <div className="min-w-0 flex-1">
-                            <span className="block text-sm font-bold text-black group-hover:text-editorial transition-colors">{cat.label}</span>
-                            <span className="block text-[10px] text-gray-400 mt-0.5">{cat.tag}</span>
-                          </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-editorial flex-shrink-0 transition-colors" />
-                        </a>
-                      ))}
-                    </div>
-                    <div className="bg-black text-white px-5 py-3 flex items-center justify-between">
-                      <span className="text-xs font-bold tracking-widest uppercase">Explore All Social Impact Stories</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </div>
-                  </div>
-                )}
-              </div>
-
             </nav>
 
             <div className="flex items-center gap-6">
