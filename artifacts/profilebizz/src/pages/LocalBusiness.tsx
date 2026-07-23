@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, MapPin, Phone, Globe, Star, TrendingUp, Building2, Users, Search } from 'lucide-react';
 
 export const FEATURED_CITIES = [
@@ -318,8 +319,51 @@ export default function LocalBusiness({ params }: { params?: { slug?: string } }
     b.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const _localUrl    = `https://profilebizz.com/local/${slug}`;
+  const _localJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        headline: `${city.name} Business Directory — ${city.tagline} | ProfileBizz`,
+        description: city.spotlight,
+        url: _localUrl,
+        author: { '@type': 'Organization', name: 'ProfileBizz Editorial', url: 'https://profilebizz.com' },
+        publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+      },
+      {
+        '@type': 'ItemList',
+        name: `${city.name} — Local Business Directory`,
+        description: city.spotlight,
+        url: _localUrl,
+        numberOfItems: city.businesses.length,
+        itemListElement: city.businesses.map((b, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          item: {
+            '@type': 'LocalBusiness',
+            name: b.name,
+            description: b.tagline,
+            foundingDate: b.since,
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: b.address,
+              addressLocality: city.name,
+              addressRegion: city.state,
+              addressCountry: 'IN',
+            },
+          },
+        })),
+      },
+    ],
+  });
+
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-black">
+    <>
+      <Helmet>
+        <script type="application/ld+json">{_localJsonLd}</script>
+      </Helmet>
+      <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top Bar ── */}
       <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
@@ -658,6 +702,7 @@ export default function LocalBusiness({ params }: { params?: { slug?: string } }
 
       </div>
     </div>
+    </>
   );
 }
 

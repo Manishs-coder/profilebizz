@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Heart, Users, Languages } from 'lucide-react';
 
 const CATEGORIES = [
@@ -243,8 +244,37 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
     const photoSrc = (selected as any).photo || selected.coverPhoto;
     const otherHeroes = FEATURED_HEROES.filter(h => h.slug !== selected.slug);
 
+    const _heroDetailUrl    = `https://profilebizz.com/social-hero/${selected.slug}`;
+    const _heroDetailJsonLd = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'Article',
+          headline: `${selected.name} — Social Hero Profile | ProfileBizz`,
+          description: `${selected.name} is one of India's leading ${selected.category}. Read their full story on ProfileBizz.`,
+          image: selected.coverPhoto,
+          url: _heroDetailUrl,
+          author: { '@type': 'Organization', name: 'ProfileBizz Editorial', url: 'https://profilebizz.com' },
+          publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+          about: { '@type': 'Person', name: selected.name, url: _heroDetailUrl },
+        },
+        {
+          '@type': 'Person',
+          name: selected.name,
+          url: _heroDetailUrl,
+          image: selected.coverPhoto,
+          knowsAbout: selected.category,
+          nationality: { '@type': 'Country', name: 'India' },
+        },
+      ],
+    });
+
     return (
-      <div className="min-h-screen bg-[#f9f9f9] text-black">
+      <>
+        <Helmet>
+          <script type="application/ld+json">{_heroDetailJsonLd}</script>
+        </Helmet>
+        <div className="min-h-screen bg-[#f9f9f9] text-black">
 
         {/* ── Sticky Top Bar ── */}
         <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
@@ -486,12 +516,28 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
           </article>
         </div>
       </div>
+      </>
     );
   }
 
   // Listing page
+  const _heroListUrl    = 'https://profilebizz.com/social-hero';
+  const _heroListJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Social Hero Profiles — ProfileBizz',
+    description: 'Profiles of India\'s social heroes — changemakers, NGO founders, CSR champions, rural heroes, women leaders, and youth icons who are transforming India.',
+    url: _heroListUrl,
+    publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+    inLanguage: 'en-IN',
+  });
+
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-black">
+    <>
+      <Helmet>
+        <script type="application/ld+json">{_heroListJsonLd}</script>
+      </Helmet>
+      <div className="min-h-screen bg-[#f9f9f9] text-black">
       <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -580,5 +626,6 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
         </div>
       </div>
     </div>
+    </>
   );
 }

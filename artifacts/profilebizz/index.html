@@ -37,19 +37,50 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "NewsMediaOrganization",
-      "name": "ProfileBizz",
-      "url": "https://profilebizz.com",
-      "logo": "https://profilebizz.com/favicon.svg",
-      "description": "India's leading digital magazine for founder profiles, brand stories, industry analysis and business success stories.",
-      "sameAs": [
-        "https://twitter.com/profilebizz",
-        "https://linkedin.com/company/profilebizz"
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "IN"
-      }
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://profilebizz.com/#website",
+          "url": "https://profilebizz.com/",
+          "name": "ProfileBizz",
+          "description": "India's premier business story platform — founder profiles, brand histories, industry analyses, and MSME spotlights",
+          "inLanguage": ["en-IN", "hi-IN"],
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://profilebizz.com/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "NewsMediaOrganization",
+          "@id": "https://profilebizz.com/#organization",
+          "name": "ProfileBizz",
+          "url": "https://profilebizz.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://profilebizz.com/favicon.svg",
+            "width": 512,
+            "height": 512
+          },
+          "description": "India's leading digital magazine covering founder profiles, brand stories, industry analyses, and business success stories from India's most inspiring entrepreneurs and companies.",
+          "foundingDate": "2024",
+          "areaServed": "IN",
+          "sameAs": [
+            "https://twitter.com/profilebizz",
+            "https://linkedin.com/company/profilebizz"
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN",
+            "addressLocality": "Mumbai"
+          },
+          "publishingPrinciples": "https://profilebizz.com/",
+          "masthead": "https://profilebizz.com/"
+        }
+      ]
     }
     </script>
 

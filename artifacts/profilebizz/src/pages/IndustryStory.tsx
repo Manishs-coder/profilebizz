@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Users, Building2, Lightbulb } from 'lucide-react';
 
 const SECTIONS = [
@@ -726,8 +727,29 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
   const setRef = (id: string) => (el: HTMLElement | null) => { sectionRefs.current[id] = el; };
   const scrollTo = (id: string) => sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
+  const _industryUrl    = `https://profilebizz.com/industry/${slug}`;
+  const _industryJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `${industry.name} — ${industry.tagline} | ProfileBizz`,
+    description: industry.oneLiner,
+    image: industry.coverPhoto,
+    url: _industryUrl,
+    author: { '@type': 'Organization', name: 'ProfileBizz Editorial', url: 'https://profilebizz.com' },
+    publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+    about: {
+      '@type': 'Thing',
+      name: industry.name,
+      description: `${industry.tag} industry — market size ${industry.marketSize}`,
+    },
+  });
+
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-black">
+    <>
+      <Helmet>
+        <script type="application/ld+json">{_industryJsonLd}</script>
+      </Helmet>
+      <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top Bar ── */}
       <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
@@ -1026,6 +1048,7 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
         </article>
       </div>
     </div>
+    </>
   );
 }
 

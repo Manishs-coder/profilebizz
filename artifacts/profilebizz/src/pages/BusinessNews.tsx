@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, Share2, BookmarkPlus, TrendingUp, ChevronRight, Calendar, MapPin, Tag, ExternalLink } from 'lucide-react';
 
 /* ── Category config ──────────────────── */
@@ -478,8 +479,23 @@ export default function BusinessNews({ params }: { params?: { slug?: string } })
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
+  const _newsUrl    = `https://profilebizz.com/news/${slug}`;
+  const _newsJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${cat.label} — ProfileBizz Business News`,
+    description: `Latest Indian business news on ${cat.tag} — funding rounds, expansions, launches, and deals, curated by ProfileBizz.`,
+    url: _newsUrl,
+    publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+    inLanguage: 'en-IN',
+  });
+
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-black">
+    <>
+      <Helmet>
+        <script type="application/ld+json">{_newsJsonLd}</script>
+      </Helmet>
+      <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top bar ── */}
       <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
@@ -632,5 +648,6 @@ export default function BusinessNews({ params }: { params?: { slug?: string } })
         </div>
       </div>
     </div>
+    </>
   );
 }

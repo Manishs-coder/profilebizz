@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, Share2, BookmarkPlus, Star, TrendingUp, Award, Heart } from 'lucide-react';
 
 const CATEGORIES = [
@@ -218,8 +219,38 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
     : WOMEN_STORIES.filter(s => s.category === activeCategory);
 
   if (selected) {
+    const _womenDetailUrl    = `https://profilebizz.com/women-story/${selected.slug}`;
+    const _womenDetailJsonLd = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'Article',
+          headline: `${selected.name} — ${selected.title} | ProfileBizz Women Stories`,
+          description: selected.pullQuote,
+          image: selected.coverPhoto,
+          url: _womenDetailUrl,
+          author: { '@type': 'Organization', name: 'ProfileBizz Editorial', url: 'https://profilebizz.com' },
+          publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+          about: { '@type': 'Person', name: selected.name, url: _womenDetailUrl },
+        },
+        {
+          '@type': 'Person',
+          name: selected.name,
+          jobTitle: selected.title,
+          url: _womenDetailUrl,
+          image: selected.coverPhoto,
+          nationality: { '@type': 'Country', name: 'India' },
+          worksFor: { '@type': 'Organization', name: selected.company },
+        },
+      ],
+    });
+
     return (
-      <div className="min-h-screen bg-[#f9f9f9] text-black">
+      <>
+        <Helmet>
+          <script type="application/ld+json">{_womenDetailJsonLd}</script>
+        </Helmet>
+        <div className="min-h-screen bg-[#f9f9f9] text-black">
         <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>
           <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -335,12 +366,28 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
   // Listing Page
+  const _womenListUrl    = 'https://profilebizz.com/women-story';
+  const _womenListJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Women Stories — ProfileBizz',
+    description: 'Inspiring stories of India\'s women entrepreneurs, corporate leaders, social entrepreneurs, and young founders — curated by ProfileBizz.',
+    url: _womenListUrl,
+    publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+    inLanguage: 'en-IN',
+  });
+
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-black">
+    <>
+      <Helmet>
+        <script type="application/ld+json">{_womenListJsonLd}</script>
+      </Helmet>
+      <div className="min-h-screen bg-[#f9f9f9] text-black">
       <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -430,5 +477,6 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
         </div>
       </div>
     </div>
+    </>
   );
 }

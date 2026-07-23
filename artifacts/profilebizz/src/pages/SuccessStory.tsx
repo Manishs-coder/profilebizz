@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Star, Users, Globe, Sprout, Award } from 'lucide-react';
 
 /* ── Category config ──────────────────── */
@@ -388,8 +389,23 @@ export default function SuccessStory({ params }: { params?: { slug?: string } })
 
   const allStories = STORIES.filter(s => s.category === slug);
 
+  const _successUrl    = `https://profilebizz.com/success/${slug}`;
+  const _successJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${cat.label} — ProfileBizz Success Stories`,
+    description: `Inspiring ${cat.label} stories from India — founder journeys, business milestones, and growth narratives curated by ProfileBizz.`,
+    url: _successUrl,
+    publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+    inLanguage: 'en-IN',
+  });
+
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-black">
+    <>
+      <Helmet>
+        <script type="application/ld+json">{_successJsonLd}</script>
+      </Helmet>
+      <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top bar ── */}
       <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
@@ -555,5 +571,6 @@ export default function SuccessStory({ params }: { params?: { slug?: string } })
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, Share2, BookmarkPlus, Heart, Award, Users, Globe, Leaf, ChevronRight } from 'lucide-react';
 
 /* ── Category config ──────────────────── */
@@ -589,8 +590,23 @@ export default function SocialImpact({ params }: { params?: { slug?: string } })
     csr: <Award className="w-4 h-4" />,
   };
 
+  const _impactUrl    = `https://profilebizz.com/impact/${slug}`;
+  const _impactJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${cat.label} — ProfileBizz Social Impact Stories`,
+    description: `Social impact stories from India covering ${cat.label} — NGOs, changemakers, and community heroes curated by ProfileBizz.`,
+    url: _impactUrl,
+    publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+    inLanguage: 'en-IN',
+  });
+
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-black">
+    <>
+      <Helmet>
+        <script type="application/ld+json">{_impactJsonLd}</script>
+      </Helmet>
+      <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top bar ── */}
       <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
@@ -750,5 +766,6 @@ export default function SocialImpact({ params }: { params?: { slug?: string } })
         </div>
       </div>
     </div>
+    </>
   );
 }

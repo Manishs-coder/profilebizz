@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Milestone } from 'lucide-react';
 
 const SECTIONS = [
@@ -820,8 +821,37 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
   const setRef = (id: string) => (el: HTMLElement | null) => { sectionRefs.current[id] = el; };
   const scrollTo = (id: string) => sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
+  const _brandUrl  = `https://profilebizz.com/brand/${slug}`;
+  const _brandJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        headline: `${brand.name} — ${brand.tagline} | ProfileBizz`,
+        description: brand.oneLiner,
+        image: brand.coverPhoto,
+        url: _brandUrl,
+        author: { '@type': 'Organization', name: 'ProfileBizz Editorial', url: 'https://profilebizz.com' },
+        publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
+        about: { '@type': 'Organization', name: brand.name },
+      },
+      {
+        '@type': 'Organization',
+        name: brand.name,
+        description: brand.oneLiner,
+        foundingDate: brand.founded,
+        url: _brandUrl,
+        address: { '@type': 'PostalAddress', addressLocality: brand.headquarters, addressCountry: 'IN' },
+      },
+    ],
+  });
+
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-black">
+    <>
+      <Helmet>
+        <script type="application/ld+json">{_brandJsonLd}</script>
+      </Helmet>
+      <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top Bar ── */}
       <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
@@ -1118,6 +1148,7 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
         </article>
       </div>
     </div>
+    </>
   );
 }
 
