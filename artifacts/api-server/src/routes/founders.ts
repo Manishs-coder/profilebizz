@@ -239,6 +239,23 @@ router.put("/founders/:slug/seo", requireAuth, async (req, res) => {
 
 // ─── PUBLIC endpoints (no auth needed — for ProfileBizz frontend) ────────────
 
+// GET /api/public/founders — list all published founders (for search)
+router.get("/public/founders", async (req, res) => {
+  const founders = await db
+    .select({
+      slug: foundersTable.slug,
+      name: foundersTable.name,
+      designation: foundersTable.designation,
+      profileType: foundersTable.profileType,
+      profileTag: foundersTable.profileTag,
+      photoUrl: foundersTable.photoUrl,
+    })
+    .from(foundersTable)
+    .where(eq(foundersTable.published, true))
+    .orderBy(foundersTable.name);
+  res.json(founders);
+});
+
 // GET /api/public/founders/:slug
 router.get("/public/founders/:slug", async (req, res) => {
   const slug = param(req.params.slug);

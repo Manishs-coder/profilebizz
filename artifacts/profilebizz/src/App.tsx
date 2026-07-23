@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Share2, Mail, Rss, ChevronLeft, ChevronRight, ChevronDown, Menu, X } from 'lucide-react';
+import SearchOverlay from '@/components/SearchOverlay';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -52,6 +53,9 @@ function Home() {
   const [impactDropdown, setImpactDropdown] = useState(false);
   const [newsDropdown, setNewsDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [subscribeEmail, setSubscribeEmail] = useState('');
+  const [subscribeStatus, setSubscribeStatus] = useState<'idle'|'success'|'error'>('idle');
   const bizDropdownRef = useRef<HTMLDivElement>(null);
   const founderDropdownRef = useRef<HTMLDivElement>(null);
   const brandDropdownRef = useRef<HTMLDivElement>(null);
@@ -59,6 +63,21 @@ function Home() {
   const localDropdownRef = useRef<HTMLDivElement>(null);
   const startupScrollRef = useRef<HTMLDivElement>(null);
   const cityScrollRef = useRef<HTMLDivElement>(null);
+  const newsletterRef = useRef<HTMLElement>(null);
+
+  const scrollToNewsletter = () => {
+    setMobileMenuOpen(false);
+    newsletterRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!subscribeEmail.includes('@')) { setSubscribeStatus('error'); return; }
+    // Store intent locally + show success (backend email integration can be added later)
+    setSubscribeStatus('success');
+    setSubscribeEmail('');
+    setTimeout(() => setSubscribeStatus('idle'), 4000);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,6 +101,7 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] text-black selection:bg-editorial selection:text-white pb-20">
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       
       {/* 1. Sticky Top Navbar */}
       <header className={`fixed top-0 w-full z-50 bg-white transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
@@ -104,10 +124,10 @@ function Home() {
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <button className="p-1 text-black hover:text-editorial transition-colors" aria-label="Search">
+                <button onClick={() => setSearchOpen(true)} className="p-1 text-black hover:text-editorial transition-colors" aria-label="Search">
                   <Search className="w-5 h-5" />
                 </button>
-                <button className="text-[10px] font-bold tracking-widest uppercase bg-editorial text-white px-2.5 py-1.5 hover:bg-black transition-colors">
+                <button onClick={scrollToNewsletter} className="text-[10px] font-bold tracking-widest uppercase bg-editorial text-white px-2.5 py-1.5 hover:bg-black transition-colors">
                   Sub
                 </button>
               </div>
@@ -295,10 +315,10 @@ function Home() {
             </nav>
 
             <div className="flex items-center gap-6">
-              <button className="text-foreground hover:text-editorial transition-colors">
+              <button onClick={() => setSearchOpen(true)} className="text-foreground hover:text-editorial transition-colors" aria-label="Search">
                 <Search className="w-5 h-5" />
               </button>
-              <button className="bg-black text-white text-xs font-bold tracking-widest uppercase px-6 py-2.5 hover:bg-editorial transition-colors">
+              <button onClick={scrollToNewsletter} className="bg-black text-white text-xs font-bold tracking-widest uppercase px-6 py-2.5 hover:bg-editorial transition-colors">
                 Subscribe
               </button>
             </div>
@@ -426,7 +446,7 @@ function Home() {
             </div>
 
             <div className="px-5 py-4">
-              <button className="w-full bg-black text-white text-xs font-bold tracking-widest uppercase py-3 hover:bg-editorial transition-colors">
+              <button onClick={scrollToNewsletter} className="w-full bg-black text-white text-xs font-bold tracking-widest uppercase py-3 hover:bg-editorial transition-colors">
                 Subscribe to ProfileBizz
               </button>
             </div>
@@ -767,7 +787,7 @@ function Home() {
 
 
         {/* ── 6. Newsletter Banner ── */}
-        <section className="bg-black text-white p-8 md:p-16 mb-24 flex flex-col lg:flex-row items-center gap-12 justify-between">
+        <section ref={newsletterRef} id="newsletter" className="bg-black text-white p-8 md:p-16 mb-24 flex flex-col lg:flex-row items-center gap-12 justify-between">
           <div className="max-w-xl text-center lg:text-left">
             <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-editorial block mb-4">Weekly Founder Digest</span>
             <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4 text-white">One New Biography. Every Week.</h2>
@@ -776,19 +796,33 @@ function Home() {
             </p>
           </div>
           <div className="w-full max-w-md">
-            <label className="text-[11px] font-bold tracking-widest uppercase text-white/40 block mb-2">
-              Your Email Address
-            </label>
-            <div className="flex items-end gap-4">
-              <input
-                type="email"
-                placeholder="you@company.in"
-                className="w-full bg-transparent border-b-2 border-white/20 py-2 focus:outline-none focus:border-editorial text-lg text-white transition-colors placeholder:text-white/30"
-              />
-              <button className="bg-editorial text-white text-xs font-bold tracking-widest uppercase px-6 py-3 hover:bg-white hover:text-black transition-colors flex-shrink-0">
-                Subscribe
-              </button>
-            </div>
+            {subscribeStatus === 'success' ? (
+              <div className="border border-editorial px-6 py-4 text-center">
+                <p className="text-editorial font-bold tracking-wide text-sm mb-1">✓ You're subscribed!</p>
+                <p className="text-white/60 text-sm">We'll send your first digest next Monday.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe}>
+                <label className="text-[11px] font-bold tracking-widest uppercase text-white/40 block mb-2">
+                  Your Email Address
+                </label>
+                <div className="flex items-end gap-4">
+                  <input
+                    type="email"
+                    value={subscribeEmail}
+                    onChange={e => setSubscribeEmail(e.target.value)}
+                    placeholder="you@company.in"
+                    className={`w-full bg-transparent border-b-2 py-2 focus:outline-none text-lg text-white transition-colors placeholder:text-white/30 ${subscribeStatus === 'error' ? 'border-red-500' : 'border-white/20 focus:border-editorial'}`}
+                  />
+                  <button type="submit" className="bg-editorial text-white text-xs font-bold tracking-widest uppercase px-6 py-3 hover:bg-white hover:text-black transition-colors flex-shrink-0">
+                    Subscribe
+                  </button>
+                </div>
+                {subscribeStatus === 'error' && (
+                  <p className="text-red-400 text-xs mt-2">Please enter a valid email address.</p>
+                )}
+              </form>
+            )}
           </div>
         </section>
 

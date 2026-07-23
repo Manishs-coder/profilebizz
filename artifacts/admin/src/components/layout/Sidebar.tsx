@@ -10,10 +10,25 @@ export function Sidebar() {
   const { data: me } = useGetMe()
   const [isOpen, setIsOpen] = React.useState(false)
 
-  const navItems = [
-    { icon: LayoutDashboard, label: "Dashboard", href: "/" },
-    { icon: Users, label: "Founders", href: "/founders" },
-    { icon: Tag, label: "Categories", href: "/categories" },
+  const navGroups = [
+    {
+      label: "Overview",
+      items: [
+        { icon: LayoutDashboard, label: "Dashboard", href: "/" },
+      ],
+    },
+    {
+      label: "Content",
+      items: [
+        { icon: Users, label: "Founder Stories", href: "/founders" },
+      ],
+    },
+    {
+      label: "Taxonomy",
+      items: [
+        { icon: Tag, label: "Categories", href: "/categories" },
+      ],
+    },
   ]
 
   const handleLogout = () => {
@@ -50,28 +65,33 @@ export function Sidebar() {
           <span className="font-serif font-semibold text-lg tracking-tight">ProfileBizz.</span>
         </div>
 
-        <div className="px-4 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          Menu
-        </div>
-
-        <nav className="flex-1 px-2 space-y-1">
-          {navItems.map((item) => {
-            const isActive = location === item.href || (item.href !== "/" && location.startsWith(item.href))
-            return (
-              <Link key={item.href} href={item.href} className="block">
-                <div className={`
-                  flex items-center px-4 py-2.5 text-sm font-medium rounded-md transition-colors
-                  ${isActive 
-                    ? 'bg-secondary text-secondary-foreground' 
-                    : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground'
-                  }
-                `}>
-                  <item.icon className={`mr-3 h-4 w-4 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
-                  {item.label}
-                </div>
-              </Link>
-            )
-          })}
+        <nav className="flex-1 px-2 py-2 space-y-4 overflow-y-auto">
+          {navGroups.map((group) => (
+            <div key={group.label}>
+              <p className="px-4 pb-1 text-[10px] font-bold tracking-widest uppercase text-muted-foreground/60">
+                {group.label}
+              </p>
+              <div className="space-y-0.5">
+                {group.items.map((item) => {
+                  const isActive = location === item.href || (item.href !== "/" && location.startsWith(item.href))
+                  return (
+                    <Link key={item.href} href={item.href} className="block" onClick={() => setIsOpen(false)}>
+                      <div className={`
+                        flex items-center px-4 py-2.5 text-sm font-medium rounded-md transition-colors
+                        ${isActive
+                          ? 'bg-secondary text-secondary-foreground'
+                          : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground'
+                        }
+                      `}>
+                        <item.icon className={`mr-3 h-4 w-4 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
+                        {item.label}
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         <div className="p-4 border-t border-border">

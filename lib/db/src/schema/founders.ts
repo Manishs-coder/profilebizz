@@ -75,3 +75,17 @@ export const categoriesTable = pgTable("categories", {
 export const insertCategorySchema = createInsertSchema(categoriesTable).omit({ id: true, createdAt: true });
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
 export type Category = typeof categoriesTable.$inferSelect;
+
+export const subCategoriesTable = pgTable("sub_categories", {
+  id: serial("id").primaryKey(),
+  categoryId: integer("category_id").notNull().references(() => categoriesTable.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  slug: text("slug").unique().notNull(),
+  description: text("description"),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const insertSubCategorySchema = createInsertSchema(subCategoriesTable).omit({ id: true, createdAt: true });
+export type InsertSubCategory = z.infer<typeof insertSubCategorySchema>;
+export type SubCategory = typeof subCategoriesTable.$inferSelect;
