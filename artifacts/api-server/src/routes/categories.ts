@@ -20,6 +20,27 @@ function param(value: string | string[]): string {
 
 type CategoryBody = { name?: unknown; description?: unknown; color?: unknown; sortOrder?: unknown };
 
+// POST /api/seed-categories — one-time seed, no auth required
+router.post("/seed-categories", async (_req, res) => {
+  const SEED = [
+    { name: "Founder Story",    slug: "founder-story",   description: "Indian founders who built businesses from scratch",                   color: "#1a1a1a", sortOrder: 1 },
+    { name: "Social Hero",      slug: "social-hero",     description: "Changemakers and social entrepreneurs transforming India",            color: "#dc2626", sortOrder: 2 },
+    { name: "Business Stories", slug: "business-story",  description: "Export, family, rural and women entrepreneur business stories",      color: "#2563eb", sortOrder: 3 },
+    { name: "Brand Stories",    slug: "brand-story",     description: "How iconic Indian brands were built and scaled",                     color: "#7c3aed", sortOrder: 4 },
+    { name: "Industry Stories", slug: "industry-story",  description: "Deep dives into Indian industries and sectors",                      color: "#059669", sortOrder: 5 },
+    { name: "Women Story",      slug: "women-story",     description: "Indian women who built businesses against the odds",                 color: "#db2777", sortOrder: 6 },
+  ];
+  const inserted: string[] = [];
+  const skipped: string[] = [];
+  for (const cat of SEED) {
+    const existing = await db.select({ id: categoriesTable.id }).from(categoriesTable).where(eq(categoriesTable.slug, cat.slug)).limit(1);
+    if (existing.length > 0) { skipped.push(cat.slug); continue; }
+    await db.insert(categoriesTable).values(cat);
+    inserted.push(cat.slug);
+  }
+  res.json({ inserted, skipped });
+});
+
 // GET /api/categories
 router.get("/categories", requireAuth, async (_req, res) => {
   const rows = await db
