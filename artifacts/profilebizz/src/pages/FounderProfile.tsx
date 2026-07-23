@@ -1029,10 +1029,18 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
                       </div>
                     )}
 
-                    {!isAwards && !isInterviews && sec.bodyParagraphs?.map((p: string, i: number) => (
-                      <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5"
-                        style={lang === 'hi' ? hfl : {}}>{p}</p>
-                    ))}
+                    {!isAwards && !isInterviews && (
+                      jd?.htmlContent
+                        ? <div
+                            className="tinymce-content font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9]"
+                            style={lang === 'hi' ? hfl : {}}
+                            dangerouslySetInnerHTML={{ __html: jd.htmlContent }}
+                          />
+                        : sec.bodyParagraphs?.map((p: string, i: number) => (
+                            <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5"
+                              style={lang === 'hi' ? hfl : {}}>{p}</p>
+                          ))
+                    )}
                   </section>
                   {idx < sections.length - 1 && <Divider />}
                 </React.Fragment>

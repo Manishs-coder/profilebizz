@@ -169,6 +169,13 @@ importers:
         version: 5.9.3
 
   artifacts/admin:
+    dependencies:
+      '@tinymce/tinymce-react':
+        specifier: ^6.3.0
+        version: 6.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tinymce@8.8.1)
+      tinymce:
+        specifier: ^8.8.1
+        version: 8.8.1
     devDependencies:
       '@hookform/resolvers':
         specifier: ^3.10.0
@@ -1825,6 +1832,16 @@ packages:
     peerDependencies:
       react: ^18 || ^19
 
+  '@tinymce/tinymce-react@6.3.0':
+    resolution: {integrity: sha512-E++xnn0XzDzpKr40jno2Kj7umfAE6XfINZULEBBeNjTMvbACWzA6CjiR6V8eTDc9yVmdVhIPqVzV4PqD5TZ/4g==}
+    peerDependencies:
+      react: ^19.0.0 || ^18.0.0 || ^17.0.1 || ^16.7.0
+      react-dom: ^19.0.0 || ^18.0.0 || ^17.0.1 || ^16.7.0
+      tinymce: ^8.0.0 || ^7.0.0 || ^6.0.0 || ^5.5.1
+    peerDependenciesMeta:
+      tinymce:
+        optional: true
+
   '@tootallnate/once@2.0.1':
     resolution: {integrity: sha512-HqmEUIGRJ5fSXchkVgR5F7qn48bDBzv0kWj/Kfu5e6uci4UlEeng4331LnBkWffb++Ei3FOVLxo8JJWMFBDMeQ==}
     engines: {node: '>= 10'}
@@ -3462,6 +3479,9 @@ packages:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
 
+  tinymce@8.8.1:
+    resolution: {integrity: sha512-hPOMOsF0PyMNu3ExjbqUidxHUUjmcIJp1k0e8Q45q0WwW93alxunysYPpEJ2Q2PoAYsDiRCWOowJhW6Rx0xZRw==}
+
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
@@ -4807,6 +4827,14 @@ snapshots:
     dependencies:
       '@tanstack/query-core': 5.101.2
       react: 19.1.0
+
+  '@tinymce/tinymce-react@6.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tinymce@8.8.1)':
+    dependencies:
+      prop-types: 15.8.1
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+    optionalDependencies:
+      tinymce: 8.8.1
 
   '@tootallnate/once@2.0.1': {}
 
@@ -6407,6 +6435,8 @@ snapshots:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.5)
       picomatch: 4.0.5
+
+  tinymce@8.8.1: {}
 
   to-regex-range@5.0.1:
     dependencies:

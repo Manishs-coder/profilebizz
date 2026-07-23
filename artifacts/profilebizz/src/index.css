@@ -144,3 +144,13 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+/* TinyMCE HTML content rendered on article pages */
+.tinymce-content p { margin-bottom: 1.25rem; }
+.tinymce-content h2 { font-family: Georgia, serif; font-size: 1.4rem; font-weight: 700; margin: 1.5rem 0 0.75rem; color: #0f172a; }
+.tinymce-content h3 { font-family: Georgia, serif; font-size: 1.15rem; font-weight: 700; margin: 1.25rem 0 0.5rem; color: #1e293b; }
+.tinymce-content ul, .tinymce-content ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+.tinymce-content li { margin-bottom: 0.4rem; }
+.tinymce-content blockquote { border-left: 3px solid #e11d48; padding-left: 1rem; font-style: italic; color: #475569; margin: 1.5rem 0; }
+.tinymce-content strong { font-weight: 700; color: #0f172a; }
+.tinymce-content a { color: #e11d48; text-decoration: underline; }

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Editor } from "@tinymce/tinymce-react"
 import { useParams, useLocation, Link } from "wouter"
 import {
   useGetFounder,
@@ -578,7 +579,7 @@ function SectionsEditor({ slug }: { slug: string }) {
 
   const textSections = ["Early Life", "Education", "Career", "Entrepreneurial Journey", "Challenges", "Success", "Leadership Style"]
 
-  type SectionData = { pullQuote: string; bodyParagraphs: string; imageUrl: string; imageCaption: string }
+  type SectionData = { pullQuote: string; bodyParagraphs: string; htmlContent: string; imageUrl: string; imageCaption: string }
   const [formDataEn, setFormDataEn] = React.useState<Record<string, SectionData>>({})
   const [formDataHi, setFormDataHi] = React.useState<Record<string, SectionData>>({})
   const [awardsEn, setAwardsEn] = React.useState<Award[]>([])
@@ -594,9 +595,15 @@ function SectionsEditor({ slug }: { slug: string }) {
     textSections.forEach((key) => {
       const sec = sections.find((s) => s.sectionKey === key)
       const jd = sec?.jsonData as any
+      // htmlContent: prefer saved HTML, fallback to bodyParagraphs converted to HTML
+      const savedHtml = jd?.htmlContent || ""
+      const fallbackHtml = sec?.bodyParagraphs?.length
+        ? sec.bodyParagraphs.map((p: string) => `<p>${p}</p>`).join("")
+        : ""
       newData[key] = {
         pullQuote: sec?.pullQuote || "",
         bodyParagraphs: sec?.bodyParagraphs ? sec.bodyParagraphs.join("\n\n") : "",
+        htmlContent: savedHtml || fallbackHtml,
         imageUrl: jd?.imageUrl || "",
         imageCaption: jd?.imageCaption || "",
       }
@@ -636,8 +643,11 @@ function SectionsEditor({ slug }: { slug: string }) {
 
   const handleSave = () => {
     const textPayload = textSections.map((key) => {
-      const data = formData[key] || { pullQuote: "", bodyParagraphs: "", imageUrl: "", imageCaption: "" }
-      const jsonData = data.imageUrl ? { imageUrl: data.imageUrl, imageCaption: data.imageCaption || "" } : null
+      const data = formData[key] || { pullQuote: "", bodyParagraphs: "", htmlContent: "", imageUrl: "", imageCaption: "" }
+      // Build jsonData: include htmlContent + optional image
+      const jsonData: Record<string, any> = {}
+      if (data.htmlContent) jsonData.htmlContent = data.htmlContent
+      if (data.imageUrl) { jsonData.imageUrl = data.imageUrl; jsonData.imageCaption = data.imageCaption || "" }
       return {
         sectionKey: key,
         pullQuote: data.pullQuote,
@@ -647,7 +657,7 @@ function SectionsEditor({ slug }: { slug: string }) {
               .map((p) => p.trim())
               .filter(Boolean)
           : [],
-        jsonData,
+        jsonData: Object.keys(jsonData).length > 0 ? jsonData : null,
       }
     })
 
@@ -730,19 +740,34 @@ function SectionsEditor({ slug }: { slug: string }) {
               </div>
               <div className="space-y-2">
                 <Label>Body Content</Label>
-                <p className="text-xs text-slate-500">Separate paragraphs with a blank line.</p>
-                <Textarea
-                  className="min-h-[180px]"
-                  placeholder={locale === "hi" ? "Hindi mein kahani likhein..." : "Write the story here..."}
-                  value={formData[key]?.bodyParagraphs || ""}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      [key]: { ...prev[key], bodyParagraphs: e.target.value },
-                    }))
-                  }
-                  style={locale === "hi" ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
-                />
+                <p className="text-xs text-slate-500">Rich text editor — bold, lists, headings supported.</p>
+                <div className="rounded-lg overflow-hidden border border-slate-200">
+                  <Editor
+                    key={`${locale}-${key}`}
+                    tinymceScriptSrc={`${import.meta.env.BASE_URL}tinymce/tinymce.min.js`}
+                    value={formData[key]?.htmlContent || ""}
+                    onEditorChange={(content) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        [key]: { ...prev[key], htmlContent: content },
+                      }))
+                    }
+                    init={{
+                      height: 280,
+                      menubar: false,
+                      branding: false,
+                      statusbar: false,
+                      plugins: ["lists", "link", "autolink", "paste"],
+                      toolbar:
+                        "bold italic underline | bullist numlist | h2 h3 | blockquote | link | removeformat",
+                      content_style:
+                        "body { font-family: Georgia, serif; font-size: 16px; line-height: 1.7; color: #1e293b; padding: 12px; }",
+                      skin_url: `${import.meta.env.BASE_URL}tinymce/skins/ui/oxide`,
+                      content_css: `${import.meta.env.BASE_URL}tinymce/skins/content/default/content.min.css`,
+                      language: locale === "hi" ? "hi" : undefined,
+                    }}
+                  />
+                </div>
               </div>
 
               {/* ── Article Image ── */}
