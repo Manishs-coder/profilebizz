@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, Share2, BookmarkPlus, Award, Heart, TrendingUp, Users, Globe, Languages } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Heart, Users, Languages } from 'lucide-react';
 
 const CATEGORIES = [
   { slug: 'changemakers', label: 'Changemakers', icon: '🌟', desc: 'Individuals reshaping India through bold action' },
@@ -238,161 +238,252 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
   if (selected) {
     const hiData = HEROES_HI[selected.slug];
     const activeHero = (lang === 'hi' && hiData) ? { ...selected, ...hiData } : selected;
-    const hiFont: React.CSSProperties = lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {};
-    const hiLineHeight: React.CSSProperties = lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '2' } : {};
+    const hf: React.CSSProperties = lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {};
+    const hfl: React.CSSProperties = lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '2' } : {};
+    const photoSrc = (selected as any).photo || selected.coverPhoto;
+    const otherHeroes = FEATURED_HEROES.filter(h => h.slug !== selected.slug);
 
     return (
       <div className="min-h-screen bg-[#f9f9f9] text-black">
-        {/* Top Bar */}
-        <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>
+
+        {/* ── Sticky Top Bar ── */}
+        <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
           <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <a
-                href={lang === 'hi'
-                  ? `${import.meta.env.BASE_URL}social-hero`
-                  : `${import.meta.env.BASE_URL}social-hero`}
-                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-black transition-colors"
-              >
+            <div className="flex items-center gap-4">
+              <a href={`${import.meta.env.BASE_URL}social-hero`} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-black transition-colors">
                 <ChevronLeft className="w-4 h-4" />
-                <span className="font-bold tracking-wider text-[11px] uppercase" style={hiFont}>
-                  {lang === 'hi' ? 'सोशल हीरो प्रोफाइल' : 'Social Hero Profiles'}
+                <span className="font-bold tracking-wider text-[11px] uppercase" style={hf}>
+                  {lang === 'hi' ? 'सोशल हीरो' : 'ProfileBizz'}
                 </span>
               </a>
+              <span className="text-gray-300">|</span>
+              <span className="text-[11px] font-bold tracking-widest uppercase text-editorial" style={hf}>
+                {lang === 'hi' ? 'सोशल हीरो प्रोफाइल' : 'Social Hero Profiles'}
+              </span>
+              <span className="text-gray-300">|</span>
+              <span className="text-[11px] font-bold tracking-widest uppercase bg-editorial text-white px-2 py-0.5" style={hf}>
+                {activeHero.tag}
+              </span>
             </div>
             <div className="hidden md:flex items-center gap-3">
-              <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-gray-500 hover:text-black px-3 py-1.5 border border-gray-200 hover:border-black transition-colors">
+              <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-gray-500 hover:text-black transition-colors px-3 py-1.5 border border-gray-200 hover:border-black">
                 <Share2 className="w-3.5 h-3.5" /> Share
               </button>
-              <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-white bg-black hover:bg-editorial px-3 py-1.5 transition-colors">
+              <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-white bg-black hover:bg-editorial transition-colors px-3 py-1.5">
                 <BookmarkPlus className="w-3.5 h-3.5" /> Save Profile
               </button>
             </div>
           </div>
         </header>
 
-        {/* Hero */}
-        <div className="relative h-[400px] md:h-[500px] overflow-hidden mt-14">
-          <img src={selected.coverPhoto} alt={activeHero.name} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-          <div className="absolute top-6 left-8">
-            <span className="bg-editorial text-white text-[10px] font-bold tracking-[0.2em] uppercase px-3 py-1.5" style={hiFont}>{activeHero.category}</span>
-          </div>
-          <div className="absolute bottom-0 left-0 right-0 max-w-[1400px] mx-auto px-4 md:px-8 pb-10">
-            <p className="text-white/60 text-xs font-bold tracking-[0.2em] uppercase mb-3" style={hiFont}>
-              {activeHero.location} · {lang === 'hi' ? 'सक्रिय' : 'Active Since'} {selected.founded}
-            </p>
-            <h1 className="font-serif text-white text-4xl md:text-6xl font-bold leading-none mb-2" style={hiFont}>{activeHero.name}</h1>
-            <p className="text-white/70 text-base md:text-lg font-medium" style={hiFont}>{activeHero.title}</p>
-          </div>
-        </div>
+        {/* ── Article Hero — centered, white background ── */}
+        <div className="bg-white mt-14">
+          <div className="max-w-3xl mx-auto px-6 md:px-10 pt-12 pb-10 text-center">
 
-        {/* Stats Bar */}
-        <div className="bg-white border-b border-gray-200">
-          <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-5 flex flex-wrap gap-x-10 gap-y-3">
-            {activeHero.achievements.map((a, i) => (
-              <div key={i} className="flex flex-col">
-                <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400" style={hiFont}>{a.label}</span>
-                <span className="text-base md:text-xl font-serif font-bold text-black" style={hiFont}>{a.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Language Switch */}
-        <div className="bg-white border-b border-gray-200 flex justify-center py-3">
-          <a
-            href={lang === 'en'
-              ? `${import.meta.env.BASE_URL}social-hero/hi/${selected.slug}`
-              : `${import.meta.env.BASE_URL}social-hero/${selected.slug}`}
-            className="flex items-center gap-2 border border-gray-300 hover:border-black px-5 py-2 text-sm font-semibold text-gray-600 hover:text-black transition-all group"
-            style={lang === 'hi' ? hiFont : {}}
-          >
-            <Languages className="w-4 h-4 flex-shrink-0 text-gray-400 group-hover:text-black transition-colors" />
-            {lang === 'en' ? 'हिंदी में पढ़ें' : 'Read in English'}
-          </a>
-        </div>
-
-        {/* Body */}
-        <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-10">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            {/* Main Story */}
-            <div className="lg:col-span-2">
-              <div className="mb-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <Heart className="w-4 h-4 text-editorial" />
-                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400" style={hiFont}>
-                    {lang === 'hi' ? 'कहानी' : 'The Story'}
-                  </span>
-                </div>
-                <blockquote className="border-l-4 border-editorial pl-6 mb-6">
-                  <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic" style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '1.8' } : {}}>{activeHero.pullQuote}</p>
-                </blockquote>
-                {activeHero.story.map((para, i) => (
-                  <p key={i} className="text-base text-gray-700 mb-4" style={lang === 'hi' ? { ...hiLineHeight, lineHeight: '2' } : { lineHeight: '1.85' }}>{para}</p>
-                ))}
-              </div>
-
-              {/* Philosophy */}
-              <div className="bg-black text-white p-6 mb-8">
-                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 mb-3" style={hiFont}>
-                  {lang === 'hi' ? 'मूल दर्शन' : 'Core Philosophy'}
-                </p>
-                <p className="text-base font-serif leading-relaxed italic text-white/90" style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '2' } : {}}>{activeHero.philosophy}</p>
-              </div>
+            {/* Category badge */}
+            <div className="flex items-center justify-center gap-2 mb-8">
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.18em] uppercase text-editorial border border-editorial px-3 py-1.5" style={hf}>
+                {activeHero.category}
+                <ChevronRight className="w-3 h-3" />
+              </span>
+              <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-gray-400" style={hf}>{activeHero.tag}</span>
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6">
+            {/* Portrait photo — circular */}
+            <div className="flex justify-center mb-7">
+              <img
+                src={photoSrc}
+                alt={activeHero.name}
+                className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-4 ring-white shadow-xl border border-gray-100"
+              />
+            </div>
+
+            {/* Name */}
+            <h1 className="font-serif text-5xl md:text-[68px] font-bold text-black leading-[1.06] tracking-tight mb-5"
+              style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", fontSize: '3rem', lineHeight: '1.3' } : {}}>
+              {activeHero.name}
+            </h1>
+
+            {/* Title */}
+            <p className="text-lg md:text-xl text-gray-500 font-medium mb-6" style={hf}>{activeHero.title}</p>
+
+            {/* Pull quote as tagline */}
+            <p className="text-base md:text-[17px] text-gray-600 leading-relaxed max-w-2xl mx-auto mb-9 italic font-serif"
+              style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '1.9' } : {}}>
+              {activeHero.pullQuote}
+            </p>
+
+            {/* Divider */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="flex-1 h-px bg-gray-200" />
+              <span className="text-gray-300 text-lg">◆</span>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
+
+            {/* Meta row */}
+            <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-gray-500 mb-10">
+              <span className="font-semibold text-black">ProfileBizz Editorial</span>
+              <span className="text-gray-300">•</span>
+              <span style={hf}>{activeHero.location}</span>
+              <span className="text-gray-300">•</span>
+              <span style={hf}>{lang === 'hi' ? 'सक्रिय' : 'Active Since'} {selected.founded}</span>
+              <span className="text-gray-300">•</span>
+              <span className="text-editorial font-semibold" style={hf}>{lang === 'hi' ? '10 मिनट पढ़ें' : '10 min read'}</span>
+            </div>
+
+            {/* Stats grid — bordered like FounderProfile */}
+            <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 divide-x divide-y md:divide-y-0 divide-gray-200">
+              {activeHero.achievements.map((a, i) => (
+                <div key={i} className="px-5 py-4 text-left">
+                  <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-1" style={lang === 'hi' ? { ...hf, letterSpacing: '0' } : {}}>{a.label}</p>
+                  <p className="font-serif text-xl font-bold text-black" style={hf}>{a.value}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Language switch */}
+            <div className="mt-6 flex justify-center">
+              <a
+                href={lang === 'en'
+                  ? `${import.meta.env.BASE_URL}social-hero/hi/${selected.slug}`
+                  : `${import.meta.env.BASE_URL}social-hero/${selected.slug}`}
+                className="flex items-center gap-2 border border-gray-300 hover:border-black px-5 py-2 text-sm font-semibold text-gray-600 hover:text-black transition-all group"
+                style={lang === 'hi' ? hf : {}}
+              >
+                <Languages className="w-4 h-4 flex-shrink-0 text-gray-400 group-hover:text-black transition-colors" />
+                {lang === 'en' ? 'हिंदी में पढ़ें' : 'Read in English'}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Body: Left Sidebar + Main Article ── */}
+        <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-10 flex flex-col lg:flex-row gap-10">
+
+          {/* Sticky Left Sidebar */}
+          <aside className="hidden lg:block lg:w-56 flex-shrink-0">
+            <div className="lg:sticky lg:top-20 space-y-6">
+
               {/* Recognition */}
-              <div className="bg-white border border-gray-200 p-5">
-                <div className="flex items-center gap-2 mb-4">
-                  <Award className="w-4 h-4 text-editorial" />
-                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500" style={hiFont}>
-                    {lang === 'hi' ? 'पुरस्कार एवं सम्मान' : 'Recognition & Awards'}
-                  </span>
+              <div className="border border-gray-200 bg-white p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Award className="w-3.5 h-3.5 text-editorial" />
+                  <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400" style={hf}>
+                    {lang === 'hi' ? 'पुरस्कार' : 'Recognition'}
+                  </p>
                 </div>
                 <div className="space-y-2">
                   {activeHero.recognition.map((r, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <span className="text-editorial mt-0.5 flex-shrink-0">▸</span>
-                      <span className="text-sm text-gray-700" style={hiFont}>{r}</span>
+                    <div key={i} className="flex items-start gap-1.5">
+                      <span className="text-editorial mt-0.5 flex-shrink-0 text-xs">▸</span>
+                      <span className="text-xs text-gray-600 leading-snug" style={hf}>{r}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Impact Tag */}
-              <div className="border border-editorial p-5">
-                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-2" style={hiFont}>
+              {/* Impact */}
+              <div className="border border-editorial p-4">
+                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-1" style={hf}>
                   {lang === 'hi' ? 'कुल प्रभाव' : 'Total Impact'}
                 </p>
-                <p className="font-serif text-2xl font-bold text-editorial" style={hiFont}>{activeHero.impact}</p>
-                <p className="text-xs text-gray-500 mt-1" style={hiFont}>{activeHero.tag}</p>
+                <p className="font-serif text-xl font-bold text-editorial" style={hf}>{activeHero.impact}</p>
               </div>
 
-              {/* Other Heroes */}
-              <div className="bg-white border border-gray-200 p-5">
-                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3" style={hiFont}>
+              {/* More Heroes */}
+              <div className="border border-gray-200 bg-white p-4">
+                <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-3">
                   {lang === 'hi' ? 'और हीरो' : 'More Heroes'}
                 </p>
-                <div className="space-y-2">
-                  {FEATURED_HEROES.filter(h => h.slug !== selected.slug).slice(0, 4).map((h, i) => (
-                    <a
-                      key={i}
+                <div className="flex flex-col gap-2">
+                  {otherHeroes.slice(0, 4).map((h) => (
+                    <a key={h.slug}
                       href={`${import.meta.env.BASE_URL}social-hero${lang === 'hi' ? '/hi' : ''}/${h.slug}`}
-                      className="w-full text-left flex items-center gap-2 p-2 hover:bg-gray-50 transition-colors group"
-                    >
-                      <Users className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-                      <div>
-                        <p className="text-xs font-bold group-hover:text-editorial transition-colors">{h.name}</p>
-                        <p className="text-[10px] text-gray-400">{h.tag}</p>
-                      </div>
+                      className="group flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-editorial transition-colors">
+                      <ChevronRight className="w-3 h-3 flex-shrink-0 group-hover:text-editorial" />
+                      <span className="leading-snug text-xs">{h.name}</span>
                     </a>
                   ))}
                 </div>
               </div>
+
+              {/* Share */}
+              <div className="border border-gray-200 bg-white p-4">
+                <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-3">Share Profile</p>
+                <div className="flex gap-2 flex-wrap">
+                  {['LinkedIn', 'Twitter', 'WhatsApp'].map((p) => (
+                    <a key={p} href="#" className="text-[10px] font-bold tracking-wider uppercase text-gray-500 hover:text-editorial transition-colors border border-gray-200 px-2 py-1 hover:border-editorial">{p}</a>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
+          </aside>
+
+          {/* ── Main Article ── */}
+          <article className="flex-1 min-w-0 max-w-3xl">
+
+            {/* The Story */}
+            <section className="mb-16">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-[10px] font-bold text-gray-400 tracking-widest">01</span>
+                <div className="flex-1 h-px bg-gray-200" />
+                <span className="text-sm font-bold tracking-[0.12em] uppercase" style={hf}>
+                  {lang === 'hi' ? 'कहानी' : 'The Story'}
+                </span>
+                <div className="w-8 h-px bg-gray-200" />
+              </div>
+
+              {activeHero.story.map((para, i) => (
+                <p key={i} className="text-[17px] md:text-[18px] text-gray-700 mb-5"
+                  style={lang === 'hi' ? { ...hfl, lineHeight: '2.1' } : { lineHeight: '1.9' }}>{para}</p>
+              ))}
+            </section>
+
+            {/* Philosophy — black block like FounderProfile leadership quote */}
+            <section className="mb-16">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-[10px] font-bold text-gray-400 tracking-widest">02</span>
+                <div className="flex-1 h-px bg-gray-200" />
+                <span className="text-sm font-bold tracking-[0.12em] uppercase" style={hf}>
+                  {lang === 'hi' ? 'मूल दर्शन' : 'Core Philosophy'}
+                </span>
+                <div className="w-8 h-px bg-gray-200" />
+              </div>
+              <blockquote className="border-l-4 border-editorial pl-6 mb-6">
+                <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic"
+                  style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '1.9' } : {}}>
+                  {activeHero.pullQuote}
+                </p>
+              </blockquote>
+              <div className="bg-black text-white p-6">
+                <p className="text-base font-serif leading-relaxed italic text-white/90"
+                  style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '2' } : {}}>
+                  {activeHero.philosophy}
+                </p>
+              </div>
+            </section>
+
+            {/* Recognition — mobile only (sidebar is hidden on mobile) */}
+            <section className="lg:hidden mb-16">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-[10px] font-bold text-gray-400 tracking-widest">03</span>
+                <div className="flex-1 h-px bg-gray-200" />
+                <span className="text-sm font-bold tracking-[0.12em] uppercase" style={hf}>
+                  {lang === 'hi' ? 'पुरस्कार एवं सम्मान' : 'Recognition & Awards'}
+                </span>
+                <div className="w-8 h-px bg-gray-200" />
+              </div>
+              <div className="space-y-3">
+                {activeHero.recognition.map((r, i) => (
+                  <div key={i} className="flex items-start gap-3 border-b border-gray-100 pb-3">
+                    <span className="text-editorial flex-shrink-0 font-bold">▸</span>
+                    <span className="text-base text-gray-700" style={hf}>{r}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+          </article>
         </div>
       </div>
     );
