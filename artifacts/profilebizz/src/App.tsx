@@ -151,7 +151,12 @@ function Home() {
                 onMouseEnter={() => setFounderDropdown(true)}
                 onMouseLeave={() => setFounderDropdown(false)}
               >
-                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                <button
+                  className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200"
+                  aria-expanded={founderDropdown}
+                  aria-haspopup="true"
+                  onClick={() => setFounderDropdown(prev => !prev)}
+                >
                   Founder Story
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${founderDropdown ? 'rotate-180' : ''}`} />
                 </button>
@@ -191,7 +196,12 @@ function Home() {
                 onMouseEnter={() => setBizDropdown(true)}
                 onMouseLeave={() => setBizDropdown(false)}
               >
-                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                <button
+                  className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200"
+                  aria-expanded={bizDropdown}
+                  aria-haspopup="true"
+                  onClick={() => setBizDropdown(prev => !prev)}
+                >
                   Business Stories
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${bizDropdown ? 'rotate-180' : ''}`} />
                 </button>
@@ -235,7 +245,12 @@ function Home() {
                 onMouseEnter={() => setBrandDropdown(true)}
                 onMouseLeave={() => setBrandDropdown(false)}
               >
-                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                <button
+                  className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200"
+                  aria-expanded={brandDropdown}
+                  aria-haspopup="true"
+                  onClick={() => setBrandDropdown(prev => !prev)}
+                >
                   Brand Stories
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${brandDropdown ? 'rotate-180' : ''}`} />
                 </button>
@@ -277,7 +292,12 @@ function Home() {
                 onMouseEnter={() => setIndustryDropdown(true)}
                 onMouseLeave={() => setIndustryDropdown(false)}
               >
-                <button className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200">
+                <button
+                  className="text-sm font-medium h-full flex items-center gap-1 border-b-2 border-transparent hover:border-editorial hover:text-editorial transition-colors duration-200"
+                  aria-expanded={industryDropdown}
+                  aria-haspopup="true"
+                  onClick={() => setIndustryDropdown(prev => !prev)}
+                >
                   Industry Stories
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${industryDropdown ? 'rotate-180' : ''}`} />
                 </button>
@@ -611,11 +631,13 @@ function Home() {
             <h2 className="font-serif text-2xl md:text-3xl font-bold">Recently Added</h2>
             <div className="flex items-center gap-2">
               <button onClick={() => scrollLeft(startupScrollRef)}
-                className="w-9 h-9 flex items-center justify-center border border-gray-200 hover:border-black transition-colors">
+                className="w-9 h-9 flex items-center justify-center border border-gray-200 hover:border-black transition-colors"
+                aria-label="Scroll left">
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button onClick={() => scrollRight(startupScrollRef)}
-                className="w-9 h-9 flex items-center justify-center border border-gray-200 hover:border-black transition-colors">
+                className="w-9 h-9 flex items-center justify-center border border-gray-200 hover:border-black transition-colors"
+                aria-label="Scroll right">
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
@@ -803,11 +825,12 @@ function Home() {
               </div>
             ) : (
               <form onSubmit={handleSubscribe}>
-                <label className="text-[11px] font-bold tracking-widest uppercase text-white/40 block mb-2">
+                <label htmlFor="newsletter-email" className="text-[11px] font-bold tracking-widest uppercase text-white/40 block mb-2">
                   Your Email Address
                 </label>
                 <div className="flex items-end gap-4">
                   <input
+                    id="newsletter-email"
                     type="email"
                     value={subscribeEmail}
                     onChange={e => setSubscribeEmail(e.target.value)}
@@ -841,13 +864,13 @@ function Home() {
                 The authoritative voice covering Bharat's new economy. Curated narratives for the ambitious.
               </p>
               <div className="flex gap-4">
-                <button className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-black hover:text-editorial transition-colors">
+                <button aria-label="Share on social media" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-black hover:text-editorial transition-colors">
                   <Share2 className="w-4 h-4" />
                 </button>
-                <button className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-black hover:text-editorial transition-colors">
+                <button aria-label="Contact by email" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-black hover:text-editorial transition-colors">
                   <Mail className="w-4 h-4" />
                 </button>
-                <button className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-black hover:text-editorial transition-colors">
+                <button aria-label="Subscribe to RSS feed" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-black hover:text-editorial transition-colors">
                   <Rss className="w-4 h-4" />
                 </button>
               </div>
