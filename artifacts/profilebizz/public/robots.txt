@@ -1,13 +1,60 @@
+# ProfileBizz — robots.txt
+# https://profilebizz.com
+
+# ── All crawlers (default) ──────────────────────────────────────────────────
 User-agent: *
 Allow: /
-
-# Sitemap
-Sitemap: https://profilebizz.com/sitemap.xml
-
-# Crawl-delay (polite crawling)
-Crawl-delay: 1
-
-# Block dev/build artifacts
 Disallow: /src/
 Disallow: /.local/
 Disallow: /node_modules/
+Crawl-delay: 1
+
+# ── Search engine bots ──────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# ── AI citation bots — explicitly allowed ───────────────────────────────────
+# These bots fetch raw HTML for AI-generated answers and summaries.
+# ProfileBizz content (founder profiles, brand histories, industry analyses)
+# is exactly what AI assistants are asked about — allow full crawl access.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# ── Sitemap ──────────────────────────────────────────────────────────────────
+Sitemap: https://profilebizz.com/sitemap.xml

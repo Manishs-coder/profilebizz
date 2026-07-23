@@ -1,0 +1,90 @@
+# ProfileBizz — India's Business Story Platform
+
+ProfileBizz is India's premier editorial platform covering the new economy through in-depth founder profiles, brand histories, industry analyses, city-level business directories, success stories, and social impact narratives. All content focuses on Indian entrepreneurs, MSMEs, and businesses.
+
+## About
+
+ProfileBizz publishes authoritative long-form content about India's business ecosystem — from first-generation founders in Tier-2 cities to unicorn builders and legacy conglomerates. Content includes verified revenue figures, milestone timelines, founding stories, and strategic analyses.
+
+## Key Content Sections
+
+### Founder Profiles (/founder/)
+In-depth biographical profiles of Indian founders and entrepreneurs. Each profile includes founding story, revenue milestones, team size, business model, and key decisions. Notable profiles:
+- /founder/nithin-kamath — Nithin Kamath, Co-Founder & CEO of Zerodha (India's largest stockbroker)
+- /founder/rajesh-kumar-vedas — Rajesh Kumar Vedas, Founder of Vedas Agro Industries
+
+### Brand Stories (/brand/)
+Detailed histories of iconic Indian brands covering origin, growth, key turning points, and market position.
+- /brand/amul — Amul (dairy cooperative, founded 1946)
+- /brand/tata — Tata Group (conglomerate, founded 1868)
+- /brand/parle — Parle (FMCG / biscuits, founded 1929)
+- /brand/haldiram — Haldiram's (food & snacks, founded 1937)
+- /brand/mahindra — Mahindra Group (auto & conglomerate, founded 1945)
+- /brand/asian-paints — Asian Paints (paints & décor, founded 1942)
+- /brand/vedas-agro — Vedas Agro Industries (agri-processing, founded 2011)
+
+### Industry Deep-Dives (/industry/)
+Sector-level analyses of India's major industries with market size, key players, and growth trends.
+- /industry/steel — Steel industry (₹2.5L Cr market)
+- /industry/agriculture — Agriculture (₹20L Cr, foundation of Bharat economy)
+- /industry/fmcg — FMCG / Consumer goods (₹5.8L Cr)
+- /industry/solar — Solar energy / clean tech (₹1.8L Cr)
+- /industry/ev — Electric vehicles (₹50,000 Cr)
+- /industry/real-estate — Real estate / infrastructure (₹13L Cr)
+- /industry/healthcare — Healthcare / life sciences (₹8.6L Cr)
+- /industry/it — IT & technology / digital economy (₹10.4L Cr)
+- /industry/scrap — Scrap / circular economy (₹1.2L Cr)
+- /industry/biofuel — Biofuel / green energy (₹35,000 Cr)
+
+### City Business Directories (/local/)
+City-level profiles covering local business ecosystems, major industries, and prominent entrepreneurs.
+- /local/mumbai — Mumbai (financial capital, 15L+ businesses)
+- /local/delhi — Delhi NCR (business capital, 12L+ businesses)
+- /local/ahmedabad — Ahmedabad (textile & trade capital, 4.2L+ businesses)
+- /local/surat — Surat (diamond & textile city, 3.5L+ businesses)
+- /local/vadodara — Vadodara (chemical & pharma belt, 2.1L+ businesses)
+- /local/rajkot — Rajkot (engineering hub, 1.8L+ businesses)
+
+### Success Stories (/success/)
+Category-based narratives of Indian business success across segments.
+- /success/business-growth — Scale & expansion stories
+- /success/startup-success — Zero-to-one startup journeys
+- /success/export-success — Made-in-India global success
+- /success/women-success — Women entrepreneur trailblazers
+- /success/youth-success — Gen Z & millennial founders
+- /success/village-success — Bharat Rising — rural business stories
+
+### Social Impact (/impact/)
+Stories of Indian organisations driving social and environmental change.
+- /impact/ngo — NGO and community champion profiles
+- /impact/education — Education equity initiatives
+- /impact/healthcare — Health equity stories
+- /impact/environment — Environmental sustainability
+- /impact/village-development — Rural development
+- /impact/csr — Corporate social responsibility
+
+### Business News Categories (/news/)
+Category hubs for ongoing business news coverage.
+- /news/funding — Investment rounds and fundraising
+- /news/expansion — Growth and new market entry
+- /news/acquisitions — Mergers, acquisitions, and deals
+- /news/new-products — Product launches and innovations
+- /news/factory-launch — Manufacturing and industrial launches
+- /news/govt-schemes — Government policy and schemes for business
+- /news/awards — Business recognition and rankings
+
+### Special Sections
+- /social-hero — Social Hero Profiles (changemakers and community leaders)
+- /women-story — Women in Business spotlight
+
+## Sitemap
+https://profilebizz.com/sitemap.xml
+
+## Content Language
+Primary: English (en-IN)
+Secondary: Hindi (hi-IN) — available for founder profiles at /founder/hi/{slug}
+
+## Publisher
+ProfileBizz Editorial Team
+Mumbai · Bengaluru · Delhi NCR
+Contact: editorial@profilebizz.com
