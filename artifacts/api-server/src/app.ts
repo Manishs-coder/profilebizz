@@ -30,12 +30,20 @@ app.use(
   }),
 );
 
-// CORS: only allow same-origin (the proxy handles cross-origin routing).
-// Explicit origin list prevents credentialed cross-site requests.
-const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? "")
-  .split(",")
-  .map((o) => o.trim())
-  .filter(Boolean);
+// CORS: allow production domains plus any extra origins from env.
+const PRODUCTION_ORIGINS = [
+  "https://profilebizz.com",
+  "https://www.profilebizz.com",
+  "https://profile-biz-design.replit.app",
+];
+
+const allowedOrigins = [
+  ...PRODUCTION_ORIGINS,
+  ...(process.env.ALLOWED_ORIGINS ?? "")
+    .split(",")
+    .map((o) => o.trim())
+    .filter(Boolean),
+];
 
 app.use(
   cors({
@@ -44,10 +52,7 @@ app.use(
       if (!origin) return cb(null, true);
       if (allowedOrigins.includes(origin)) return cb(null, true);
       // In development, allow any localhost / replit dev domain
-      if (
-        process.env.NODE_ENV !== "production" &&
-        (origin.includes("localhost") || origin.includes(".replit.dev"))
-      ) {
+      if (origin.includes("localhost") || origin.includes(".replit.dev")) {
         return cb(null, true);
       }
       cb(new Error(`CORS: origin ${origin} not allowed`));
