@@ -69,6 +69,13 @@ export default defineConfig({
     strictPort: true,
     host: '0.0.0.0',
     allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: `http://localhost:${process.env.API_PORT || 8080}`,
+        changeOrigin: true,
+        secure: false,
+      },
+    },
     headers: {
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       'Pragma': 'no-cache',

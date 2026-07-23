@@ -578,11 +578,12 @@ function SectionsEditor({ slug }: { slug: string }) {
 
   const textSections = ["Early Life", "Education", "Career", "Entrepreneurial Journey", "Challenges", "Success", "Leadership Style"]
 
-  type SectionData = { pullQuote: string; bodyParagraphs: string }
+  type SectionData = { pullQuote: string; bodyParagraphs: string; imageUrl: string; imageCaption: string }
   const [formDataEn, setFormDataEn] = React.useState<Record<string, SectionData>>({})
   const [formDataHi, setFormDataHi] = React.useState<Record<string, SectionData>>({})
   const [awardsEn, setAwardsEn] = React.useState<Award[]>([])
   const [interviewsEn, setInterviewsEn] = React.useState<Interview[]>([])
+  const [imageUploading, setImageUploading] = React.useState<string | null>(null)
 
   const formData = locale === "en" ? formDataEn : formDataHi
   const setFormData = locale === "en" ? setFormDataEn : setFormDataHi
@@ -592,9 +593,12 @@ function SectionsEditor({ slug }: { slug: string }) {
     const newData: Record<string, SectionData> = {}
     textSections.forEach((key) => {
       const sec = sections.find((s) => s.sectionKey === key)
+      const jd = sec?.jsonData as any
       newData[key] = {
         pullQuote: sec?.pullQuote || "",
         bodyParagraphs: sec?.bodyParagraphs ? sec.bodyParagraphs.join("\n\n") : "",
+        imageUrl: jd?.imageUrl || "",
+        imageCaption: jd?.imageCaption || "",
       }
     })
     if (locale === "en") {
@@ -612,9 +616,28 @@ function SectionsEditor({ slug }: { slug: string }) {
     }
   }, [sections, locale])
 
+  const handleSectionImageUpload = async (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setImageUploading(key)
+    const fd = new FormData()
+    fd.append("file", file)
+    try {
+      const res = await fetch(`/api/upload`, { method: "POST", body: fd, credentials: "include" })
+      const { url } = await res.json()
+      setFormData((prev) => ({ ...prev, [key]: { ...prev[key], imageUrl: url } }))
+      toast({ title: "Image uploaded!", description: "Image is ready for this section." })
+    } catch {
+      toast({ title: "Upload failed", variant: "destructive" })
+    } finally {
+      setImageUploading(null)
+    }
+  }
+
   const handleSave = () => {
     const textPayload = textSections.map((key) => {
-      const data = formData[key] || { pullQuote: "", bodyParagraphs: "" }
+      const data = formData[key] || { pullQuote: "", bodyParagraphs: "", imageUrl: "", imageCaption: "" }
+      const jsonData = data.imageUrl ? { imageUrl: data.imageUrl, imageCaption: data.imageCaption || "" } : null
       return {
         sectionKey: key,
         pullQuote: data.pullQuote,
@@ -624,7 +647,7 @@ function SectionsEditor({ slug }: { slug: string }) {
               .map((p) => p.trim())
               .filter(Boolean)
           : [],
-        jsonData: null,
+        jsonData,
       }
     })
 
@@ -720,6 +743,60 @@ function SectionsEditor({ slug }: { slug: string }) {
                   }
                   style={locale === "hi" ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
                 />
+              </div>
+
+              {/* ── Article Image ── */}
+              <div className="space-y-3 pt-3 border-t border-dashed border-slate-200">
+                <div className="flex items-center gap-2">
+                  <ImageIcon className="h-4 w-4 text-slate-400" />
+                  <Label className="text-sm font-semibold text-slate-700">Section Image <span className="font-normal text-slate-400">(optional — shown inside article)</span></Label>
+                </div>
+                <div className="flex items-start gap-4">
+                  {formData[key]?.imageUrl && (
+                    <div className="relative h-20 w-32 flex-shrink-0 rounded-md overflow-hidden border border-slate-200 bg-slate-50">
+                      <img src={formData[key].imageUrl} alt="Section" className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setFormData((prev) => ({ ...prev, [key]: { ...prev[key], imageUrl: "", imageCaption: "" } }))}
+                        className="absolute top-1 right-1 bg-white rounded-full p-0.5 shadow text-red-500 hover:bg-red-50"
+                        title="Remove image"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </button>
+                    </div>
+                  )}
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <label className="cursor-pointer flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-primary border border-slate-200 hover:border-primary px-3 py-1.5 rounded-md transition-colors">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => handleSectionImageUpload(key, e)}
+                          disabled={imageUploading === key}
+                        />
+                        {imageUploading === key ? (
+                          <><Loader2 className="h-3 w-3 animate-spin" /> Uploading...</>
+                        ) : (
+                          <><ImageIcon className="h-3 w-3" /> Upload Image</>
+                        )}
+                      </label>
+                      <span className="text-xs text-slate-400">or</span>
+                      <Input
+                        className="h-7 text-xs flex-1"
+                        placeholder="Paste image URL..."
+                        value={formData[key]?.imageUrl || ""}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, [key]: { ...prev[key], imageUrl: e.target.value } }))}
+                      />
+                    </div>
+                    <Input
+                      className="h-7 text-xs"
+                      placeholder="Caption (optional)..."
+                      value={formData[key]?.imageCaption || ""}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, [key]: { ...prev[key], imageCaption: e.target.value } }))}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

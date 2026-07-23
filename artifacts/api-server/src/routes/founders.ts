@@ -237,4 +237,42 @@ router.put("/founders/:slug/seo", requireAuth, async (req, res) => {
   res.json(result);
 });
 
+// ─── PUBLIC endpoints (no auth needed — for ProfileBizz frontend) ────────────
+
+// GET /api/public/founders/:slug
+router.get("/public/founders/:slug", async (req, res) => {
+  const slug = param(req.params.slug);
+  const [founder] = await db
+    .select()
+    .from(foundersTable)
+    .where(eq(foundersTable.slug, slug))
+    .limit(1);
+  if (!founder || !founder.published) {
+    res.status(404).json({ error: "Founder not found" });
+    return;
+  }
+  res.json({ ...founder, createdAt: founder.createdAt.toISOString(), updatedAt: founder.updatedAt.toISOString() });
+});
+
+// GET /api/public/founders/:slug/sections?locale=en
+router.get("/public/founders/:slug/sections", async (req, res) => {
+  const slug = param(req.params.slug);
+  const locale = (req.query.locale as string) || "en";
+  const [founder] = await db
+    .select({ id: foundersTable.id, published: foundersTable.published })
+    .from(foundersTable)
+    .where(eq(foundersTable.slug, slug))
+    .limit(1);
+  if (!founder || !founder.published) {
+    res.status(404).json({ error: "Founder not found" });
+    return;
+  }
+  const sections = await db
+    .select()
+    .from(founderSectionsTable)
+    .where(and(eq(founderSectionsTable.founderId, founder.id), eq(founderSectionsTable.locale, locale)))
+    .orderBy(founderSectionsTable.sortOrder);
+  res.json(sections);
+});
+
 export default router;
