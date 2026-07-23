@@ -1,5 +1,6 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { db, adminUsersTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import { LoginBody } from "@workspace/api-zod";
@@ -36,6 +37,26 @@ router.post("/auth/logout", (req, res) => {
     res.clearCookie("connect.sid");
     return res.json({ ok: true });
   });
+});
+
+// POST /api/auth/mobile-token — returns JWT for mobile clients
+router.post("/auth/mobile-token", async (req, res) => {
+  const parsed = LoginBody.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: "Invalid request body" });
+  }
+  const { username, password } = parsed.data;
+  const [user] = await db
+    .select()
+    .from(adminUsersTable)
+    .where(eq(adminUsersTable.username, username))
+    .limit(1);
+  if (!user) return res.status(401).json({ error: "Invalid username or password" });
+  const valid = await bcrypt.compare(password, user.passwordHash);
+  if (!valid) return res.status(401).json({ error: "Invalid username or password" });
+  const secret = process.env.SESSION_SECRET ?? "dev-fallback-secret";
+  const token = jwt.sign({ userId: user.id, username: user.username }, secret, { expiresIn: "30d" });
+  return res.json({ token, id: user.id, username: user.username });
 });
 
 // GET /api/auth/me
