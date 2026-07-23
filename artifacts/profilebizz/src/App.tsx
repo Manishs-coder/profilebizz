@@ -68,13 +68,13 @@ function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollLeft = (ref: React.RefObject<HTMLDivElement>) => {
+  const scrollLeft = (ref: React.RefObject<HTMLDivElement | null>) => {
     if (ref.current) {
       ref.current.scrollBy({ left: -350, behavior: 'smooth' });
     }
   };
 
-  const scrollRight = (ref: React.RefObject<HTMLDivElement>) => {
+  const scrollRight = (ref: React.RefObject<HTMLDivElement | null>) => {
     if (ref.current) {
       ref.current.scrollBy({ left: 350, behavior: 'smooth' });
     }
