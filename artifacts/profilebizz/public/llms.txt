@@ -73,9 +73,25 @@ Category hubs for ongoing business news coverage.
 - /news/govt-schemes — Government policy and schemes for business
 - /news/awards — Business recognition and rankings
 
-### Special Sections
-- /social-hero — Social Hero Profiles (changemakers and community leaders)
-- /women-story — Women in Business spotlight
+### Social Hero Profiles (/social-hero/)
+Individual profiles of India's social changemakers — NGO founders, CSR champions, rural heroes, women leaders, and youth icons.
+- /social-hero — Full listing of social heroes
+- /social-hero/anshu-gupta — Anshu Gupta, Founder of Goonj (clothing as resource for dignity)
+- /social-hero/sonam-wangchuk — Sonam Wangchuk, Engineer & innovator transforming Ladakh education
+- /social-hero/bindeshwar-pathak — Dr. Bindeshwar Pathak, Founder of Sulabh International (sanitation revolution)
+- /social-hero/ela-bhatt — Ela Bhatt, Founder of SEWA (Self-Employed Women's Association)
+- /social-hero/arunachalam-muruganantham — Arunachalam Muruganantham, the Padman who brought low-cost sanitary pads to rural India
+- /social-hero/rajendra-singh — Rajendra Singh, Waterman of India (Magsaysay Award for water conservation)
+
+### Women Stories (/women-story/)
+In-depth profiles of India's pioneering women entrepreneurs, corporate leaders, and social innovators.
+- /women-story — Full listing of women stories
+- /women-story/falguni-nayar — Falguni Nayar, Founder & CEO of Nykaa (India's richest self-made woman)
+- /women-story/kiran-mazumdar-shaw — Kiran Mazumdar-Shaw, Founder of Biocon (India's largest biopharma)
+- /women-story/vandana-luthra — Vandana Luthra, Founder of VLCC (wellness & beauty empire)
+- /women-story/priya-paul — Priya Paul, Chairperson of Apeejay Surrendra Park Hotels
+- /women-story/indra-nooyi — Indra Nooyi, Former CEO of PepsiCo (longest-serving woman CEO of a Fortune 50)
+- /women-story/jyoti-naik — Jyoti Naik, Founder of Lijjat Papad (cooperative turned ₹1,600 Cr enterprise)
 
 ## Sitemap
 https://profilebizz.com/sitemap.xml

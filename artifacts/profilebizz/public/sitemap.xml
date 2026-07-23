@@ -11,16 +11,78 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- ── Static story hub pages ── -->
+  <!-- ── Social Hero — Listing & Individual Profiles ── -->
   <url>
     <loc>https://profilebizz.com/social-hero</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://profilebizz.com/social-hero/anshu-gupta</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/social-hero/sonam-wangchuk</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/social-hero/bindeshwar-pathak</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/social-hero/ela-bhatt</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/social-hero/arunachalam-muruganantham</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/social-hero/rajendra-singh</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ── Women Stories — Listing & Individual Profiles ── -->
+  <url>
     <loc>https://profilebizz.com/women-story</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/women-story/falguni-nayar</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/women-story/kiran-mazumdar-shaw</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/women-story/vandana-luthra</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/women-story/priya-paul</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/women-story/indra-nooyi</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://profilebizz.com/women-story/jyoti-naik</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <!-- ── Brand Stories ── -->

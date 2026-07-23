@@ -104,9 +104,22 @@ const SITE_URL_BASE = 'https://profilebizz.com';
 const STATIC_URLS = [
   // Homepage
   { loc: '/',                           changefreq: 'daily',   priority: '1.0' },
-  // Static hub pages
-  { loc: '/social-hero',                changefreq: 'weekly',  priority: '0.7' },
-  { loc: '/women-story',                changefreq: 'weekly',  priority: '0.7' },
+  // Social Hero — listing + individual profiles (slugs from FEATURED_HEROES in SocialHeroProfile.tsx)
+  { loc: '/social-hero',                          changefreq: 'weekly',  priority: '0.7' },
+  { loc: '/social-hero/anshu-gupta',              changefreq: 'monthly', priority: '0.8' },
+  { loc: '/social-hero/sonam-wangchuk',           changefreq: 'monthly', priority: '0.8' },
+  { loc: '/social-hero/bindeshwar-pathak',        changefreq: 'monthly', priority: '0.8' },
+  { loc: '/social-hero/ela-bhatt',                changefreq: 'monthly', priority: '0.8' },
+  { loc: '/social-hero/arunachalam-muruganantham',changefreq: 'monthly', priority: '0.8' },
+  { loc: '/social-hero/rajendra-singh',           changefreq: 'monthly', priority: '0.8' },
+  // Women Stories — listing + individual profiles (slugs from WOMEN_STORIES in WomenStory.tsx)
+  { loc: '/women-story',                          changefreq: 'weekly',  priority: '0.7' },
+  { loc: '/women-story/falguni-nayar',            changefreq: 'monthly', priority: '0.9' },
+  { loc: '/women-story/kiran-mazumdar-shaw',      changefreq: 'monthly', priority: '0.9' },
+  { loc: '/women-story/vandana-luthra',           changefreq: 'monthly', priority: '0.8' },
+  { loc: '/women-story/priya-paul',               changefreq: 'monthly', priority: '0.8' },
+  { loc: '/women-story/indra-nooyi',              changefreq: 'monthly', priority: '0.9' },
+  { loc: '/women-story/jyoti-naik',               changefreq: 'monthly', priority: '0.8' },
   // Brand Stories — slugs from FEATURED_BRANDS in BrandStory.tsx
   { loc: '/brand/amul',                 changefreq: 'monthly', priority: '0.9' },
   { loc: '/brand/parle',                changefreq: 'monthly', priority: '0.8' },
