@@ -747,6 +747,23 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
   return (
     <>
       <Helmet>
+        <title>{`${industry.name} — ${industry.tagline} | ProfileBizz`}</title>
+        <meta name="description" content={industry.oneLiner} />
+        <link rel="canonical" href={_industryUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={_industryUrl} />
+        <meta property="og:site_name" content="ProfileBizz" />
+        <meta property="og:title" content={`${industry.name} — ${industry.tagline} | ProfileBizz`} />
+        <meta property="og:description" content={industry.oneLiner} />
+        <meta property="og:image" content={industry.coverPhoto} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_IN" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@profilebizz" />
+        <meta name="twitter:title" content={`${industry.name} — ${industry.tagline} | ProfileBizz`} />
+        <meta name="twitter:description" content={industry.oneLiner} />
+        <meta name="twitter:image" content={industry.coverPhoto} />
         <script type="application/ld+json">{_industryJsonLd}</script>
       </Helmet>
       <div className="min-h-screen bg-[#f9f9f9] text-black">

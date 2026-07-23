@@ -493,6 +493,23 @@ export default function BusinessNews({ params }: { params?: { slug?: string } })
   return (
     <>
       <Helmet>
+        <title>{`${cat.label} — India Business News | ProfileBizz`}</title>
+        <meta name="description" content={`Latest India ${cat.label} news — ${cat.tag}. Stay updated on India's business landscape with funding rounds, expansions, and deals curated by ProfileBizz.`} />
+        <link rel="canonical" href={_newsUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={_newsUrl} />
+        <meta property="og:site_name" content="ProfileBizz" />
+        <meta property="og:title" content={`${cat.label} — India Business News | ProfileBizz`} />
+        <meta property="og:description" content={`Latest India ${cat.label} news — ${cat.tag}. Curated by ProfileBizz.`} />
+        <meta property="og:image" content="https://profilebizz.com/og-cover.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_IN" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@profilebizz" />
+        <meta name="twitter:title" content={`${cat.label} — India Business News | ProfileBizz`} />
+        <meta name="twitter:description" content={`Latest India ${cat.label} news — ${cat.tag}. Curated by ProfileBizz.`} />
+        <meta name="twitter:image" content="https://profilebizz.com/og-cover.jpg" />
         <script type="application/ld+json">{_newsJsonLd}</script>
       </Helmet>
       <div className="min-h-screen bg-[#f9f9f9] text-black">

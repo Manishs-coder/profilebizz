@@ -248,6 +248,23 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
     return (
       <>
         <Helmet>
+          <title>{`${selected.name} — ${selected.title} | ProfileBizz`}</title>
+          <meta name="description" content={selected.pullQuote} />
+          <link rel="canonical" href={_womenDetailUrl} />
+          <meta property="og:type" content="article" />
+          <meta property="og:url" content={_womenDetailUrl} />
+          <meta property="og:site_name" content="ProfileBizz" />
+          <meta property="og:title" content={`${selected.name} — ${selected.title} | ProfileBizz`} />
+          <meta property="og:description" content={selected.pullQuote} />
+          <meta property="og:image" content={selected.coverPhoto} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:locale" content="en_IN" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:site" content="@profilebizz" />
+          <meta name="twitter:title" content={`${selected.name} — ${selected.title} | ProfileBizz`} />
+          <meta name="twitter:description" content={selected.pullQuote} />
+          <meta name="twitter:image" content={selected.coverPhoto} />
           <script type="application/ld+json">{_womenDetailJsonLd}</script>
         </Helmet>
         <div className="min-h-screen bg-[#f9f9f9] text-black">
@@ -385,6 +402,23 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
   return (
     <>
       <Helmet>
+        <title>Women Stories — India's Women Entrepreneurs | ProfileBizz</title>
+        <meta name="description" content="Stories of India's women founders, corporate leaders, social entrepreneurs, and young innovators — breaking barriers and building legacies. Curated by ProfileBizz." />
+        <link rel="canonical" href={_womenListUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={_womenListUrl} />
+        <meta property="og:site_name" content="ProfileBizz" />
+        <meta property="og:title" content="Women Stories — India's Women Entrepreneurs | ProfileBizz" />
+        <meta property="og:description" content="Stories of India's women founders, corporate leaders, and social entrepreneurs breaking barriers. Curated by ProfileBizz." />
+        <meta property="og:image" content="https://profilebizz.com/og-cover.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_IN" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@profilebizz" />
+        <meta name="twitter:title" content="Women Stories — India's Women Entrepreneurs | ProfileBizz" />
+        <meta name="twitter:description" content="India's women founders and leaders — stories curated by ProfileBizz." />
+        <meta name="twitter:image" content="https://profilebizz.com/og-cover.jpg" />
         <script type="application/ld+json">{_womenListJsonLd}</script>
       </Helmet>
       <div className="min-h-screen bg-[#f9f9f9] text-black">

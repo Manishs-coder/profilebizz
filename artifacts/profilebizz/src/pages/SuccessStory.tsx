@@ -403,6 +403,23 @@ export default function SuccessStory({ params }: { params?: { slug?: string } })
   return (
     <>
       <Helmet>
+        <title>{`${cat.label} Stories — India's Business Success | ProfileBizz`}</title>
+        <meta name="description" content={`India's inspiring ${cat.label} stories — founder journeys, business milestones, and growth narratives from India's most driven entrepreneurs, curated by ProfileBizz.`} />
+        <link rel="canonical" href={_successUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={_successUrl} />
+        <meta property="og:site_name" content="ProfileBizz" />
+        <meta property="og:title" content={`${cat.label} Stories — India's Business Success | ProfileBizz`} />
+        <meta property="og:description" content={`India's inspiring ${cat.label} stories — founder journeys, business milestones, and growth narratives curated by ProfileBizz.`} />
+        <meta property="og:image" content="https://profilebizz.com/og-cover.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_IN" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@profilebizz" />
+        <meta name="twitter:title" content={`${cat.label} Stories — India's Business Success | ProfileBizz`} />
+        <meta name="twitter:description" content={`India's inspiring ${cat.label} stories curated by ProfileBizz.`} />
+        <meta name="twitter:image" content="https://profilebizz.com/og-cover.jpg" />
         <script type="application/ld+json">{_successJsonLd}</script>
       </Helmet>
       <div className="min-h-screen bg-[#f9f9f9] text-black">

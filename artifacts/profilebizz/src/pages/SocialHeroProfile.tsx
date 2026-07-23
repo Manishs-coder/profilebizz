@@ -272,6 +272,23 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
     return (
       <>
         <Helmet>
+          <title>{`${selected.name} — Social Hero Profile | ProfileBizz`}</title>
+          <meta name="description" content={`Read the inspiring story of ${selected.name}, one of India's leading ${selected.category}. Full profile and impact journey curated by ProfileBizz.`} />
+          <link rel="canonical" href={_heroDetailUrl} />
+          <meta property="og:type" content="article" />
+          <meta property="og:url" content={_heroDetailUrl} />
+          <meta property="og:site_name" content="ProfileBizz" />
+          <meta property="og:title" content={`${selected.name} — Social Hero Profile | ProfileBizz`} />
+          <meta property="og:description" content={`${selected.name} is one of India's leading ${selected.category}. Read their full story on ProfileBizz.`} />
+          <meta property="og:image" content={selected.coverPhoto} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:locale" content="en_IN" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:site" content="@profilebizz" />
+          <meta name="twitter:title" content={`${selected.name} — Social Hero Profile | ProfileBizz`} />
+          <meta name="twitter:description" content={`${selected.name} — ${selected.category} — story on ProfileBizz.`} />
+          <meta name="twitter:image" content={selected.coverPhoto} />
           <script type="application/ld+json">{_heroDetailJsonLd}</script>
         </Helmet>
         <div className="min-h-screen bg-[#f9f9f9] text-black">
@@ -535,6 +552,23 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
   return (
     <>
       <Helmet>
+        <title>Social Hero Profiles — India's Changemakers | ProfileBizz</title>
+        <meta name="description" content="Profiles of India's social heroes — changemakers, NGO founders, CSR champions, rural heroes, women leaders, and youth icons transforming Bharat. Curated by ProfileBizz." />
+        <link rel="canonical" href={_heroListUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={_heroListUrl} />
+        <meta property="og:site_name" content="ProfileBizz" />
+        <meta property="og:title" content="Social Hero Profiles — India's Changemakers | ProfileBizz" />
+        <meta property="og:description" content="Profiles of India's social heroes — changemakers, NGO founders, CSR champions, rural heroes, and youth icons curated by ProfileBizz." />
+        <meta property="og:image" content="https://profilebizz.com/og-cover.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_IN" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@profilebizz" />
+        <meta name="twitter:title" content="Social Hero Profiles — India's Changemakers | ProfileBizz" />
+        <meta name="twitter:description" content="India's social heroes — changemakers, NGO founders, CSR champions curated by ProfileBizz." />
+        <meta name="twitter:image" content="https://profilebizz.com/og-cover.jpg" />
         <script type="application/ld+json">{_heroListJsonLd}</script>
       </Helmet>
       <div className="min-h-screen bg-[#f9f9f9] text-black">

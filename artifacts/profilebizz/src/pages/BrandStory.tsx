@@ -849,6 +849,23 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
   return (
     <>
       <Helmet>
+        <title>{`${brand.name} — ${brand.tagline} | ProfileBizz`}</title>
+        <meta name="description" content={brand.oneLiner} />
+        <link rel="canonical" href={_brandUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={_brandUrl} />
+        <meta property="og:site_name" content="ProfileBizz" />
+        <meta property="og:title" content={`${brand.name} — ${brand.tagline} | ProfileBizz`} />
+        <meta property="og:description" content={brand.oneLiner} />
+        <meta property="og:image" content={brand.coverPhoto} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_IN" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@profilebizz" />
+        <meta name="twitter:title" content={`${brand.name} — ${brand.tagline} | ProfileBizz`} />
+        <meta name="twitter:description" content={brand.oneLiner} />
+        <meta name="twitter:image" content={brand.coverPhoto} />
         <script type="application/ld+json">{_brandJsonLd}</script>
       </Helmet>
       <div className="min-h-screen bg-[#f9f9f9] text-black">

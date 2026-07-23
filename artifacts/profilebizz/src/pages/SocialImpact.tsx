@@ -604,6 +604,23 @@ export default function SocialImpact({ params }: { params?: { slug?: string } })
   return (
     <>
       <Helmet>
+        <title>{`${cat.label} — Social Impact Stories India | ProfileBizz`}</title>
+        <meta name="description" content={`India's ${cat.label} stories — NGOs, changemakers, and social entrepreneurs transforming communities across Bharat. Curated by ProfileBizz.`} />
+        <link rel="canonical" href={_impactUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={_impactUrl} />
+        <meta property="og:site_name" content="ProfileBizz" />
+        <meta property="og:title" content={`${cat.label} — Social Impact Stories India | ProfileBizz`} />
+        <meta property="og:description" content={`India's ${cat.label} stories — changemakers transforming communities across Bharat, curated by ProfileBizz.`} />
+        <meta property="og:image" content="https://profilebizz.com/og-cover.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_IN" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@profilebizz" />
+        <meta name="twitter:title" content={`${cat.label} — Social Impact Stories India | ProfileBizz`} />
+        <meta name="twitter:description" content={`India's ${cat.label} stories — changemakers curated by ProfileBizz.`} />
+        <meta name="twitter:image" content="https://profilebizz.com/og-cover.jpg" />
         <script type="application/ld+json">{_impactJsonLd}</script>
       </Helmet>
       <div className="min-h-screen bg-[#f9f9f9] text-black">

@@ -361,6 +361,23 @@ export default function LocalBusiness({ params }: { params?: { slug?: string } }
   return (
     <>
       <Helmet>
+        <title>{`${city.name} Business Directory — ${city.tagline} | ProfileBizz`}</title>
+        <meta name="description" content={city.spotlight} />
+        <link rel="canonical" href={_localUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={_localUrl} />
+        <meta property="og:site_name" content="ProfileBizz" />
+        <meta property="og:title" content={`${city.name} Business Directory — ${city.tagline} | ProfileBizz`} />
+        <meta property="og:description" content={city.spotlight} />
+        <meta property="og:image" content={city.coverPhoto} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_IN" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@profilebizz" />
+        <meta name="twitter:title" content={`${city.name} Business Directory — ${city.tagline} | ProfileBizz`} />
+        <meta name="twitter:description" content={city.spotlight} />
+        <meta name="twitter:image" content={city.coverPhoto} />
         <script type="application/ld+json">{_localJsonLd}</script>
       </Helmet>
       <div className="min-h-screen bg-[#f9f9f9] text-black">
