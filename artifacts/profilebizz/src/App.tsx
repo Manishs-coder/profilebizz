@@ -905,6 +905,9 @@ function Router() {
       <Route path="/news/:slug" component={BusinessNews} />
       <Route path="/social-hero" component={SocialHeroProfile} />
       <Route path="/social-hero/:slug" component={SocialHeroProfile} />
+      <Route path="/social-hero/hi/:slug">
+        {(params) => <SocialHeroProfile params={params as { slug: string }} locale="hi" />}
+      </Route>
       <Route path="/women-story" component={WomenStory} />
       <Route path="/women-story/:slug" component={WomenStory} />
       <Route component={NotFound} />

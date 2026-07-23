@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, Share2, BookmarkPlus, Award, Heart, TrendingUp, Users, Globe } from 'lucide-react';
+import { ChevronLeft, Share2, BookmarkPlus, Award, Heart, TrendingUp, Users, Globe, Languages } from 'lucide-react';
 
 const CATEGORIES = [
   { slug: 'changemakers', label: 'Changemakers', icon: '🌟', desc: 'Individuals reshaping India through bold action' },
@@ -172,8 +172,46 @@ const FEATURED_HEROES = [
   },
 ];
 
-export default function SocialHeroProfile({ params }: { params?: { slug?: string } }) {
+/* ══════════════════════════════════════
+   HINDI OVERRIDES
+══════════════════════════════════════ */
+const HEROES_HI: Record<string, Partial<typeof FEATURED_HEROES[0]>> = {
+  'anshu-gupta': {
+    name: 'अंशू गुप्ता',
+    title: 'संस्थापक, गूंज — भारत के कपड़ा पुरुष',
+    tag: 'भारत के कपड़ा पुरुष',
+    location: 'नई दिल्ली',
+    impact: '5 करोड़+ जीवन · 4,000 टन/वर्ष',
+    category: 'NGO संस्थापक',
+    pullQuote: '"कबाड़ नहीं, यह किसी की गरिमा है — शहरों का अतिरिक्त सामान, ग्रामीण भारत का आत्म-सम्मान।"',
+    story: [
+      '1990 के दशक की बात है। दिल्ली की कड़कड़ाती ठंड में जब लोग अपने घरों में रज़ाइयों में दुबके थे, तब एक युवा पत्रकार अंशू गुप्ता की मुलाकात हबीब नाम के एक व्यक्ति से हुई। हबीब का काम लावारिस शवों को उठाना था। बातचीत के दौरान हबीब ने एक ऐसी बात कही जिसने अंशू जी की सोच की नींव हिला दी: "गर्मियों में जब शव मिलता है तो मुझे कोई दिक्कत नहीं होती, लेकिन सर्दियों में मुझे रोज़ दो से तीन शव उठाने पड़ते हैं। लोग ठंड से नहीं मरते... लोग ठंड में कपड़ों के अभाव से मरते हैं।"',
+      'इस एक घटना ने अंशू गुप्ता को यह सोचने पर मजबूर कर दिया कि जहाँ शहरों में अलमारियाँ पुराने कपड़ों से भरी पड़ी हैं या लोग उन्हें कबाड़ समझकर फेंक देते हैं, वहीं देश का एक बड़ा हिस्सा सिर्फ एक कपड़े के टुकड़े के अभाव में अपनी जान गंवा देता है। \'रोटी, कपड़ा और मकान\' की चर्चा तो सब करते थे, लेकिन कपड़ों को हमेशा केवल दान या पुरानी चीज़ मानकर छोड़ दिया जाता था।',
+      'अंशू जी और उनकी पत्नी मीनाक्षी गुप्ता एक ऐसी आवाज़ उठाना चाहते थे जो शहरों के अतिरिक्त सामान और ग्रामीण भारत की ज़रूरतों के बीच पूरे देश में गूँज उठे। इसी सोच के साथ 1999 में अपनी कॉर्पोरेट नौकरी छोड़कर, उन्होंने दिल्ली में अपने ही घर से मात्र 67 कपड़ों के साथ अपनी संस्था का नाम \'गूंज\' रखा और इसकी नींव रखी।',
+      'अंशू जी का स्पष्ट मानना था कि किसी भी गरीब इंसान को मुफ्त में सामान देना उसकी लाचारी का मज़ाक उड़ाना है और इससे उसका आत्म-सम्मान चोटिल होता है। इसलिए उन्होंने \'Cloth for Work\' (काम के बदले कपड़ा) का अनोखा मॉडल तैयार किया। गाँव के लोग मिलकर अपने क्षेत्र की समस्याओं को चिन्हित करते — रास्ता बनाना, कुआं साफ करना, बांस का पुल तैयार करना या स्कूल की मरम्मत। काम पूरा होने पर \'गूंज\' उन्हें \'फैमिली किट\' (कपड़े, बर्तन, राशन) उपहार स्वरूप देता है। इससे गाँव का विकास भी होता है और लोगों में यह भाव रहता है कि उन्होंने यह सामान अपनी मेहनत से कमाया है, किसी की भीख में नहीं लिया।',
+      'ग्रामीण भारत में महिलाओं के लिए मासिक धर्म के समय स्वच्छता और कपड़े की कमी एक भयंकर समस्या थी। इसके लिए उन्होंने \'Not Just a Piece of Cloth\' अभियान शुरू किया, जिसमें शहरों से आने वाले सूती कपड़ों को रीसायकल करके साफ, री-यूजेबल कॉटन पैड्स (MY Pad) बनाकर गाँव-गाँव पहुँचाए गए।',
+      'दिल्ली से शुरू हुआ यह काम धीरे-धीरे मुंबई, कोलकाता, बेंगलुरु, हैदराबाद और चेन्नई जैसे बड़े शहरों में संग्रह केंद्रों के रूप में फैल गया। 67 कपड़ों से शुरू हुआ यह सफर जब हर साल 4,000 टन से ज़्यादा सामग्री को रीसायकल करने लगा, तो 2015 में मनीला, फिलीपींस में अंशू गुप्ता को एशिया के सर्वोच्च सम्मान — रमन मैग्सेसे पुरस्कार — से सम्मानित किया गया। दुनिया उन्हें "The Clothing Man of India" के नाम से जानने लगी।',
+    ],
+    achievements: [
+      { label: 'वार्षिक लाभान्वित', value: '5 करोड़+' },
+      { label: 'वार्षिक सामग्री', value: '4,000 टन' },
+      { label: 'राज्य', value: '25+' },
+      { label: 'शुरुआत हुई', value: 'मात्र 67 कपड़ों से' },
+    ],
+    recognition: [
+      'रमन मैग्सेसे पुरस्कार 2015 — मनीला, फिलीपींस',
+      'अशोका फेलो',
+      'CNN-IBN इंडियन ऑफ द ईयर — सोशल',
+      'NDTV सोशल आंत्रप्रेन्योर ऑफ द ईयर',
+      'पद्म श्री नामांकित',
+    ],
+    philosophy: 'कपड़ा दान नहीं — यह एक बुनियादी ज़रूरत है। शहर की हर पुरानी कमीज़ किसी गाँव में किसी की गरिमा बहाल कर सकती है। जब हम शहरी अतिरिक्त को ग्रामीण ज़रूरत मानते हैं, और इसे मुफ्त देने की बजाय सामुदायिक श्रम के बदले देते हैं — तो हम दाता नहीं, बल्कि साझेदार बन जाते हैं। और यही वह तरीका है जिससे गरिमा जीवित रहती है।',
+  },
+};
+
+export default function SocialHeroProfile({ params, locale }: { params?: { slug?: string }; locale?: 'en' | 'hi' }) {
   const slug = params?.slug ?? '';
+  const lang = locale ?? 'en';
   const [selected, setSelected] = useState<typeof FEATURED_HEROES[0] | null>(null);
   const [activeCategory, setActiveCategory] = useState('All');
   const [scrolled, setScrolled] = useState(false);
@@ -197,16 +235,28 @@ export default function SocialHeroProfile({ params }: { params?: { slug?: string
     : FEATURED_HEROES.filter(h => h.category === activeCategory);
 
   if (selected) {
+    const hiData = HEROES_HI[selected.slug];
+    const activeHero = (lang === 'hi' && hiData) ? { ...selected, ...hiData } : selected;
+    const hiFont: React.CSSProperties = lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {};
+    const hiLineHeight: React.CSSProperties = lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '2' } : {};
+
     return (
       <div className="min-h-screen bg-[#f9f9f9] text-black">
         {/* Top Bar */}
         <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>
           <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <button onClick={() => setSelected(null)} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-black transition-colors">
+              <a
+                href={lang === 'hi'
+                  ? `${import.meta.env.BASE_URL}social-hero`
+                  : `${import.meta.env.BASE_URL}social-hero`}
+                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-black transition-colors"
+              >
                 <ChevronLeft className="w-4 h-4" />
-                <span className="font-bold tracking-wider text-[11px] uppercase">Social Hero Profiles</span>
-              </button>
+                <span className="font-bold tracking-wider text-[11px] uppercase" style={hiFont}>
+                  {lang === 'hi' ? 'सोशल हीरो प्रोफाइल' : 'Social Hero Profiles'}
+                </span>
+              </a>
             </div>
             <div className="hidden md:flex items-center gap-3">
               <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-gray-500 hover:text-black px-3 py-1.5 border border-gray-200 hover:border-black transition-colors">
@@ -221,28 +271,44 @@ export default function SocialHeroProfile({ params }: { params?: { slug?: string
 
         {/* Hero */}
         <div className="relative h-[400px] md:h-[500px] overflow-hidden mt-14">
-          <img src={selected.coverPhoto} alt={selected.name} className="w-full h-full object-cover" />
+          <img src={selected.coverPhoto} alt={activeHero.name} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
           <div className="absolute top-6 left-8">
-            <span className="bg-editorial text-white text-[10px] font-bold tracking-[0.2em] uppercase px-3 py-1.5">{selected.category}</span>
+            <span className="bg-editorial text-white text-[10px] font-bold tracking-[0.2em] uppercase px-3 py-1.5" style={hiFont}>{activeHero.category}</span>
           </div>
           <div className="absolute bottom-0 left-0 right-0 max-w-[1400px] mx-auto px-4 md:px-8 pb-10">
-            <p className="text-white/60 text-xs font-bold tracking-[0.2em] uppercase mb-3">{selected.location} · Active Since {selected.founded}</p>
-            <h1 className="font-serif text-white text-4xl md:text-6xl font-bold leading-none mb-2">{selected.name}</h1>
-            <p className="text-white/70 text-base md:text-lg font-medium">{selected.title}</p>
+            <p className="text-white/60 text-xs font-bold tracking-[0.2em] uppercase mb-3" style={hiFont}>
+              {activeHero.location} · {lang === 'hi' ? 'सक्रिय' : 'Active Since'} {selected.founded}
+            </p>
+            <h1 className="font-serif text-white text-4xl md:text-6xl font-bold leading-none mb-2" style={hiFont}>{activeHero.name}</h1>
+            <p className="text-white/70 text-base md:text-lg font-medium" style={hiFont}>{activeHero.title}</p>
           </div>
         </div>
 
         {/* Stats Bar */}
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-5 flex flex-wrap gap-x-10 gap-y-3">
-            {selected.achievements.map((a, i) => (
+            {activeHero.achievements.map((a, i) => (
               <div key={i} className="flex flex-col">
-                <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400">{a.label}</span>
-                <span className="text-base md:text-xl font-serif font-bold text-black">{a.value}</span>
+                <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400" style={hiFont}>{a.label}</span>
+                <span className="text-base md:text-xl font-serif font-bold text-black" style={hiFont}>{a.value}</span>
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Language Switch */}
+        <div className="bg-white border-b border-gray-200 flex justify-center py-3">
+          <a
+            href={lang === 'en'
+              ? `${import.meta.env.BASE_URL}social-hero/hi/${selected.slug}`
+              : `${import.meta.env.BASE_URL}social-hero/${selected.slug}`}
+            className="flex items-center gap-2 border border-gray-300 hover:border-black px-5 py-2 text-sm font-semibold text-gray-600 hover:text-black transition-all group"
+            style={lang === 'hi' ? hiFont : {}}
+          >
+            <Languages className="w-4 h-4 flex-shrink-0 text-gray-400 group-hover:text-black transition-colors" />
+            {lang === 'en' ? 'हिंदी में पढ़ें' : 'Read in English'}
+          </a>
         </div>
 
         {/* Body */}
@@ -253,20 +319,24 @@ export default function SocialHeroProfile({ params }: { params?: { slug?: string
               <div className="mb-8">
                 <div className="flex items-center gap-2 mb-4">
                   <Heart className="w-4 h-4 text-editorial" />
-                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">The Story</span>
+                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400" style={hiFont}>
+                    {lang === 'hi' ? 'कहानी' : 'The Story'}
+                  </span>
                 </div>
                 <blockquote className="border-l-4 border-editorial pl-6 mb-6">
-                  <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">{selected.pullQuote}</p>
+                  <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic" style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '1.8' } : {}}>{activeHero.pullQuote}</p>
                 </blockquote>
-                {selected.story.map((para, i) => (
-                  <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{para}</p>
+                {activeHero.story.map((para, i) => (
+                  <p key={i} className="text-base text-gray-700 mb-4" style={lang === 'hi' ? { ...hiLineHeight, lineHeight: '2' } : { lineHeight: '1.85' }}>{para}</p>
                 ))}
               </div>
 
               {/* Philosophy */}
               <div className="bg-black text-white p-6 mb-8">
-                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 mb-3">Core Philosophy</p>
-                <p className="text-base font-serif leading-relaxed italic text-white/90">{selected.philosophy}</p>
+                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 mb-3" style={hiFont}>
+                  {lang === 'hi' ? 'मूल दर्शन' : 'Core Philosophy'}
+                </p>
+                <p className="text-base font-serif leading-relaxed italic text-white/90" style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '2' } : {}}>{activeHero.philosophy}</p>
               </div>
             </div>
 
@@ -276,13 +346,15 @@ export default function SocialHeroProfile({ params }: { params?: { slug?: string
               <div className="bg-white border border-gray-200 p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <Award className="w-4 h-4 text-editorial" />
-                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500">Recognition & Awards</span>
+                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500" style={hiFont}>
+                    {lang === 'hi' ? 'पुरस्कार एवं सम्मान' : 'Recognition & Awards'}
+                  </span>
                 </div>
                 <div className="space-y-2">
-                  {selected.recognition.map((r, i) => (
+                  {activeHero.recognition.map((r, i) => (
                     <div key={i} className="flex items-start gap-2">
                       <span className="text-editorial mt-0.5 flex-shrink-0">▸</span>
-                      <span className="text-sm text-gray-700">{r}</span>
+                      <span className="text-sm text-gray-700" style={hiFont}>{r}</span>
                     </div>
                   ))}
                 </div>
@@ -290,24 +362,31 @@ export default function SocialHeroProfile({ params }: { params?: { slug?: string
 
               {/* Impact Tag */}
               <div className="border border-editorial p-5">
-                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-2">Total Impact</p>
-                <p className="font-serif text-2xl font-bold text-editorial">{selected.impact}</p>
-                <p className="text-xs text-gray-500 mt-1">{selected.tag}</p>
+                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-2" style={hiFont}>
+                  {lang === 'hi' ? 'कुल प्रभाव' : 'Total Impact'}
+                </p>
+                <p className="font-serif text-2xl font-bold text-editorial" style={hiFont}>{activeHero.impact}</p>
+                <p className="text-xs text-gray-500 mt-1" style={hiFont}>{activeHero.tag}</p>
               </div>
 
               {/* Other Heroes */}
               <div className="bg-white border border-gray-200 p-5">
-                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3">More Heroes</p>
+                <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-3" style={hiFont}>
+                  {lang === 'hi' ? 'और हीरो' : 'More Heroes'}
+                </p>
                 <div className="space-y-2">
                   {FEATURED_HEROES.filter(h => h.slug !== selected.slug).slice(0, 4).map((h, i) => (
-                    <button key={i} onClick={() => { setSelected(h); window.scrollTo(0,0); }}
-                      className="w-full text-left flex items-center gap-2 p-2 hover:bg-gray-50 transition-colors group">
+                    <a
+                      key={i}
+                      href={`${import.meta.env.BASE_URL}social-hero${lang === 'hi' ? '/hi' : ''}/${h.slug}`}
+                      className="w-full text-left flex items-center gap-2 p-2 hover:bg-gray-50 transition-colors group"
+                    >
                       <Users className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
                       <div>
                         <p className="text-xs font-bold group-hover:text-editorial transition-colors">{h.name}</p>
                         <p className="text-[10px] text-gray-400">{h.tag}</p>
                       </div>
-                    </button>
+                    </a>
                   ))}
                 </div>
               </div>
