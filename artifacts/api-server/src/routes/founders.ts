@@ -249,10 +249,12 @@ router.get("/public/founders", async (req, res) => {
       profileType: foundersTable.profileType,
       profileTag: foundersTable.profileTag,
       photoUrl: foundersTable.photoUrl,
+      coverPhotoUrl: foundersTable.coverPhotoUrl,
+      oneLiner: foundersTable.oneLiner,
     })
     .from(foundersTable)
     .where(eq(foundersTable.published, true))
-    .orderBy(foundersTable.name);
+    .orderBy(sql`${foundersTable.updatedAt} DESC`);
   res.json(founders);
 });
 

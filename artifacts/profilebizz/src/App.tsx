@@ -42,12 +42,25 @@ const businessStories = [
   { name: 'Brand Journey', example: 'How a Local Name Became a National Brand' },
 ];
 
+interface PublicFounder {
+  slug: string;
+  name: string;
+  designation: string;
+  profileType: string | null;
+  profileTag: string | null;
+  photoUrl: string | null;
+  coverPhotoUrl: string | null;
+  oneLiner: string | null;
+}
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [bizDropdown, setBizDropdown] = useState(false);
   const [founderDropdown, setFounderDropdown] = useState(false);
   const [brandDropdown, setBrandDropdown] = useState(false);
   const [industryDropdown, setIndustryDropdown] = useState(false);
+  const [liveFounders, setLiveFounders] = useState<PublicFounder[]>([]);
+  const [foundersLoading, setFoundersLoading] = useState(true);
   const [localDropdown, setLocalDropdown] = useState(false);
   const [successDropdown, setSuccessDropdown] = useState(false);
   const [impactDropdown, setImpactDropdown] = useState(false);
@@ -80,11 +93,16 @@ function Home() {
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/public/founders')
+      .then(r => r.ok ? r.json() : [])
+      .then((data: PublicFounder[]) => { setLiveFounders(data); setFoundersLoading(false); })
+      .catch(() => setFoundersLoading(false));
   }, []);
 
   const scrollLeft = (ref: React.RefObject<HTMLDivElement | null>) => {
@@ -644,80 +662,51 @@ function Home() {
           </div>
 
           <div ref={startupScrollRef} className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
-            {[
-              {
-                photo: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&q=80',
-                name: 'Nithin Kamath',
-                designation: 'Co-Founder & CEO, Zerodha',
-                tag: 'Zero to One',
-                tagline: 'The man who challenged traditional brokerages with a ₹20 flat-fee model.',
-                href: '/founder/nithin-kamath',
-                badge: 'New',
-              },
-              {
-                photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
-                name: 'Rajesh Kumar Vedas',
-                designation: 'Founder & CEO, Vedas Agro Industries',
-                tag: 'Bharat Builder',
-                tagline: 'From a UP village to India\'s fastest-growing agri-processing company.',
-                href: '/founder/rajesh-kumar-vedas',
-                badge: 'New',
-              },
-              {
-                photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80',
-                name: 'Falguni Nayar',
-                designation: 'Founder & CEO, Nykaa',
-                tag: 'Women Founder',
-                tagline: 'She built India\'s first profitable beauty unicorn at 50.',
-                href: '#',
-                badge: 'Coming Soon',
-              },
-              {
-                photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
-                name: 'Deepinder Goyal',
-                designation: 'Founder & CEO, Zomato',
-                tag: 'D2C Pioneer',
-                tagline: 'From free restaurant menus to India\'s food-delivery leader.',
-                href: '#',
-                badge: 'Coming Soon',
-              },
-              {
-                photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-                name: 'Ritesh Agarwal',
-                designation: 'Founder & CEO, OYO',
-                tag: 'Under 30',
-                tagline: 'Dropped out at 17. Built a global hospitality network at 23.',
-                href: '#',
-                badge: 'Coming Soon',
-              },
-              {
-                photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80',
-                name: 'Ghazal Alagh',
-                designation: 'Co-Founder, Mamaearth',
-                tag: 'Women Founder',
-                tagline: 'Built a ₹10,000 Cr D2C empire from a mother\'s kitchen in Gurugram.',
-                href: '#',
-                badge: 'Coming Soon',
-              },
-            ].map((f, i) => (
-              <a key={i} href={f.href}
-                className="min-w-[260px] md:min-w-[300px] snap-start group flex flex-col bg-white border border-gray-100 hover:border-black transition-colors p-5">
-                <div className="flex items-center gap-3 mb-4">
-                  <img src={f.photo} alt={f.name}
-                    className="w-14 h-14 rounded-full object-cover border border-gray-100 flex-shrink-0 group-hover:ring-2 group-hover:ring-editorial transition-all" />
-                  <div className="min-w-0">
-                    <span className="inline-block text-[9px] font-bold tracking-widest uppercase text-white bg-editorial px-2 py-0.5 mb-1">{f.badge}</span>
-                    <p className="text-[10px] font-bold tracking-wider uppercase text-editorial leading-none">{f.tag}</p>
+            {foundersLoading ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="min-w-[260px] md:min-w-[300px] snap-start bg-white border border-gray-100 p-5 animate-pulse flex-shrink-0">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-14 h-14 rounded-full bg-gray-100 flex-shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-3 bg-gray-100 rounded w-16" />
+                      <div className="h-3 bg-gray-100 rounded w-24" />
+                    </div>
                   </div>
+                  <div className="h-5 bg-gray-100 rounded mb-2" />
+                  <div className="h-3 bg-gray-100 rounded mb-1" />
+                  <div className="h-3 bg-gray-100 rounded w-3/4" />
                 </div>
-                <h4 className="font-serif text-lg font-bold text-black leading-snug mb-1 group-hover:text-editorial transition-colors">{f.name}</h4>
-                <p className="text-xs text-gray-500 font-medium mb-3">{f.designation}</p>
-                <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 flex-1">{f.tagline}</p>
-                <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase text-gray-400 group-hover:text-editorial transition-colors">
-                  Read Biography <ChevronRight className="w-3 h-3" />
-                </div>
-              </a>
-            ))}
+              ))
+            ) : liveFounders.length > 0 ? (
+              liveFounders.map((f, i) => (
+                <a key={i} href={`/founder/${f.slug}`}
+                  className="min-w-[260px] md:min-w-[300px] snap-start group flex flex-col bg-white border border-gray-100 hover:border-black transition-colors p-5 flex-shrink-0">
+                  <div className="flex items-center gap-3 mb-4">
+                    <img
+                      src={f.photoUrl || f.coverPhotoUrl || 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&q=80'}
+                      alt={f.name}
+                      className="w-14 h-14 rounded-full object-cover border border-gray-100 flex-shrink-0 group-hover:ring-2 group-hover:ring-editorial transition-all"
+                    />
+                    <div className="min-w-0">
+                      <span className="inline-block text-[9px] font-bold tracking-widest uppercase text-white bg-editorial px-2 py-0.5 mb-1">New</span>
+                      <p className="text-[10px] font-bold tracking-wider uppercase text-editorial leading-none">{f.profileTag || f.profileType || 'Founder'}</p>
+                    </div>
+                  </div>
+                  <h4 className="font-serif text-lg font-bold text-black leading-snug mb-1 group-hover:text-editorial transition-colors">{f.name}</h4>
+                  <p className="text-xs text-gray-500 font-medium mb-3">{f.designation}</p>
+                  <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 flex-1">{f.oneLiner || 'Read the full profile on ProfileBizz.'}</p>
+                  <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase text-gray-400 group-hover:text-editorial transition-colors">
+                    Read Biography <ChevronRight className="w-3 h-3" />
+                  </div>
+                </a>
+              ))
+            ) : (
+              <div className="min-w-[300px] snap-start bg-white border border-gray-100 p-8 flex flex-col items-center justify-center text-center">
+                <span className="text-3xl mb-3">📖</span>
+                <p className="text-sm font-bold text-gray-700 mb-1">Profiles Coming Soon</p>
+                <p className="text-xs text-gray-400">Our editorial team is adding founder stories.</p>
+              </div>
+            )}
           </div>
         </section>
 
