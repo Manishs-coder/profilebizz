@@ -493,19 +493,21 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
             ))}
           </div>
 
-          {/* ── Language switch link — below stats ── */}
-          <div className="mt-6 flex justify-center">
-            <a
-              href={lang === 'en'
-                ? `${import.meta.env.BASE_URL}founder/hi/${slug}`
-                : `${import.meta.env.BASE_URL}founder/${slug}`}
-              className="flex items-center gap-2 border border-gray-300 hover:border-black px-5 py-2 text-sm font-semibold text-gray-600 hover:text-black transition-all group"
-              style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
-            >
-              <Languages className="w-4 h-4 flex-shrink-0 text-gray-400 group-hover:text-black transition-colors" />
-              {lang === 'en' ? 'हिंदी में पढ़ें' : 'Read in English'}
-            </a>
-          </div>
+          {/* ── Language switch link — only show if target language exists ── */}
+          {(lang === 'hi' || hasHindi) && (
+            <div className="mt-6 flex justify-center">
+              <a
+                href={lang === 'en'
+                  ? `${import.meta.env.BASE_URL}founder/hi/${slug}`
+                  : `${import.meta.env.BASE_URL}founder/${slug}`}
+                className="flex items-center gap-2 border border-gray-300 hover:border-black px-5 py-2 text-sm font-semibold text-gray-600 hover:text-black transition-all group"
+                style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
+              >
+                <Languages className="w-4 h-4 flex-shrink-0 text-gray-400 group-hover:text-black transition-colors" />
+                {lang === 'en' ? 'हिंदी में पढ़ें' : 'Read in English'}
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
