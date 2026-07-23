@@ -18,6 +18,26 @@ function truncate(text: string, maxLen = 160): string {
   return text.length <= maxLen ? text : text.slice(0, maxLen - 1) + '…';
 }
 
+/** Returns real share URLs for WhatsApp / LinkedIn / Twitter */
+function getShareLinks(pageUrl: string, title: string) {
+  const encoded = encodeURIComponent(pageUrl);
+  const text    = encodeURIComponent(`${title}\n${pageUrl}`);
+  return {
+    WhatsApp: `https://wa.me/?text=${text}`,
+    LinkedIn: `https://www.linkedin.com/sharing/share-offsite/?url=${encoded}`,
+    Twitter:  `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encoded}`,
+  };
+}
+
+/** Native share sheet (mobile) with WhatsApp fallback */
+function handleNativeShare(pageUrl: string, title: string) {
+  if (navigator.share) {
+    navigator.share({ title, url: pageUrl }).catch(() => {});
+  } else {
+    window.open(`https://wa.me/?text=${encodeURIComponent(title + '\n' + pageUrl)}`, '_blank');
+  }
+}
+
 const SECTIONS = [
   { id: 'early-life',              label: 'Early Life' },
   { id: 'education',               label: 'Education' },
@@ -380,7 +400,12 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
             <span className="text-[11px] font-bold tracking-widest uppercase bg-editorial text-white px-2 py-0.5">{founder.profileTag}</span>
           </div>
           <div className="hidden md:flex items-center gap-3">
-            <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-gray-500 hover:text-black transition-colors px-3 py-1.5 border border-gray-200 hover:border-black">
+            <button
+              onClick={() => handleNativeShare(
+                lang === 'hi' ? `${SITE_URL}/founder/hi/${slug}` : `${SITE_URL}/founder/${slug}`,
+                `${founder.name} — ${founder.designation} | ProfileBizz`
+              )}
+              className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-gray-500 hover:text-black transition-colors px-3 py-1.5 border border-gray-200 hover:border-black">
               <Share2 className="w-3.5 h-3.5" /> Share
             </button>
             <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-white bg-black hover:bg-editorial transition-colors px-3 py-1.5">
@@ -542,11 +567,17 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
             <div className="mt-4 border border-gray-200 p-4">
               <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-3">Share Profile</p>
               <div className="flex gap-2 flex-wrap">
-                {['LinkedIn', 'Twitter', 'WhatsApp'].map((p) => (
-                  <a key={p} href="#" className="text-[10px] font-bold tracking-wider uppercase text-gray-500 hover:text-editorial transition-colors border border-gray-200 px-2 py-1 hover:border-editorial">
-                    {p}
-                  </a>
-                ))}
+                {(() => {
+                  const pUrl = lang === 'hi' ? `${SITE_URL}/founder/hi/${slug}` : `${SITE_URL}/founder/${slug}`;
+                  const title = `${founder.name} — ${founder.designation} | ProfileBizz`;
+                  const links = getShareLinks(pUrl, title);
+                  return (Object.entries(links) as [string, string][]).map(([platform, href]) => (
+                    <a key={platform} href={href} target="_blank" rel="noopener noreferrer"
+                      className="text-[10px] font-bold tracking-wider uppercase text-gray-500 hover:text-editorial transition-colors border border-gray-200 px-2 py-1 hover:border-editorial">
+                      {platform}
+                    </a>
+                  ));
+                })()}
               </div>
             </div>
           </div>
@@ -903,7 +934,9 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
             <span className="text-[11px] font-bold tracking-widest uppercase bg-editorial text-white px-2 py-0.5" style={hf}>{founder.profileTag}</span>
           </div>
           <div className="hidden md:flex items-center gap-3">
-            <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-gray-500 hover:text-black transition-colors px-3 py-1.5 border border-gray-200 hover:border-black">
+            <button
+              onClick={() => handleNativeShare(pageUrl, ogTitle)}
+              className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-gray-500 hover:text-black transition-colors px-3 py-1.5 border border-gray-200 hover:border-black">
               <Share2 className="w-3.5 h-3.5" /> Share
             </button>
             <button className="flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase text-white bg-black hover:bg-editorial transition-colors px-3 py-1.5">
@@ -1018,8 +1051,11 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
             <div className="border border-gray-200 p-4">
               <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-3">Share Profile</p>
               <div className="flex gap-2 flex-wrap">
-                {['LinkedIn', 'Twitter', 'WhatsApp'].map((p) => (
-                  <a key={p} href="#" className="text-[10px] font-bold tracking-wider uppercase text-gray-500 hover:text-editorial transition-colors border border-gray-200 px-2 py-1 hover:border-editorial">{p}</a>
+                {(Object.entries(getShareLinks(pageUrl, ogTitle)) as [string, string][]).map(([platform, href]) => (
+                  <a key={platform} href={href} target="_blank" rel="noopener noreferrer"
+                    className="text-[10px] font-bold tracking-wider uppercase text-gray-500 hover:text-editorial transition-colors border border-gray-200 px-2 py-1 hover:border-editorial">
+                    {platform}
+                  </a>
                 ))}
               </div>
             </div>
