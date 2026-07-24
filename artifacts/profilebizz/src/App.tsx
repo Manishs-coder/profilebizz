@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Share2, Mail, Rss, ChevronLeft, ChevronRight, ChevronDown, Menu, X } from 'lucide-react';
+import { Search, Share2, Mail, Rss, ChevronLeft, ChevronRight, ChevronDown, Menu, X, Globe, User, Building2, Tag, Factory, Users, Rocket, Wheat, Laptop, Bot, Plane, Zap, Dumbbell, Heart } from 'lucide-react';
 import SearchOverlay from '@/components/SearchOverlay';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
@@ -608,18 +608,18 @@ function Home() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-gray-200">
             {[
-              { icon: '🌍', label: 'Social Hero Profile', desc: 'Changemakers & impact leaders',   href: '/social-hero' },
-              { icon: '👤', label: 'Founder Story',       desc: 'Zero to one journeys',            href: '/founder/nithin-kamath' },
-              { icon: '🏢', label: 'Business Stories',    desc: 'MSMEs, startups & scale-ups',     href: '#' },
-              { icon: '🏷️', label: 'Brand Stories',       desc: "India's iconic brand journeys",   href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
-              { icon: '🏭', label: 'Industry Stories',    desc: 'Sector deep-dives & analysis',    href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
-              { icon: '👩', label: 'Women Story',         desc: 'Women who redefined the rules',   href: '/social-hero' },
-            ].map((cat, i) => (
-              <a key={i} href={cat.href}
+              { Icon: Heart,     label: 'Social Hero Profile', desc: 'Changemakers & impact leaders',   href: '/social-hero' },
+              { Icon: User,      label: 'Founder Story',       desc: 'Zero to one journeys',            href: '/founder/nithin-kamath' },
+              { Icon: Building2, label: 'Business Stories',    desc: 'MSMEs, startups & scale-ups',     href: '#' },
+              { Icon: Tag,       label: 'Brand Stories',       desc: "India's iconic brand journeys",   href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
+              { Icon: Factory,   label: 'Industry Stories',    desc: 'Sector deep-dives & analysis',    href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
+              { Icon: Users,     label: 'Women Story',         desc: 'Women who redefined the rules',   href: '/social-hero' },
+            ].map(({ Icon, label, desc, href }, i) => (
+              <a key={i} href={href}
                 className="group flex flex-col px-5 py-6 bg-white hover:bg-[#f5f0ee] border-2 border-transparent hover:border-editorial transition-colors cursor-pointer">
-                <span className="text-3xl block mb-3">{cat.icon}</span>
-                <h4 className="font-serif text-base font-bold leading-snug mb-1 text-black group-hover:text-editorial transition-colors">{cat.label}</h4>
-                <p className="text-xs leading-relaxed text-gray-500">{cat.desc}</p>
+                <Icon className="w-7 h-7 text-gray-400 group-hover:text-editorial transition-colors mb-3" strokeWidth={1.5} />
+                <h4 className="font-serif text-base font-bold leading-snug mb-1 text-black group-hover:text-editorial transition-colors">{label}</h4>
+                <p className="text-xs leading-relaxed text-gray-500">{desc}</p>
               </a>
             ))}
           </div>
@@ -637,20 +637,20 @@ function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-200">
             {[
-              { icon: '🚀', type: 'Zero to One',        desc: 'First-generation founders who started from scratch',         count: '24 Profiles' },
-              { icon: '👩‍💼', type: 'Women Founders',     desc: 'Indian women who built businesses against the odds',         count: '18 Profiles' },
-              { icon: '🌾', type: 'Bharat Builders',    desc: 'Rural & Tier-2 entrepreneurs rewriting the script',           count: '31 Profiles' },
-              { icon: '💻', type: 'Tech Founders',      desc: 'Engineers & product thinkers who scaled globally',            count: '42 Profiles' },
-              { icon: '🤖', type: 'AI Founders',        desc: 'Building India\'s next wave with artificial intelligence',     count: '15 Profiles' },
-              { icon: '✈️', type: 'Immigrant Founders', desc: 'Left abroad to build in Bharat — or vice versa',              count: '11 Profiles' },
-              { icon: '⚡', type: 'Under 30',           desc: 'Young founders who didn\'t wait for permission',              count: '19 Profiles' },
-              { icon: '💪', type: 'First-Gen Entrep.',  desc: 'No family business. No safety net. Just grit.',              count: '27 Profiles' },
-            ].map((cat, i) => (
+              { Icon: Rocket,   type: 'Zero to One',        desc: 'First-generation founders who started from scratch',      count: '24 Profiles' },
+              { Icon: Users,    type: 'Women Founders',     desc: 'Indian women who built businesses against the odds',       count: '18 Profiles' },
+              { Icon: Wheat,    type: 'Bharat Builders',    desc: 'Rural & Tier-2 entrepreneurs rewriting the script',       count: '31 Profiles' },
+              { Icon: Laptop,   type: 'Tech Founders',      desc: 'Engineers & product thinkers who scaled globally',        count: '42 Profiles' },
+              { Icon: Bot,      type: 'AI Founders',        desc: "Building India's next wave with artificial intelligence",  count: '15 Profiles' },
+              { Icon: Plane,    type: 'Immigrant Founders', desc: 'Left abroad to build in Bharat — or vice versa',          count: '11 Profiles' },
+              { Icon: Zap,      type: 'Under 30',           desc: "Young founders who didn't wait for permission",           count: '19 Profiles' },
+              { Icon: Dumbbell, type: 'First-Gen Entrep.',  desc: 'No family business. No safety net. Just grit.',          count: '27 Profiles' },
+            ].map(({ Icon, type, desc, count }, i) => (
               <a key={i} href="#" className="bg-white px-5 py-7 group cursor-pointer hover:bg-[#f5f0ee] hover:border-editorial border-2 border-transparent transition-colors flex flex-col">
-                <span className="text-3xl block mb-4">{cat.icon}</span>
-                <h4 className="font-serif text-lg font-bold text-black group-hover:text-editorial transition-colors mb-2 leading-snug">{cat.type}</h4>
-                <p className="text-sm text-gray-500 leading-relaxed mb-4 flex-1">{cat.desc}</p>
-                <span className="text-xs font-bold tracking-widest uppercase text-editorial">{cat.count}</span>
+                <Icon className="w-7 h-7 text-gray-400 group-hover:text-editorial transition-colors mb-4" strokeWidth={1.5} />
+                <h4 className="font-serif text-lg font-bold text-black group-hover:text-editorial transition-colors mb-2 leading-snug">{type}</h4>
+                <p className="text-sm text-gray-500 leading-relaxed mb-4 flex-1">{desc}</p>
+                <span className="text-xs font-bold tracking-widest uppercase text-editorial">{count}</span>
               </a>
             ))}
           </div>
