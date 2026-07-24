@@ -510,7 +510,7 @@ function Home() {
               <div className="relative z-10 mt-auto">
                 <div className="flex items-end gap-6 mb-6">
                   <img
-                    src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&q=80"
+                    src="/nithin-kamath.webp"
                     alt="Nithin Kamath"
                     className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-white/20 flex-shrink-0"
                   />
@@ -697,7 +697,7 @@ function Home() {
                   className="min-w-[260px] md:min-w-[300px] snap-start group flex flex-col bg-white border border-gray-100 hover:border-black transition-colors p-5 flex-shrink-0">
                   <div className="flex items-center gap-3 mb-4">
                     <img
-                      src={f.photoUrl || f.coverPhotoUrl || 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&q=80'}
+                      src={f.photoUrl || f.coverPhotoUrl || '/nithin-kamath.webp'}
                       alt={f.name}
                       className="w-14 h-14 rounded-full object-cover border border-gray-100 flex-shrink-0 group-hover:ring-2 group-hover:ring-editorial transition-all"
                     />
@@ -734,7 +734,7 @@ function Home() {
             <a href="/founder/nithin-kamath"
               className="lg:col-span-5 group bg-black text-white p-8 flex flex-col justify-between min-h-[340px] hover:bg-editorial transition-colors cursor-pointer">
               <div>
-                <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&q=80"
+                <img src="/nithin-kamath.webp"
                   alt="Nithin Kamath"
                   className="w-16 h-16 rounded-full object-cover border-2 border-white/20 mb-6" />
                 <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 block mb-3">Zero to One · FinTech</span>

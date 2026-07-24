@@ -201,7 +201,7 @@ const FOUNDERS: Record<string, any> = {
     revenue: '₹8,320 Crore (FY24)',
     employees: '1,200+',
     age: '44',
-    photo: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&q=80',
+    photo: '/nithin-kamath.webp',
     coverPhoto: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1600&q=80',
     oneLiner:
       'The man who challenged traditional brokerages with a ₹20 flat-fee model—and transformed investing in India.',
