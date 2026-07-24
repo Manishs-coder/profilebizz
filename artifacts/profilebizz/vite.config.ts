@@ -53,6 +53,16 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, 'dist/public'),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'helmet':       ['react-helmet-async'],
+        },
+      },
+    },
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 600,
   },
   server: {
     port,

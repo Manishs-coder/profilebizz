@@ -17,8 +17,8 @@ const FEATURED_HEROES = [
     name: 'Anshu Gupta',
     title: 'Founder, Goonj — The Clothing Man of India',
     tag: 'The Clothing Man of India',
-    photo: '/anshu-gupta.png',
-    coverPhoto: '/anshu-gupta.png',
+    photo: '/anshu-gupta.webp',
+    coverPhoto: '/anshu-gupta.webp',
     location: 'New Delhi',
     impact: '5 Million+ Lives · 4,000 Tons/Year',
     founded: '1999',
@@ -102,8 +102,8 @@ const FEATURED_HEROES = [
     name: 'Ela Bhatt',
     title: 'Labour Rights Activist & Founder of SEWA',
     tag: 'The Quiet Revolutionary',
-    photo: '/ela-bhatt.png',
-    coverPhoto: '/ela-bhatt.png',
+    photo: '/ela-bhatt.webp',
+    coverPhoto: '/ela-bhatt.webp',
     location: 'Ahmedabad, Gujarat',
     impact: '2.5 Million Women, 18+ States',
     founded: '1972',
@@ -139,8 +139,8 @@ const FEATURED_HEROES = [
     name: 'Arunachalam Muruganantham',
     title: 'Social Entrepreneur & Inventor',
     tag: 'The Pad Man of India',
-    photo: '/arunachalam-muruganantham.png',
-    coverPhoto: '/arunachalam-muruganantham.png',
+    photo: '/arunachalam-muruganantham.webp',
+    coverPhoto: '/arunachalam-muruganantham.webp',
     location: 'Coimbatore, Tamil Nadu',
     impact: '4,400+ Villages, 1.3 Mn Women',
     founded: '2006',
@@ -176,8 +176,8 @@ const FEATURED_HEROES = [
     name: 'Rajendra Singh',
     title: 'Waterman of India',
     tag: 'When Medicine Was Left Behind and the Hoe Took Its Place',
-    photo: '/rajendra-singh.png',
-    coverPhoto: '/rajendra-singh.png',
+    photo: '/rajendra-singh.webp',
+    coverPhoto: '/rajendra-singh.webp',
     location: 'Alwar, Rajasthan',
     impact: '12,000 Villages, 11 Rivers',
     founded: '1985',
@@ -476,6 +476,8 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
                 src={photoSrc}
                 alt={activeHero.name}
                 className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-4 ring-white shadow-xl border border-gray-100"
+                fetchPriority="high"
+                decoding="async"
               />
             </div>
 
@@ -755,7 +757,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
             onClick={() => setSelected(filtered[0])}
             className="cursor-pointer group relative h-96 overflow-hidden bg-gray-100"
           >
-            <img src={filtered[0]?.coverPhoto} alt={filtered[0]?.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <img src={filtered[0]?.coverPhoto} alt={filtered[0]?.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" fetchPriority="high" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             <div className="absolute top-5 left-5">
               <span className="bg-editorial text-white text-[10px] font-bold tracking-[0.2em] uppercase px-3 py-1.5">{filtered[0]?.category}</span>
@@ -777,7 +779,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
               className="cursor-pointer group bg-white border border-gray-200 hover:border-black transition-colors"
             >
               <div className="relative h-48 overflow-hidden">
-                <img src={hero.coverPhoto} alt={hero.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+                <img src={hero.coverPhoto} alt={hero.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute top-3 left-3">
                   <span className="bg-editorial text-white text-[9px] font-bold tracking-wider uppercase px-2 py-1">{hero.category}</span>
