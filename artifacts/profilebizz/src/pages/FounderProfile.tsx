@@ -852,6 +852,8 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
   }
 
   if (!founder) {
+    // Fallback: if DB has no data yet (e.g. production before seeding), use hardcoded static content
+    if (FOUNDERS[slug]) return <StaticFounderContent slug={slug} lang={lang} />;
     return (
       <div className="min-h-screen bg-[#f9f9f9] flex flex-col items-center justify-center gap-4">
         <p className="text-2xl font-serif font-bold text-gray-300">Profile not found</p>
