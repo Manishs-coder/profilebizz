@@ -606,19 +606,20 @@ function Home() {
           <div className="flex items-baseline justify-between border-b border-black pb-3 mb-6">
             <h2 className="font-serif text-xl md:text-2xl font-bold">Explore Categories</h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-px bg-gray-200">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-gray-200">
             {[
-              { icon: '🌍', label: 'Social Hero Profile', desc: 'Changemakers & impact leaders', href: '/social-hero', accent: true },
-              { icon: '👤', label: 'Founder Story',       desc: 'Zero to one journeys',         href: '/founder/nithin-kamath' },
-              { icon: '🏢', label: 'Business Stories',    desc: 'MSMEs, startups & scale-ups',  href: '#' },
-              { icon: '🏷', label: 'Brand Stories',        desc: "India's iconic brand journeys", href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
-              { icon: '🏭', label: 'Industry Stories',    desc: 'Sector deep-dives & analysis', href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
+              { icon: '🌍', label: 'Social Hero Profile', desc: 'Changemakers & impact leaders',   href: '/social-hero' },
+              { icon: '👤', label: 'Founder Story',       desc: 'Zero to one journeys',            href: '/founder/nithin-kamath' },
+              { icon: '🏢', label: 'Business Stories',    desc: 'MSMEs, startups & scale-ups',     href: '#' },
+              { icon: '🏷️', label: 'Brand Stories',       desc: "India's iconic brand journeys",   href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
+              { icon: '🏭', label: 'Industry Stories',    desc: 'Sector deep-dives & analysis',    href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
+              { icon: '👩', label: 'Women Story',         desc: 'Women who redefined the rules',   href: '/social-hero' },
             ].map((cat, i) => (
               <a key={i} href={cat.href}
-                className={`group flex flex-col px-5 py-6 transition-colors cursor-pointer ${cat.accent ? 'bg-black text-white hover:bg-editorial' : 'bg-white hover:bg-[#f5f0ee]'}`}>
+                className="group flex flex-col px-5 py-6 bg-white hover:bg-[#f5f0ee] border-2 border-transparent hover:border-editorial transition-colors cursor-pointer">
                 <span className="text-3xl block mb-3">{cat.icon}</span>
-                <h4 className={`font-serif text-base font-bold leading-snug mb-1 group-hover:text-editorial transition-colors ${cat.accent ? 'text-white group-hover:text-white' : 'text-black'}`}>{cat.label}</h4>
-                <p className={`text-xs leading-relaxed ${cat.accent ? 'text-white/60' : 'text-gray-500'}`}>{cat.desc}</p>
+                <h4 className="font-serif text-base font-bold leading-snug mb-1 text-black group-hover:text-editorial transition-colors">{cat.label}</h4>
+                <p className="text-xs leading-relaxed text-gray-500">{cat.desc}</p>
               </a>
             ))}
           </div>
@@ -645,12 +646,12 @@ function Home() {
               { icon: '⚡', type: 'Under 30',           desc: 'Young founders who didn\'t wait for permission',              count: '19 Profiles' },
               { icon: '💪', type: 'First-Gen Entrep.',  desc: 'No family business. No safety net. Just grit.',              count: '27 Profiles' },
             ].map((cat, i) => (
-              <div key={i} className="bg-white px-5 py-6 group cursor-pointer hover:bg-[#f5f0ee] transition-colors">
-                <span className="text-3xl block mb-3">{cat.icon}</span>
-                <h4 className="font-serif text-base font-bold text-black group-hover:text-editorial transition-colors mb-1 leading-snug">{cat.type}</h4>
-                <p className="text-xs text-gray-500 leading-relaxed mb-3">{cat.desc}</p>
-                <span className="text-[10px] font-bold tracking-widest uppercase text-editorial">{cat.count}</span>
-              </div>
+              <a key={i} href="#" className="bg-white px-5 py-7 group cursor-pointer hover:bg-[#f5f0ee] hover:border-editorial border-2 border-transparent transition-colors flex flex-col">
+                <span className="text-3xl block mb-4">{cat.icon}</span>
+                <h4 className="font-serif text-lg font-bold text-black group-hover:text-editorial transition-colors mb-2 leading-snug">{cat.type}</h4>
+                <p className="text-sm text-gray-500 leading-relaxed mb-4 flex-1">{cat.desc}</p>
+                <span className="text-xs font-bold tracking-widest uppercase text-editorial">{cat.count}</span>
+              </a>
             ))}
           </div>
         </section>
@@ -713,22 +714,18 @@ function Home() {
                   </div>
                 </a>
               ))
-            ) : (
-              <div className="min-w-[300px] snap-start bg-white border border-gray-100 p-8 flex flex-col items-center justify-center text-center">
-                <span className="text-3xl mb-3">📖</span>
-                <p className="text-sm font-bold text-gray-700 mb-1">Profiles Coming Soon</p>
-                <p className="text-xs text-gray-400">Our editorial team is adding founder stories.</p>
-              </div>
-            )}
+            ) : null}
           </div>
         </section>
 
 
         {/* ── 5. FEATURED PROFILES GRID ── */}
         <section className="mb-16">
-          <div className="flex items-baseline justify-between border-b border-black pb-4 mb-8">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold">Editor's Selection</h2>
-            <span className="text-xs font-bold tracking-widest uppercase text-gray-400">Curated Biographies</span>
+          <div className="border-b border-black pb-4 mb-8">
+            <div className="flex items-center justify-between">
+              <h2 className="font-serif text-2xl md:text-3xl font-bold">Editor's Selection</h2>
+              <span className="text-xs font-bold tracking-widest uppercase text-gray-400">Curated Biographies</span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
