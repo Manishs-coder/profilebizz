@@ -2,6 +2,7 @@ import app from "./app";
 import { logger } from "./lib/logger";
 import { db, adminUsersTable, categoriesTable } from "@workspace/db";
 import bcrypt from "bcryptjs";
+import { seedAllContent } from "./seed-content";
 
 const rawPort = process.env["PORT"];
 
@@ -59,4 +60,5 @@ app.listen(port, async (err) => {
   logger.info({ port }, "Server listening");
   await seedDefaultAdmin();
   await seedCategories();
+  await seedAllContent();
 });
