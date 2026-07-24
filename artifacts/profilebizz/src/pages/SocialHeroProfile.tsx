@@ -374,6 +374,11 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
     const otherHeroes = FEATURED_HEROES.filter(h => h.slug !== selected.slug);
 
     const _heroDetailUrl    = `https://profilebizz.com/social-hero/${selected.slug}`;
+    // Convert relative photo paths to absolute URLs for OG/Twitter (social scrapers need full URLs)
+    const _rawPhoto = (selected as any).photo || selected.coverPhoto || '';
+    const _ogImage  = _rawPhoto.startsWith('/')
+      ? `https://profilebizz.com${_rawPhoto}`
+      : _rawPhoto;
     const _heroDetailJsonLd = JSON.stringify({
       '@context': 'https://schema.org',
       '@graph': [
@@ -381,7 +386,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
           '@type': 'Article',
           headline: `${selected.name} — Social Hero Profile | ProfileBizz`,
           description: `${selected.name} is one of India's leading ${selected.category}. Read their full story on ProfileBizz.`,
-          image: selected.coverPhoto,
+          image: _ogImage,
           url: _heroDetailUrl,
           author: { '@type': 'Organization', name: 'ProfileBizz Editorial', url: 'https://profilebizz.com' },
           publisher: { '@type': 'NewsMediaOrganization', '@id': 'https://profilebizz.com/#organization' },
@@ -391,7 +396,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
           '@type': 'Person',
           name: selected.name,
           url: _heroDetailUrl,
-          image: selected.coverPhoto,
+          image: _ogImage,
           knowsAbout: selected.category,
           nationality: { '@type': 'Country', name: 'India' },
         },
@@ -409,7 +414,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
           <meta property="og:site_name" content="ProfileBizz" />
           <meta property="og:title" content={`${selected.name} — Social Hero Profile | ProfileBizz`} />
           <meta property="og:description" content={`${selected.name} is one of India's leading ${selected.category}. Read their full story on ProfileBizz.`} />
-          <meta property="og:image" content={selected.coverPhoto} />
+          <meta property="og:image" content={_ogImage} />
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />
           <meta property="og:locale" content="en_IN" />
@@ -417,7 +422,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
           <meta name="twitter:site" content="@profilebizz" />
           <meta name="twitter:title" content={`${selected.name} — Social Hero Profile | ProfileBizz`} />
           <meta name="twitter:description" content={`${selected.name} — ${selected.category} — story on ProfileBizz.`} />
-          <meta name="twitter:image" content={selected.coverPhoto} />
+          <meta name="twitter:image" content={_ogImage} />
           <script type="application/ld+json">{_heroDetailJsonLd}</script>
         </Helmet>
         <div className="min-h-screen bg-[#f9f9f9] text-black">
