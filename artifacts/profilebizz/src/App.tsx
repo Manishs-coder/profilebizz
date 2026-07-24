@@ -492,120 +492,150 @@ function Home() {
         </div>
       )}
 
-      <main className="max-w-[1400px] mx-auto px-4 md:px-8 pt-36">
-        
-        {/* ── 2. FEATURED FOUNDER HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-0 border-b-[3px] border-black pb-16 mb-16">
+      <main className="max-w-[1400px] mx-auto px-4 md:px-8 pt-28 md:pt-32">
 
-          {/* LEFT: Featured Founder */}
-          <div className="lg:col-span-7 lg:pr-12 lg:border-r border-gray-200">
+        {/* ── 2. MAGAZINE HERO BANNER ── */}
+        <section className="mb-14">
 
-            {/* Badge */}
-            <div className="flex items-center gap-3 mb-8">
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white bg-editorial px-3 py-1.5">
-                Featured Founder
-              </span>
-              <span className="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400">
-                Profile of the Week
-              </span>
-            </div>
-
-            {/* ① Photo */}
-            <div className="mb-6">
-              <img
-                src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&q=80"
-                alt="Nithin Kamath"
-                className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-4 ring-white shadow-xl border border-gray-100"
-              />
-            </div>
-
-            {/* ② Name */}
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-[68px] font-bold text-black leading-[1.02] tracking-tight mb-3">
-              Nithin Kamath
-            </h1>
-
-            {/* ③ Designation */}
-            <p className="text-base md:text-lg text-gray-500 font-medium mb-6">
-              Co-Founder &amp; CEO, Zerodha
-            </p>
-
-            {/* ④ One-line Tagline */}
-            <div className="border-l-4 border-editorial pl-5 mb-7">
-              <p className="font-serif text-xl md:text-2xl text-black leading-[1.45] font-medium italic">
-                "The man who challenged traditional brokerages with a ₹20 flat-fee model—and transformed investing in India."
-              </p>
-            </div>
-
-            {/* ⑤ Executive Summary */}
-            <p className="text-base md:text-[17px] text-gray-600 leading-[1.9] mb-8 max-w-xl">
-              Starting with ₹15 lakh of personal savings and no outside investors, Nithin Kamath and his brother Nikhil built Zerodha into India's largest retail stockbroker — 73 lakh active clients, ₹8,320 crore in FY24 revenue, and a net profit of ₹4,700 crore. Fourteen years on, Zerodha has never raised a single rupee of external capital. The flat ₹20 fee he introduced in 2010 permanently restructured an entire industry's pricing model.
-            </p>
-
-            {/* Key Stats */}
-            <div className="flex flex-wrap gap-6 mb-9">
-              {[
-                { l: 'FY24 Revenue', v: '₹8,320 Cr' },
-                { l: 'Active Clients', v: '73 Lakh+' },
-                { l: 'VC Raised', v: '₹0' },
-                { l: 'Founded', v: '2010' },
-              ].map(s => (
-                <div key={s.l} className="border-l-2 border-editorial pl-3">
-                  <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-0.5">{s.l}</p>
-                  <p className="font-serif text-xl font-bold text-black">{s.v}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA */}
-            <a href="/founder/nithin-kamath"
-              className="inline-flex items-center gap-2 bg-black text-white text-xs font-bold tracking-widest uppercase px-7 py-3.5 hover:bg-editorial transition-colors">
-              Read Full Biography
-              <ChevronRight className="w-4 h-4" />
-            </a>
+          {/* Issue label */}
+          <div className="flex items-center gap-4 mb-6">
+            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gray-400">ProfileBizz Magazine</span>
+            <span className="h-px flex-1 bg-gray-200" />
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">July 2026 Edition</span>
           </div>
 
-          {/* RIGHT: More Profiles */}
-          <div className="lg:col-span-5 lg:pl-12 mt-14 lg:mt-0 flex flex-col">
-            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 border-b border-gray-200 pb-3 mb-7">
-              More Founder Profiles
-            </p>
+          {/* Main Hero Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-black overflow-hidden">
 
-            {[
-              {
-                photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
-                name: 'Rajesh Kumar Vedas',
-                designation: 'Founder & CEO, Vedas Agro Industries',
-                tag: 'Bharat Builder',
-                tagline: 'From a UP village to India\'s fastest-growing agri-processing company — ₹210 Cr revenue, 18,000 farmer partners.',
-                href: '/founder/rajesh-kumar-vedas',
-              },
-              {
-                photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80',
-                name: 'Falguni Nayar',
-                designation: 'Founder & CEO, Nykaa',
-                tag: 'Women Founder',
-                tagline: 'She built India\'s first profitable beauty unicorn at 50 — from an investment banking desk to a ₹50,000 Cr market cap.',
-                href: '#',
-              },
-              {
-                photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
-                name: 'Deepinder Goyal',
-                designation: 'Founder & CEO, Zomato',
-                tag: 'D2C Pioneer',
-                tagline: 'From a free restaurant menu site to India\'s most dominant food-delivery platform — the full story.',
-                href: '#',
-              },
-            ].map((f, i) => (
-              <a key={i} href={f.href}
-                className={`group flex items-start gap-4 ${i < 2 ? 'border-b border-gray-100 pb-7 mb-7' : ''}`}>
-                <img src={f.photo} alt={f.name}
-                  className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover flex-shrink-0 border border-gray-100 group-hover:ring-2 group-hover:ring-editorial transition-all" />
-                <div className="min-w-0">
-                  <span className="inline-block text-[10px] font-bold tracking-widest uppercase text-editorial mb-1">{f.tag}</span>
-                  <h3 className="font-serif text-lg md:text-xl font-bold text-black leading-snug mb-1 group-hover:text-editorial transition-colors">{f.name}</h3>
-                  <p className="text-xs text-gray-500 font-medium mb-2">{f.designation}</p>
-                  <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">{f.tagline}</p>
+            {/* LEFT: Dark cover panel */}
+            <div className="lg:col-span-7 bg-black text-white relative overflow-hidden min-h-[420px] md:min-h-[500px] flex flex-col justify-between p-8 md:p-12">
+              {/* Decorative grain overlay */}
+              <div className="absolute inset-0 opacity-[0.03]"
+                style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")', backgroundSize: '150px' }} />
+
+              {/* Top badge row */}
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-auto">
+                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-editorial bg-editorial/10 border border-editorial/30 px-3 py-1.5">
+                    Cover Story
+                  </span>
+                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40">
+                    Profile of the Week
+                  </span>
                 </div>
+              </div>
+
+              {/* Founder info */}
+              <div className="relative z-10 mt-auto">
+                <div className="flex items-end gap-6 mb-6">
+                  <img
+                    src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&q=80"
+                    alt="Nithin Kamath"
+                    className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-white/20 flex-shrink-0"
+                  />
+                  <div>
+                    <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Zero to One · FinTech</p>
+                    <h2 className="font-serif text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-[1.0] tracking-tight">
+                      Nithin Kamath
+                    </h2>
+                  </div>
+                </div>
+
+                <p className="text-sm md:text-base text-white/50 font-medium mb-4">Co-Founder &amp; CEO, Zerodha</p>
+
+                <div className="border-l-2 border-editorial pl-4 mb-7">
+                  <p className="font-serif text-lg md:text-xl text-white/80 leading-[1.5] font-medium italic">
+                    "₹20 flat fee. Zero outside investors. India's largest retail broker."
+                  </p>
+                </div>
+
+                {/* Stats row */}
+                <div className="flex flex-wrap gap-6 mb-8">
+                  {[
+                    { l: 'Revenue', v: '₹8,320 Cr' },
+                    { l: 'Clients', v: '73 Lakh+' },
+                    { l: 'VC Raised', v: '₹0' },
+                  ].map(s => (
+                    <div key={s.l} className="border-l border-white/20 pl-3">
+                      <p className="text-[9px] font-bold tracking-widest uppercase text-white/30 mb-0.5">{s.l}</p>
+                      <p className="font-serif text-base font-bold text-white">{s.v}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <a href="/founder/nithin-kamath"
+                  className="inline-flex items-center gap-2 bg-editorial text-white text-xs font-bold tracking-widest uppercase px-6 py-3 hover:bg-white hover:text-black transition-colors">
+                  Read Full Biography
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* RIGHT: Three sidebar stories */}
+            <div className="lg:col-span-5 border-l border-black flex flex-col divide-y divide-gray-100">
+              <div className="px-6 py-4 bg-[#fafafa] border-b border-black">
+                <p className="text-[9px] font-bold tracking-[0.22em] uppercase text-gray-400">Also This Week</p>
+              </div>
+
+              {[
+                {
+                  photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
+                  name: 'Rajesh Kumar Vedas',
+                  designation: 'Vedas Agro Industries',
+                  tag: 'Bharat Builder',
+                  tagline: 'From a UP village to ₹210 Cr revenue — and 18,000 farmer partners.',
+                  href: '/founder/rajesh-kumar-vedas',
+                },
+                {
+                  photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80',
+                  name: 'Falguni Nayar',
+                  designation: 'Founder & CEO, Nykaa',
+                  tag: 'Women Founder',
+                  tagline: 'Built India\'s first profitable beauty unicorn at 50 — ₹50,000 Cr market cap.',
+                  href: '#',
+                },
+                {
+                  photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
+                  name: 'Deepinder Goyal',
+                  designation: 'Founder & CEO, Zomato',
+                  tag: 'D2C Pioneer',
+                  tagline: 'From a free menu site to India\'s dominant food-delivery platform.',
+                  href: '#',
+                },
+              ].map((f, i) => (
+                <a key={i} href={f.href}
+                  className="group flex items-start gap-4 px-6 py-5 bg-white hover:bg-[#fafafa] transition-colors flex-1">
+                  <img src={f.photo} alt={f.name}
+                    className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray-100 group-hover:ring-2 group-hover:ring-editorial transition-all" />
+                  <div className="min-w-0 flex-1">
+                    <span className="inline-block text-[9px] font-bold tracking-widest uppercase text-editorial mb-1">{f.tag}</span>
+                    <h3 className="font-serif text-base font-bold text-black leading-snug mb-0.5 group-hover:text-editorial transition-colors">{f.name}</h3>
+                    <p className="text-[11px] text-gray-400 font-medium mb-1.5">{f.designation}</p>
+                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{f.tagline}</p>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-editorial flex-shrink-0 mt-1 transition-colors" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Category Quick Strip ── */}
+        <section className="mb-14">
+          <div className="flex items-center gap-px overflow-x-auto scrollbar-hide">
+            {[
+              { label: '🚀 Zero to One', href: '#' },
+              { label: '👩‍💼 Women Founders', href: '#' },
+              { label: '🌾 Bharat Builders', href: '#' },
+              { label: '💻 Tech Founders', href: '#' },
+              { label: '🤖 AI Founders', href: '#' },
+              { label: '⚡ Under 30', href: '#' },
+              { label: '🏭 Manufacturing', href: '#' },
+              { label: '🌍 Social Hero', href: '/social-hero' },
+            ].map((c, i) => (
+              <a key={i} href={c.href}
+                className="flex-shrink-0 text-[11px] font-bold tracking-wide uppercase bg-white border border-gray-200 hover:border-black hover:text-editorial px-4 py-2.5 transition-colors whitespace-nowrap">
+                {c.label}
               </a>
             ))}
           </div>
