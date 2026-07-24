@@ -881,7 +881,7 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
                 </div>
               ))}
             </div>
-            {industry.overview.body.map((p, i) => <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
+            {industry.overview.body.map((p, i) => <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
           </section>
 
           <Divider />
@@ -903,7 +903,7 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
                 </div>
               ))}
             </div>
-            {industry.history.body.map((p, i) => <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
+            {industry.history.body.map((p, i) => <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
           </section>
 
           <Divider />
@@ -955,7 +955,7 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
               <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">{industry.market.pullQuote}</p>
             </blockquote>
-            {industry.market.body.map((p, i) => <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
+            {industry.market.body.map((p, i) => <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
             {/* Segment bars */}
             <div className="mt-6 space-y-3">
               {industry.market.segments.map((s, i) => (
@@ -1033,7 +1033,7 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
               <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">{industry.future.pullQuote}</p>
             </blockquote>
-            {industry.future.body.map((p, i) => <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
+            {industry.future.body.map((p, i) => <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
           </section>
 
           <Divider />

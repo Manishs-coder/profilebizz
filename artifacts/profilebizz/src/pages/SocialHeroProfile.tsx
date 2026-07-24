@@ -684,7 +684,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
 
               {activeHero.story.map((para, i) => (
                 <p key={i}
-                  className={`text-[17px] md:text-[18px] text-gray-700 mb-5 ${
+                  className={`font-serif text-[17px] md:text-[18px] text-gray-700 mb-5 ${
                     i === 0
                       ? 'first-letter:float-left first-letter:font-serif first-letter:font-bold first-letter:text-black first-letter:text-[5.5rem] first-letter:leading-[0.78] first-letter:mr-3 first-letter:mt-2'
                       : ''

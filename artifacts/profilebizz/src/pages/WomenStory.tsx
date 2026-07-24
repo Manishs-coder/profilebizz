@@ -322,7 +322,7 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
                 <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">{selected.pullQuote}</p>
               </blockquote>
               {selected.story.map((para, i) => (
-                <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{para}</p>
+                <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{para}</p>
               ))}
 
               {/* Lessons */}

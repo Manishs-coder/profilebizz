@@ -592,12 +592,12 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
           <section id="early-life" ref={setRef('early-life')} className="mb-16 scroll-mt-24">
             <SectionLabel index="01" label={activeSections[0].label} />
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
-              <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic">
+              <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">
                 {activeFounder.earlyLife.pullQuote}
               </p>
             </blockquote>
             {activeFounder.earlyLife.body.map((p: string, i: number) => (
-              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
+              <p key={i} className="font-serif text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -623,7 +623,7 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
               ))}
             </div>
             {activeFounder.education.body.map((p: string, i: number) => (
-              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
+              <p key={i} className="font-serif text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -647,7 +647,7 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
               ))}
             </div>
             {activeFounder.career.body.map((p: string, i: number) => (
-              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
+              <p key={i} className="font-serif text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -657,12 +657,12 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
           <section id="entrepreneurial-journey" ref={setRef('entrepreneurial-journey')} className="mb-16 scroll-mt-24">
             <SectionLabel index="04" label={activeSections[3].label} />
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
-              <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic">
+              <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">
                 {activeFounder.journey.pullQuote}
               </p>
             </blockquote>
             {activeFounder.journey.body.map((p: string, i: number) => (
-              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
+              <p key={i} className="font-serif text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -695,7 +695,7 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
               ))}
             </div>
             {activeFounder.success.body.map((p: string, i: number) => (
-              <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
+              <p key={i} className="font-serif text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5">{p}</p>
             ))}
           </section>
 
@@ -705,7 +705,7 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
           <section id="leadership-style" ref={setRef('leadership-style')} className="mb-16 scroll-mt-24">
             <SectionLabel index="07" label={activeSections[6].label} />
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
-              <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic">
+              <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">
                 {activeFounder.leadership.pullQuote}
               </p>
             </blockquote>
@@ -1086,7 +1086,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
 
                     {sec.pullQuote && (
                       <blockquote className="border-l-4 border-editorial pl-6 my-6">
-                        <p className="font-founder text-xl md:text-2xl text-gray-800 leading-relaxed italic"
+                        <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic"
                           style={lang === 'hi' ? { ...hf, lineHeight: '1.9' } : {}}>{sec.pullQuote}</p>
                       </blockquote>
                     )}
@@ -1138,12 +1138,12 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
                     {!isAwards && !isInterviews && (
                       jd?.htmlContent
                         ? <div
-                            className="tinymce-content font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9]"
+                            className="tinymce-content font-serif text-[17px] md:text-[18px] text-gray-700 leading-[1.9]"
                             style={lang === 'hi' ? hfl : {}}
                             dangerouslySetInnerHTML={{ __html: jd.htmlContent }}
                           />
                         : sec.bodyParagraphs?.map((p: string, i: number) => (
-                            <p key={i} className="font-founder text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5"
+                            <p key={i} className="font-serif text-[17px] md:text-[18px] text-gray-700 leading-[1.9] mb-5"
                               style={lang === 'hi' ? hfl : {}}>{p}</p>
                           ))
                     )}

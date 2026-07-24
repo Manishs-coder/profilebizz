@@ -983,7 +983,7 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
             <blockquote className="border-l-4 border-editorial pl-6 my-6">
               <p className="font-serif text-xl md:text-2xl text-gray-800 leading-relaxed italic">{brand.origin.pullQuote}</p>
             </blockquote>
-            {brand.origin.body.map((p, i) => <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
+            {brand.origin.body.map((p, i) => <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
           </section>
 
           <Divider />
@@ -1005,7 +1005,7 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
                 </div>
               ))}
             </div>
-            {brand.founding.body.map((p, i) => <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
+            {brand.founding.body.map((p, i) => <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
           </section>
 
           <Divider />
@@ -1024,7 +1024,7 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
                 </div>
               ))}
             </div>
-            {brand.products.body.map((p, i) => <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
+            {brand.products.body.map((p, i) => <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
           </section>
 
           <Divider />
@@ -1097,7 +1097,7 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
                 </div>
               ))}
             </div>
-            {brand.financials.body.map((p, i) => <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
+            {brand.financials.body.map((p, i) => <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
           </section>
 
           <Divider />
@@ -1149,7 +1149,7 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
               <TrendingUp className="w-5 h-5 text-editorial" />
               <span className="text-[10px] font-bold tracking-widest uppercase text-gray-400">What Comes Next</span>
             </div>
-            {brand.future.body.map((p, i) => <p key={i} className="text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
+            {brand.future.body.map((p, i) => <p key={i} className="font-serif text-base text-gray-700 leading-[1.85] mb-4">{p}</p>)}
           </section>
 
           {/* Back to top */}
