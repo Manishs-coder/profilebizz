@@ -410,16 +410,25 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
   const slug = params?.slug ?? '';
   const lang = locale ?? 'en';
   const [selected, setSelected] = useState<typeof FEATURED_HEROES[0] | null>(null);
+  const [allHeroes, setAllHeroes] = useState<typeof FEATURED_HEROES>(FEATURED_HEROES);
   const [activeCategory, setActiveCategory] = useState('All');
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (slug) {
-      const found = FEATURED_HEROES.find(h => h.slug === slug);
-      setSelected(found || null);
-    }
-  }, [slug]);
+    // Try API first, fallback to hardcoded
+    Promise.all([
+      slug
+        ? fetch(`/api/public/social-heroes/${slug}?locale=${lang}`).then(r => r.ok ? r.json() : null).catch(() => null)
+        : Promise.resolve(null),
+      fetch('/api/public/social-heroes').then(r => r.ok ? r.json() : null).catch(() => null),
+    ]).then(([apiHero, apiList]) => {
+      if (slug) {
+        setSelected(apiHero || FEATURED_HEROES.find(h => h.slug === slug) || null);
+      }
+      if (apiList && apiList.length > 0) setAllHeroes(apiList);
+    });
+  }, [slug, lang]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -428,8 +437,8 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
   }, []);
 
   const filtered = activeCategory === 'All'
-    ? FEATURED_HEROES
-    : FEATURED_HEROES.filter(h => h.category === activeCategory);
+    ? allHeroes
+    : allHeroes.filter(h => h.category === activeCategory);
 
   if (selected) {
     const hiData = HEROES_HI[selected.slug];
@@ -437,7 +446,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
     const hf: React.CSSProperties = lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {};
     const hfl: React.CSSProperties = lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '2' } : {};
     const photoSrc = (selected as any).photo || selected.coverPhoto;
-    const otherHeroes = FEATURED_HEROES.filter(h => h.slug !== selected.slug);
+    const otherHeroes = allHeroes.filter(h => h.slug !== selected.slug);
 
     const _heroDetailUrl    = `https://profilebizz.com/social-hero/${selected.slug}`;
     // Convert relative photo paths to absolute URLs for OG/Twitter (social scrapers need full URLs)

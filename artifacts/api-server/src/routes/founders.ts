@@ -294,4 +294,94 @@ router.get("/public/founders/:slug/sections", async (req, res) => {
   res.json(sections);
 });
 
+// ─── PUBLIC: Social Heroes ─────────────────────────────────────────────────
+
+// GET /api/public/social-heroes — list all published social heroes
+router.get("/public/social-heroes", async (_req, res) => {
+  const heroes = await db
+    .select({
+      slug: foundersTable.slug,
+      name: foundersTable.name,
+      designation: foundersTable.designation,
+      profileTag: foundersTable.profileTag,
+      category: foundersTable.category,
+      location: foundersTable.location,
+      founded: foundersTable.founded,
+      photoUrl: foundersTable.photoUrl,
+      coverPhotoUrl: foundersTable.coverPhotoUrl,
+      oneLiner: foundersTable.oneLiner,
+      executiveSummary: foundersTable.executiveSummary,
+    })
+    .from(foundersTable)
+    .where(and(eq(foundersTable.profileType, "social-hero"), eq(foundersTable.published, true)))
+    .orderBy(foundersTable.createdAt);
+
+  res.json(heroes.map(h => ({
+    slug: h.slug,
+    name: h.name,
+    title: h.designation,
+    tag: h.profileTag,
+    photo: h.photoUrl,
+    coverPhoto: h.coverPhotoUrl,
+    location: h.location,
+    impact: h.executiveSummary,
+    founded: h.founded,
+    category: h.category,
+    pullQuote: h.oneLiner,
+  })));
+});
+
+// GET /api/public/social-heroes/:slug?locale=en
+router.get("/public/social-heroes/:slug", async (req, res) => {
+  const slug = param(req.params.slug);
+  const locale = (req.query.locale as string) || "en";
+
+  const [founder] = await db
+    .select()
+    .from(foundersTable)
+    .where(and(eq(foundersTable.slug, slug), eq(foundersTable.profileType, "social-hero"), eq(foundersTable.published, true)))
+    .limit(1);
+
+  if (!founder) {
+    res.status(404).json({ error: "Hero not found" });
+    return;
+  }
+
+  // Fetch sections for requested locale, fallback to EN
+  let sections = await db
+    .select()
+    .from(founderSectionsTable)
+    .where(and(eq(founderSectionsTable.founderId, founder.id), eq(founderSectionsTable.locale, locale)))
+    .orderBy(founderSectionsTable.sortOrder);
+
+  if (sections.length === 0 && locale !== "en") {
+    sections = await db
+      .select()
+      .from(founderSectionsTable)
+      .where(and(eq(founderSectionsTable.founderId, founder.id), eq(founderSectionsTable.locale, "en")))
+      .orderBy(founderSectionsTable.sortOrder);
+  }
+
+  const find = (key: string) => sections.find(s => s.sectionKey === key);
+  const jd = (s: typeof sections[0] | undefined) => s?.jsonData as any;
+
+  res.json({
+    slug: founder.slug,
+    name: founder.name,
+    title: founder.designation,
+    tag: founder.profileTag,
+    photo: founder.photoUrl,
+    coverPhoto: founder.coverPhotoUrl,
+    location: founder.location,
+    impact: founder.executiveSummary,
+    founded: founder.founded,
+    category: founder.category,
+    pullQuote: founder.oneLiner,
+    story: find("story")?.bodyParagraphs || [],
+    achievements: jd(find("achievements"))?.items || [],
+    recognition: jd(find("recognition"))?.items || [],
+    philosophy: find("philosophy")?.bodyParagraphs?.[0] || "",
+  });
+});
+
 export default router;
