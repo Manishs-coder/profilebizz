@@ -601,22 +601,24 @@ function Home() {
           </div>
         </section>
 
-        {/* ── Category Quick Strip ── */}
+        {/* ── Categories Section ── */}
         <section className="mb-14">
-          <div className="flex items-center gap-px overflow-x-auto scrollbar-hide">
+          <div className="flex items-baseline justify-between border-b border-black pb-3 mb-6">
+            <h2 className="font-serif text-xl md:text-2xl font-bold">Explore Categories</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-px bg-gray-200">
             {[
-              { label: '🚀 Zero to One', href: '#' },
-              { label: '👩‍💼 Women Founders', href: '#' },
-              { label: '🌾 Bharat Builders', href: '#' },
-              { label: '💻 Tech Founders', href: '#' },
-              { label: '🤖 AI Founders', href: '#' },
-              { label: '⚡ Under 30', href: '#' },
-              { label: '🏭 Manufacturing', href: '#' },
-              { label: '🌍 Social Hero', href: '/social-hero' },
-            ].map((c, i) => (
-              <a key={i} href={c.href}
-                className="flex-shrink-0 text-[11px] font-bold tracking-wide uppercase bg-white border border-gray-200 hover:border-black hover:text-editorial px-4 py-2.5 transition-colors whitespace-nowrap">
-                {c.label}
+              { icon: '🌍', label: 'Social Hero Profile', desc: 'Changemakers & impact leaders', href: '/social-hero', accent: true },
+              { icon: '👤', label: 'Founder Story',       desc: 'Zero to one journeys',         href: '/founder/nithin-kamath' },
+              { icon: '🏢', label: 'Business Stories',    desc: 'MSMEs, startups & scale-ups',  href: '#' },
+              { icon: '🏷', label: 'Brand Stories',        desc: "India's iconic brand journeys", href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
+              { icon: '🏭', label: 'Industry Stories',    desc: 'Sector deep-dives & analysis', href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
+            ].map((cat, i) => (
+              <a key={i} href={cat.href}
+                className={`group flex flex-col px-5 py-6 transition-colors cursor-pointer ${cat.accent ? 'bg-black text-white hover:bg-editorial' : 'bg-white hover:bg-[#f5f0ee]'}`}>
+                <span className="text-3xl block mb-3">{cat.icon}</span>
+                <h4 className={`font-serif text-base font-bold leading-snug mb-1 group-hover:text-editorial transition-colors ${cat.accent ? 'text-white group-hover:text-white' : 'text-black'}`}>{cat.label}</h4>
+                <p className={`text-xs leading-relaxed ${cat.accent ? 'text-white/60' : 'text-gray-500'}`}>{cat.desc}</p>
               </a>
             ))}
           </div>
