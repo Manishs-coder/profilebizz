@@ -683,8 +683,19 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
               </div>
 
               {activeHero.story.map((para, i) => (
-                <p key={i} className="text-[17px] md:text-[18px] text-gray-700 mb-5"
-                  style={lang === 'hi' ? { ...hfl, lineHeight: '2.1' } : { lineHeight: '1.9' }}>{para}</p>
+                <p key={i}
+                  className={`text-[17px] md:text-[18px] text-gray-700 mb-5 ${
+                    i === 0
+                      ? 'first-letter:float-left first-letter:font-serif first-letter:font-bold first-letter:text-black first-letter:text-[5.5rem] first-letter:leading-[0.78] first-letter:mr-3 first-letter:mt-2'
+                      : ''
+                  }`}
+                  style={{
+                    ...(lang === 'hi' ? { ...hfl, lineHeight: '2.1' } : { lineHeight: '1.9' }),
+                    ...(i === 0 ? { '--tw-first-letter-font-size': '5.5rem' } as React.CSSProperties : {}),
+                  }}
+                >
+                  {para}
+                </p>
               ))}
             </section>
 
