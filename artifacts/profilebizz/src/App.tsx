@@ -497,13 +497,6 @@ function Home() {
         {/* ── 2. MAGAZINE HERO BANNER ── */}
         <section className="mb-14">
 
-          {/* Issue label */}
-          <div className="flex items-center gap-4 mb-6">
-            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gray-400">ProfileBizz Magazine</span>
-            <span className="h-px flex-1 bg-gray-200" />
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">July 2026 Edition</span>
-          </div>
-
           {/* Main Hero Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-black overflow-hidden">
 
@@ -512,18 +505,6 @@ function Home() {
               {/* Decorative grain overlay */}
               <div className="absolute inset-0 opacity-[0.03]"
                 style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")', backgroundSize: '150px' }} />
-
-              {/* Top badge row */}
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-auto">
-                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-editorial bg-editorial/10 border border-editorial/30 px-3 py-1.5">
-                    Cover Story
-                  </span>
-                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40">
-                    Profile of the Week
-                  </span>
-                </div>
-              </div>
 
               {/* Founder info */}
               <div className="relative z-10 mt-auto">
