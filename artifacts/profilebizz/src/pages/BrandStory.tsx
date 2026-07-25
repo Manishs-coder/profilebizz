@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Milestone } from 'lucide-react';
+import { FEATURED_BRANDS } from '@/data/navData';
 
 const SECTIONS = [
   { id: 'origin',      label: 'Brand Origin' },
@@ -762,15 +763,6 @@ const BRANDS: Record<string, BrandData> = {
 };
 
 /* ─── Featured brands for dropdown ───────────────── */
-export const FEATURED_BRANDS = [
-  { slug: 'amul',        name: 'Amul',         sector: 'Dairy · Cooperative',   founded: '1946', logo: '🧈' },
-  { slug: 'parle',       name: 'Parle',         sector: 'FMCG · Biscuits',      founded: '1929', logo: '🍪' },
-  { slug: 'haldiram',    name: 'Haldiram\'s',   sector: 'Food · Snacks',         founded: '1937', logo: '🍿' },
-  { slug: 'tata',        name: 'Tata Group',    sector: 'Conglomerate',          founded: '1868', logo: '⚙️' },
-  { slug: 'mahindra',    name: 'Mahindra',      sector: 'Auto · Conglomerate',   founded: '1945', logo: '🚗' },
-  { slug: 'asian-paints',name: 'Asian Paints',  sector: 'Paints · Décor',        founded: '1942', logo: '🎨' },
-  { slug: 'vedas-agro',  name: 'Vedas Agro',    sector: 'Agri-Processing',       founded: '2011', logo: '🌾' },
-];
 
 /* ─── Types ──────────────────────────────────────── */
 interface BrandData {

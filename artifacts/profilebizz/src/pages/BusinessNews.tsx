@@ -1,17 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, Share2, BookmarkPlus, TrendingUp, ChevronRight, Calendar, MapPin, Tag, ExternalLink } from 'lucide-react';
+import { NEWS_CATEGORIES } from '@/data/navData';
 
 /* ── Category config ──────────────────── */
-export const NEWS_CATEGORIES = [
-  { slug: 'funding',           label: 'Funding',           icon: '💰', tag: 'Investments & Rounds',    color: '#0a2e1a' },
-  { slug: 'expansion',         label: 'Expansion',         icon: '📡', tag: 'Growth & New Markets',    color: '#0a1e3d' },
-  { slug: 'factory-launch',    label: 'Factory Launch',    icon: '🏭', tag: 'Manufacturing India',     color: '#2e1a0a' },
-  { slug: 'new-products',      label: 'New Products',      icon: '🚀', tag: 'Launches & Innovations',  color: '#1a0a2e' },
-  { slug: 'acquisitions',      label: 'Acquisitions',      icon: '🤝', tag: 'Mergers & Deals',         color: '#2e0a0a' },
-  { slug: 'awards',            label: 'Awards',            icon: '🏆', tag: 'Recognition & Rankings',  color: '#2e2a0a' },
-  { slug: 'govt-schemes',      label: 'Govt. Schemes',     icon: '🏛️', tag: 'Policy & Benefits',       color: '#0a2a2e' },
-];
 
 interface NewsItem {
   id: string;

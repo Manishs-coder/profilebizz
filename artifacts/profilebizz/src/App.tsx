@@ -1,20 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Search, Share2, Mail, Rss, ChevronLeft, ChevronRight, ChevronDown, Menu, X, Globe, User, Building2, Tag, Factory, Users, Rocket, Wheat, Laptop, Bot, Plane, Zap, Dumbbell, Heart } from 'lucide-react';
 import SearchOverlay from '@/components/SearchOverlay';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
-import NotFound from '@/pages/not-found';
-import FounderProfile from '@/pages/FounderProfile';
-import BrandStory, { FEATURED_BRANDS } from '@/pages/BrandStory';
-import IndustryStory, { FEATURED_INDUSTRIES } from '@/pages/IndustryStory';
-import LocalBusiness, { FEATURED_CITIES } from '@/pages/LocalBusiness';
-import SuccessStory, { SUCCESS_CATEGORIES } from '@/pages/SuccessStory';
-import SocialImpact, { IMPACT_CATEGORIES } from '@/pages/SocialImpact';
-import BusinessNews, { NEWS_CATEGORIES } from '@/pages/BusinessNews';
-import SocialHeroProfile from '@/pages/SocialHeroProfile';
-import WomenStory from '@/pages/WomenStory';
+import {
+  FEATURED_BRANDS,
+  FEATURED_INDUSTRIES,
+  FEATURED_CITIES,
+  SUCCESS_CATEGORIES,
+  IMPACT_CATEGORIES,
+  NEWS_CATEGORIES,
+} from '@/data/navData';
+
+// ── Lazy-loaded page components (separate JS chunks, load on demand) ──────────
+const NotFound          = React.lazy(() => import('@/pages/not-found'));
+const FounderProfile    = React.lazy(() => import('@/pages/FounderProfile'));
+const BrandStory        = React.lazy(() => import('@/pages/BrandStory'));
+const IndustryStory     = React.lazy(() => import('@/pages/IndustryStory'));
+const LocalBusiness     = React.lazy(() => import('@/pages/LocalBusiness'));
+const SuccessStory      = React.lazy(() => import('@/pages/SuccessStory'));
+const SocialImpact      = React.lazy(() => import('@/pages/SocialImpact'));
+const BusinessNews      = React.lazy(() => import('@/pages/BusinessNews'));
+const SocialHeroProfile = React.lazy(() => import('@/pages/SocialHeroProfile'));
+const WomenStory        = React.lazy(() => import('@/pages/WomenStory'));
 
 const queryClient = new QueryClient();
 
@@ -949,27 +959,29 @@ function Home() {
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/founder/:slug" component={FounderProfile} />
-      <Route path="/founder/hi/:slug">
-        {(params) => <FounderProfile params={params as { slug: string }} locale="hi" />}
-      </Route>
-      <Route path="/brand/:slug" component={BrandStory} />
-      <Route path="/industry/:slug" component={IndustryStory} />
-      <Route path="/local/:slug" component={LocalBusiness} />
-      <Route path="/success/:slug" component={SuccessStory} />
-      <Route path="/impact/:slug" component={SocialImpact} />
-      <Route path="/news/:slug" component={BusinessNews} />
-      <Route path="/social-hero" component={SocialHeroProfile} />
-      <Route path="/social-hero/:slug" component={SocialHeroProfile} />
-      <Route path="/social-hero/hi/:slug">
-        {(params) => <SocialHeroProfile params={params as { slug: string }} locale="hi" />}
-      </Route>
-      <Route path="/women-story" component={WomenStory} />
-      <Route path="/women-story/:slug" component={WomenStory} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<div style={{ minHeight: '100vh' }} />}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/founder/:slug" component={FounderProfile} />
+        <Route path="/founder/hi/:slug">
+          {(params) => <FounderProfile params={params as { slug: string }} locale="hi" />}
+        </Route>
+        <Route path="/brand/:slug" component={BrandStory} />
+        <Route path="/industry/:slug" component={IndustryStory} />
+        <Route path="/local/:slug" component={LocalBusiness} />
+        <Route path="/success/:slug" component={SuccessStory} />
+        <Route path="/impact/:slug" component={SocialImpact} />
+        <Route path="/news/:slug" component={BusinessNews} />
+        <Route path="/social-hero" component={SocialHeroProfile} />
+        <Route path="/social-hero/:slug" component={SocialHeroProfile} />
+        <Route path="/social-hero/hi/:slug">
+          {(params) => <SocialHeroProfile params={params as { slug: string }} locale="hi" />}
+        </Route>
+        <Route path="/women-story" component={WomenStory} />
+        <Route path="/women-story/:slug" component={WomenStory} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 

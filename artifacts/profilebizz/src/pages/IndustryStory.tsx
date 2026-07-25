@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Users, Building2, Lightbulb } from 'lucide-react';
+import { FEATURED_INDUSTRIES } from '@/data/navData';
 
 const SECTIONS = [
   { id: 'overview',    label: 'Industry Overview' },
@@ -15,18 +16,6 @@ const SECTIONS = [
   { id: 'startups',    label: 'Startups to Watch' },
 ];
 
-export const FEATURED_INDUSTRIES = [
-  { slug: 'steel',        name: 'Steel',          icon: '🏗️', tag: 'Core Sector',     size: '₹2.5L Cr' },
-  { slug: 'scrap',        name: 'Scrap Industry',  icon: '♻️', tag: 'Circular Economy', size: '₹1.2L Cr' },
-  { slug: 'agriculture',  name: 'Agriculture',     icon: '🌾', tag: 'Foundation',       size: '₹20L Cr' },
-  { slug: 'fmcg',         name: 'FMCG',            icon: '🛒', tag: 'Consumer Goods',   size: '₹5.8L Cr' },
-  { slug: 'solar',        name: 'Solar Energy',    icon: '☀️', tag: 'Clean Tech',       size: '₹1.8L Cr' },
-  { slug: 'ev',           name: 'Electric Vehicles',icon: '⚡', tag: 'Future Mobility',  size: '₹50,000 Cr' },
-  { slug: 'biofuel',      name: 'Biofuel',         icon: '🌿', tag: 'Green Energy',     size: '₹35,000 Cr' },
-  { slug: 'real-estate',  name: 'Real Estate',     icon: '🏘️', tag: 'Infra',            size: '₹13L Cr' },
-  { slug: 'healthcare',   name: 'Healthcare',      icon: '🏥', tag: 'Life Sciences',    size: '₹8.6L Cr' },
-  { slug: 'it',           name: 'IT & Technology', icon: '💻', tag: 'Digital Economy',  size: '₹10.4L Cr' },
-];
 
 interface IndustryData {
   name: string; tagline: string; icon: string; tag: string;

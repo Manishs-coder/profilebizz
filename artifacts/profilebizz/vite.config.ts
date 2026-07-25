@@ -58,6 +58,8 @@ export default defineConfig({
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
           'helmet':       ['react-helmet-async'],
+          'query':        ['@tanstack/react-query'],
+          'router':       ['wouter'],
         },
       },
     },

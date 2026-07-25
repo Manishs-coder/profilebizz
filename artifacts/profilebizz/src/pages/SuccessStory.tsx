@@ -1,16 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Star, Users, Globe, Sprout, Award } from 'lucide-react';
+import { SUCCESS_CATEGORIES } from '@/data/navData';
 
 /* ── Category config ──────────────────── */
-export const SUCCESS_CATEGORIES = [
-  { slug: 'business-growth', label: 'Business Growth',  icon: '📈', tag: 'Scale & Expansion',    color: '#002B49' },
-  { slug: 'export-success',  label: 'Export Success',   icon: '🌍', tag: 'Made in India',         color: '#1a5c38' },
-  { slug: 'startup-success', label: 'Startup Success',  icon: '🚀', tag: 'Zero to One',           color: '#5c1a1a' },
-  { slug: 'women-success',   label: 'Women Success',    icon: '👩‍💼', tag: 'Trailblazers',          color: '#5c1a5c' },
-  { slug: 'youth-success',   label: 'Youth Success',    icon: '⚡', tag: 'Gen Z & Millennials',   color: '#1a3d5c' },
-  { slug: 'village-success', label: 'Village Success',  icon: '🌾', tag: 'Bharat Rising',         color: '#3d2b1a' },
-];
 
 /* ── Story type ───────────────────────── */
 interface Story {

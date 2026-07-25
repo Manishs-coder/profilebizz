@@ -1,16 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, Share2, BookmarkPlus, Heart, Award, Users, Globe, Leaf, ChevronRight } from 'lucide-react';
+import { IMPACT_CATEGORIES } from '@/data/navData';
 
 /* ── Category config ──────────────────── */
-export const IMPACT_CATEGORIES = [
-  { slug: 'ngo',                 label: 'NGO',                  icon: '🤝', tag: 'Community Champions',       color: '#1a3a5c' },
-  { slug: 'education',           label: 'Education',            icon: '📚', tag: 'Learning for All',          color: '#1a5c2e' },
-  { slug: 'healthcare',          label: 'Healthcare',           icon: '🏥', tag: 'Health Equity',             color: '#5c1a1a' },
-  { slug: 'environment',         label: 'Environment',          icon: '🌱', tag: 'Healing the Planet',        color: '#1a4a1a' },
-  { slug: 'village-development', label: 'Village Development',  icon: '🏘️', tag: 'Bharat Rising',             color: '#3d2b0a' },
-  { slug: 'csr',                 label: 'CSR',                  icon: '🏢', tag: 'Corporate Giving Back',     color: '#2b0a3d' },
-];
 
 /* ── Story type ───────────────────────── */
 interface ImpactStory {

@@ -1,15 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, MapPin, Phone, Globe, Star, TrendingUp, Building2, Users, Search } from 'lucide-react';
+import { FEATURED_CITIES } from '@/data/navData';
 
-export const FEATURED_CITIES = [
-  { slug: 'ahmedabad', name: 'Ahmedabad', state: 'Gujarat',     icon: '🏙️', tag: 'Textile & Trade Capital',  businesses: '4.2L+' },
-  { slug: 'rajkot',    name: 'Rajkot',    state: 'Gujarat',     icon: '⚙️', tag: 'Engineering Hub',          businesses: '1.8L+' },
-  { slug: 'vadodara',  name: 'Vadodara',  state: 'Gujarat',     icon: '🏭', tag: 'Chemical & Pharma Belt',   businesses: '2.1L+' },
-  { slug: 'delhi',     name: 'Delhi NCR', state: 'Delhi',       icon: '🏛️', tag: 'India\'s Business Capital', businesses: '12L+' },
-  { slug: 'surat',     name: 'Surat',     state: 'Gujarat',     icon: '💎', tag: 'Diamond & Textile City',   businesses: '3.5L+' },
-  { slug: 'mumbai',    name: 'Mumbai',    state: 'Maharashtra', icon: '🌊', tag: 'Financial Capital of India',businesses: '15L+' },
-];
 
 /* ─── City data ───────────────────────── */
 interface Business {
