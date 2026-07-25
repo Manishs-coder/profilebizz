@@ -1,5 +1,4 @@
 import * as React from "react"
-import { Editor } from "@tinymce/tinymce-react"
 import { useParams, useLocation, Link } from "wouter"
 import {
   useGetFounder,
@@ -568,6 +567,8 @@ function InterviewsEditor({
 }
 
 // ─── Sections Editor ─────────────────────────────────────────────────────────
+const NAMED_SECTIONS = ["Early Life", "Education", "Career", "Entrepreneurial Journey", "Challenges", "Success", "Leadership Style"]
+
 function SectionsEditor({ slug }: { slug: string }) {
   const [locale, setLocale] = React.useState<"en" | "hi">("en")
   const { data: sections, isLoading } = useGetFounderSections(slug, locale, {
@@ -577,102 +578,71 @@ function SectionsEditor({ slug }: { slug: string }) {
   const { toast } = useToast()
   const queryClient = useQueryClient()
 
-  const textSections = ["Early Life", "Education", "Career", "Entrepreneurial Journey", "Challenges", "Success", "Leadership Style"]
-
-  type SectionData = { pullQuote: string; bodyParagraphs: string; htmlContent: string; imageUrl: string; imageCaption: string }
-  const [formDataEn, setFormDataEn] = React.useState<Record<string, SectionData>>({})
-  const [formDataHi, setFormDataHi] = React.useState<Record<string, SectionData>>({})
+  const [storyEn, setStoryEn] = React.useState("")
+  const [pullQuoteEn, setPullQuoteEn] = React.useState("")
+  const [storyHi, setStoryHi] = React.useState("")
+  const [pullQuoteHi, setPullQuoteHi] = React.useState("")
   const [awardsEn, setAwardsEn] = React.useState<Award[]>([])
   const [interviewsEn, setInterviewsEn] = React.useState<Interview[]>([])
-  const [imageUploading, setImageUploading] = React.useState<string | null>(null)
 
-  const formData = locale === "en" ? formDataEn : formDataHi
-  const setFormData = locale === "en" ? setFormDataEn : setFormDataHi
+  const story = locale === "en" ? storyEn : storyHi
+  const setStory = locale === "en" ? setStoryEn : setStoryHi
+  const pullQuote = locale === "en" ? pullQuoteEn : pullQuoteHi
+  const setPullQuote = locale === "en" ? setPullQuoteEn : setPullQuoteHi
 
   React.useEffect(() => {
     if (!sections) return
-    const newData: Record<string, SectionData> = {}
-    textSections.forEach((key) => {
-      const sec = sections.find((s) => s.sectionKey === key)
-      const jd = sec?.jsonData as any
-      // htmlContent: prefer saved HTML, fallback to bodyParagraphs converted to HTML
-      const savedHtml = jd?.htmlContent || ""
-      const fallbackHtml = sec?.bodyParagraphs?.length
-        ? sec.bodyParagraphs.map((p: string) => `<p>${p}</p>`).join("")
-        : ""
-      newData[key] = {
-        pullQuote: sec?.pullQuote || "",
-        bodyParagraphs: sec?.bodyParagraphs ? sec.bodyParagraphs.join("\n\n") : "",
-        htmlContent: savedHtml || fallbackHtml,
-        imageUrl: jd?.imageUrl || "",
-        imageCaption: jd?.imageCaption || "",
-      }
-    })
+
+    // Gather all story paragraphs: from "story" key or from named sections combined
+    const storySec = sections.find((s) => s.sectionKey === "story")
+    const namedSecs = sections.filter((s) => NAMED_SECTIONS.includes(s.sectionKey))
+    const allParas = storySec
+      ? storySec.bodyParagraphs || []
+      : namedSecs.flatMap((s) => s.bodyParagraphs || [])
+    const combinedText = allParas.join("\n\n")
+
+    // First pull quote found
+    const firstQuote =
+      storySec?.pullQuote ||
+      namedSecs.find((s) => s.pullQuote)?.pullQuote ||
+      ""
+
     if (locale === "en") {
-      setFormDataEn(newData)
+      setStoryEn(combinedText)
+      setPullQuoteEn(firstQuote)
+
       const awardsSection = sections.find((s) => s.sectionKey === "Awards")
-      if (awardsSection?.jsonData && Array.isArray(awardsSection.jsonData)) {
+      if (awardsSection?.jsonData && Array.isArray(awardsSection.jsonData))
         setAwardsEn(awardsSection.jsonData as Award[])
-      }
+
       const interviewsSection = sections.find((s) => s.sectionKey === "Interviews")
-      if (interviewsSection?.jsonData && Array.isArray(interviewsSection.jsonData)) {
+      if (interviewsSection?.jsonData && Array.isArray(interviewsSection.jsonData))
         setInterviewsEn(interviewsSection.jsonData as Interview[])
-      }
     } else {
-      setFormDataHi(newData)
+      setStoryHi(combinedText)
+      setPullQuoteHi(firstQuote)
     }
   }, [sections, locale])
 
-  const handleSectionImageUpload = async (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setImageUploading(key)
-    const fd = new FormData()
-    fd.append("file", file)
-    try {
-      const res = await fetch(`/api/upload`, { method: "POST", body: fd, credentials: "include" })
-      const { url } = await res.json()
-      setFormData((prev) => ({ ...prev, [key]: { ...prev[key], imageUrl: url } }))
-      toast({ title: "Image uploaded!", description: "Image is ready for this section." })
-    } catch {
-      toast({ title: "Upload failed", variant: "destructive" })
-    } finally {
-      setImageUploading(null)
-    }
-  }
-
   const handleSave = () => {
-    const textPayload = textSections.map((key) => {
-      const data = formData[key] || { pullQuote: "", bodyParagraphs: "", htmlContent: "", imageUrl: "", imageCaption: "" }
-      // Build jsonData: include htmlContent + optional image
-      const jsonData: Record<string, any> = {}
-      if (data.htmlContent) jsonData.htmlContent = data.htmlContent
-      if (data.imageUrl) { jsonData.imageUrl = data.imageUrl; jsonData.imageCaption = data.imageCaption || "" }
-      return {
-        sectionKey: key,
-        pullQuote: data.pullQuote,
-        bodyParagraphs: data.bodyParagraphs
-          ? data.bodyParagraphs
-              .split("\n\n")
-              .map((p) => p.trim())
-              .filter(Boolean)
-          : [],
-        jsonData: Object.keys(jsonData).length > 0 ? jsonData : null,
-      }
-    })
-
-    const awardsPayload = locale === "en" && awardsEn.filter((a) => a.title || a.organization).length > 0
-      ? [{ sectionKey: "Awards", pullQuote: "", bodyParagraphs: [], jsonData: awardsEn }]
-      : []
-
-    const interviewsPayload = locale === "en" && interviewsEn.filter((i) => i.title || i.publication).length > 0
-      ? [{ sectionKey: "Interviews", pullQuote: "", bodyParagraphs: [], jsonData: interviewsEn }]
-      : []
+    const paragraphs = story
+      .split("\n\n")
+      .map((p) => p.trim())
+      .filter(Boolean)
 
     const payload = [
-      ...textPayload.filter((s) => s.pullQuote || s.bodyParagraphs.length > 0),
-      ...awardsPayload,
-      ...interviewsPayload,
+      {
+        sectionKey: "story",
+        pullQuote,
+        bodyParagraphs: paragraphs,
+        jsonData: null,
+      },
+      ...(locale === "en" && awardsEn.filter((a) => a.title || a.organization).length > 0
+        ? [{ sectionKey: "Awards", pullQuote: "", bodyParagraphs: [], jsonData: awardsEn }]
+        : []),
+      ...(locale === "en" && interviewsEn.filter((i) => i.title || i.publication).length > 0
+        ? [{ sectionKey: "Interviews", pullQuote: "", bodyParagraphs: [], jsonData: interviewsEn }]
+        : []),
     ]
 
     updateMutation.mutate(
@@ -680,9 +650,9 @@ function SectionsEditor({ slug }: { slug: string }) {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetFounderSectionsQueryKey(slug, locale) })
-          toast({ title: `${locale === "en" ? "English" : "Hindi"} sections saved!`, description: "Story sections updated." })
+          toast({ title: `${locale === "en" ? "English" : "Hindi"} story saved!` })
         },
-        onError: () => toast({ title: "Error", description: "Failed to save sections.", variant: "destructive" }),
+        onError: () => toast({ title: "Error", description: "Failed to save.", variant: "destructive" }),
       }
     )
   }
@@ -717,117 +687,45 @@ function SectionsEditor({ slug }: { slug: string }) {
         </div>
         {locale === "hi" && (
           <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-md">
-            Hindi content will be served at <code className="font-mono">/founder/hi/{slug}</code>
+            Hindi content: <code className="font-mono">/founder/hi/{slug}</code>
           </p>
         )}
       </div>
 
-      <div className="space-y-10">
-        {textSections.map((key) => (
-          <div key={`${locale}-${key}`} className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
-            <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">{key}</h3>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label>Pull Quote</Label>
-                <Input
-                  placeholder={locale === "hi" ? `${key} ka highlight quote...` : `Highlight quote from ${key.toLowerCase()}...`}
-                  value={formData[key]?.pullQuote || ""}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, [key]: { ...prev[key], pullQuote: e.target.value } }))
-                  }
-                  style={locale === "hi" ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Body Content</Label>
-                <p className="text-xs text-slate-500">Rich text editor — bold, lists, headings supported.</p>
-                <div className="rounded-lg overflow-hidden border border-slate-200">
-                  <Editor
-                    key={`${locale}-${key}`}
-                    tinymceScriptSrc={`${import.meta.env.BASE_URL}tinymce/tinymce.min.js`}
-                    value={formData[key]?.htmlContent || ""}
-                    onEditorChange={(content) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        [key]: { ...prev[key], htmlContent: content },
-                      }))
-                    }
-                    init={{
-                      height: 280,
-                      menubar: false,
-                      branding: false,
-                      statusbar: false,
-                      plugins: ["lists", "link", "autolink", "paste"],
-                      toolbar:
-                        "bold italic underline | bullist numlist | h2 h3 | blockquote | link | removeformat",
-                      content_style:
-                        "body { font-family: Georgia, serif; font-size: 16px; line-height: 1.7; color: #1e293b; padding: 12px; }",
-                      skin_url: `${import.meta.env.BASE_URL}tinymce/skins/ui/oxide`,
-                      content_css: `${import.meta.env.BASE_URL}tinymce/skins/content/default/content.min.css`,
-                      language: locale === "hi" ? "hi" : undefined,
-                    }}
-                  />
-                </div>
-              </div>
+      <div className="space-y-6">
+        {/* Pull Quote */}
+        <div className="space-y-2">
+          <Label className="text-base font-semibold">Pull Quote</Label>
+          <p className="text-xs text-slate-500">Story ka ek powerful quote — story ke beech bold dikhega.</p>
+          <Input
+            placeholder={locale === "hi" ? `"..." — Naam` : `"..." — Name`}
+            value={pullQuote}
+            onChange={(e) => setPullQuote(e.target.value)}
+            style={locale === "hi" ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
+          />
+        </div>
 
-              {/* ── Article Image ── */}
-              <div className="space-y-3 pt-3 border-t border-dashed border-slate-200">
-                <div className="flex items-center gap-2">
-                  <ImageIcon className="h-4 w-4 text-slate-400" />
-                  <Label className="text-sm font-semibold text-slate-700">Section Image <span className="font-normal text-slate-400">(optional — shown inside article)</span></Label>
-                </div>
-                <div className="flex items-start gap-4">
-                  {formData[key]?.imageUrl && (
-                    <div className="relative h-20 w-32 flex-shrink-0 rounded-md overflow-hidden border border-slate-200 bg-slate-50">
-                      <img src={formData[key].imageUrl} alt="Section" className="h-full w-full object-cover" />
-                      <button
-                        type="button"
-                        onClick={() => setFormData((prev) => ({ ...prev, [key]: { ...prev[key], imageUrl: "", imageCaption: "" } }))}
-                        className="absolute top-1 right-1 bg-white rounded-full p-0.5 shadow text-red-500 hover:bg-red-50"
-                        title="Remove image"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </button>
-                    </div>
-                  )}
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <label className="cursor-pointer flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-primary border border-slate-200 hover:border-primary px-3 py-1.5 rounded-md transition-colors">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={(e) => handleSectionImageUpload(key, e)}
-                          disabled={imageUploading === key}
-                        />
-                        {imageUploading === key ? (
-                          <><Loader2 className="h-3 w-3 animate-spin" /> Uploading...</>
-                        ) : (
-                          <><ImageIcon className="h-3 w-3" /> Upload Image</>
-                        )}
-                      </label>
-                      <span className="text-xs text-slate-400">or</span>
-                      <Input
-                        className="h-7 text-xs flex-1"
-                        placeholder="Paste image URL..."
-                        value={formData[key]?.imageUrl || ""}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, [key]: { ...prev[key], imageUrl: e.target.value } }))}
-                      />
-                    </div>
-                    <Input
-                      className="h-7 text-xs"
-                      placeholder="Caption (optional)..."
-                      value={formData[key]?.imageCaption || ""}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, [key]: { ...prev[key], imageCaption: e.target.value } }))}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+        {/* Single Story Textarea */}
+        <div className="space-y-2">
+          <Label className="text-base font-semibold">Story</Label>
+          <p className="text-xs text-slate-500">
+            Poori story yahan likhein. Paragraph badalne ke liye <kbd className="bg-slate-100 border px-1 rounded text-xs">Enter</kbd> do baar dabayein (blank line).
+          </p>
+          <Textarea
+            key={`story-${locale}`}
+            value={story}
+            onChange={(e) => setStory(e.target.value)}
+            className="min-h-[500px] font-serif text-base leading-relaxed resize-y"
+            placeholder={
+              locale === "hi"
+                ? "Story yahan likhein...\n\nDusra paragraph yahan..."
+                : "Write the full story here...\n\nStart a new paragraph by pressing Enter twice."
+            }
+            style={locale === "hi" ? { fontFamily: "'Noto Sans Devanagari', sans-serif" } : {}}
+          />
+        </div>
 
-        {/* Awards — only for English */}
+        {/* Awards — English only */}
         {locale === "en" && (
           <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
             <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Awards & Recognition</h3>
@@ -835,7 +733,7 @@ function SectionsEditor({ slug }: { slug: string }) {
           </div>
         )}
 
-        {/* Interviews — only for English */}
+        {/* Interviews — English only */}
         {locale === "en" && (
           <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
             <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Interviews & Media</h3>
@@ -845,15 +743,11 @@ function SectionsEditor({ slug }: { slug: string }) {
 
         <div className="sticky bottom-4 bg-white/90 backdrop-blur border p-4 rounded-xl shadow-lg flex items-center justify-between">
           <span className="text-sm text-slate-500">
-            Saving: <span className="font-semibold text-slate-800">{locale === "en" ? "English" : "Hindi"}</span> sections
+            Saving: <span className="font-semibold text-slate-800">{locale === "en" ? "English" : "Hindi"}</span>
           </span>
           <Button onClick={handleSave} disabled={updateMutation.isPending} className="gap-2 px-8">
-            {updateMutation.isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Save className="h-4 w-4" />
-            )}
-            Save {locale === "en" ? "English" : "Hindi"} Sections
+            {updateMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            Save {locale === "en" ? "English" : "Hindi"}
           </Button>
         </div>
       </div>

@@ -1020,7 +1020,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
               <button key={s.sectionKey} onClick={() => scrollTo(s.sectionKey)}
                 className={`flex-shrink-0 px-4 py-3 text-xs font-medium whitespace-nowrap border-b-2 transition-colors
                   ${activeSection === s.sectionKey ? 'border-editorial text-editorial font-semibold' : 'border-transparent text-gray-500 hover:text-black'}`}>
-                {s.sectionKey}
+                {s.sectionKey === 'story' ? (lang === 'hi' ? 'कहानी' : 'Story') : s.sectionKey}
               </button>
             ))}
           </div>
@@ -1046,7 +1046,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
                           ? 'border-editorial text-editorial bg-red-50 font-semibold'
                           : 'border-gray-200 text-gray-500 hover:text-black hover:border-black'
                       }`} style={hf}>
-                      {s.sectionKey}
+                      {s.sectionKey === 'story' ? (lang === 'hi' ? 'कहानी' : 'Story') : s.sectionKey}
                     </button>
                   ))}
                 </nav>
@@ -1084,7 +1084,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
               return (
                 <React.Fragment key={sec.sectionKey}>
                   <section id={sec.sectionKey} ref={setRef(sec.sectionKey)} className="mb-16 scroll-mt-24">
-                    <SectionLabel index={String(idx + 1).padStart(2, '0')} label={sec.sectionKey} />
+                    <SectionLabel index={String(idx + 1).padStart(2, '0')} label={sec.sectionKey === 'story' ? (lang === 'hi' ? 'कहानी' : 'Story') : sec.sectionKey} />
 
                     {sec.pullQuote && (
                       <blockquote className="border-l-4 border-editorial pl-6 my-6">
