@@ -875,7 +875,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
                 <p className="text-[10px] font-bold tracking-widest uppercase text-editorial mb-1">{hero.location} · {hero.impact}</p>
                 <h3 className="font-serif text-lg font-bold mb-1 group-hover:text-editorial transition-colors">{hero.name}</h3>
                 <p className="text-xs text-gray-500 mb-2">{hero.tag}</p>
-                <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">{hero.story[0]}</p>
+                <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">{hero.story?.[0] ?? ''}</p>
               </div>
             </div>
           ))}
