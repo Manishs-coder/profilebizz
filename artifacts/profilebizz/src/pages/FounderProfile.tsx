@@ -1232,6 +1232,9 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
 export default function FounderProfile({ params, locale }: { params?: { slug?: string }; locale?: 'en' | 'hi' }) {
   const slug = params?.slug ?? 'rajesh-kumar-vedas';
   const lang = locale ?? 'en';
+  // Known founders: use StaticFounderContent which has hardcoded Hindi (FOUNDERS_HI) + fetches DB photo
+  if (FOUNDERS[slug]) return <StaticFounderContent slug={slug} lang={lang} />;
+  // DB-only founders
   return <DynamicFounderPage slug={slug} lang={lang} />;
 }
 
