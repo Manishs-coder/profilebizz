@@ -28,13 +28,20 @@ function tr2(ts: { trait: string; desc: string }[]) {
 
 // ── Upsert helpers ─────────────────────────────────────────────────────────────
 async function upsertFounder(d: Record<string, any>) {
-  const existing = await db.select({ id: foundersTable.id }).from(foundersTable).where(eq(foundersTable.slug, d.slug)).limit(1);
+  const existing = await db.select({
+    id: foundersTable.id,
+    photoUrl: foundersTable.photoUrl,
+    coverPhotoUrl: foundersTable.coverPhotoUrl,
+  }).from(foundersTable).where(eq(foundersTable.slug, d.slug)).limit(1);
   if (existing.length) {
+    // Never overwrite photo URLs that admin has already set — preserve them
+    const keepPhoto = existing[0].photoUrl || d.photoUrl || null;
+    const keepCover = existing[0].coverPhotoUrl || d.coverPhotoUrl || null;
     await db.update(foundersTable).set({
       name: d.name, designation: d.designation, profileType: d.profileType ?? null,
       profileTag: d.profileTag ?? null, category: d.category ?? null, location: d.location ?? null,
       founded: d.founded ?? null, revenue: d.revenue ?? null, employees: d.employees ?? null,
-      age: d.age ?? null, photoUrl: d.photoUrl ?? null, coverPhotoUrl: d.coverPhotoUrl ?? null,
+      age: d.age ?? null, photoUrl: keepPhoto, coverPhotoUrl: keepCover,
       oneLiner: d.oneLiner ?? null, executiveSummary: d.executiveSummary ?? null, published: d.published ?? true,
     }).where(eq(foundersTable.slug, d.slug));
     return existing[0].id;
