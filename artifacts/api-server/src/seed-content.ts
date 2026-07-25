@@ -3,7 +3,7 @@
  * Safe to run multiple times (upserts by slug).
  */
 import { db, foundersTable, founderSectionsTable } from "@workspace/db";
-import { eq, and } from "drizzle-orm";
+import { eq, and, count } from "drizzle-orm";
 import { logger } from "./lib/logger";
 
 // ── HTML builders ──────────────────────────────────────────────────────────────
@@ -56,8 +56,17 @@ async function upsertFounder(d: Record<string, any>) {
   return row.id;
 }
 
-async function replaceSections(founderId: number, locale: string, sections: any[]) {
-  await db.delete(founderSectionsTable).where(and(eq(founderSectionsTable.founderId, founderId), eq(founderSectionsTable.locale, locale)));
+/**
+ * Inserts sections ONLY if none exist yet for this founder+locale.
+ * Admin edits are preserved — this never deletes or overwrites existing rows.
+ */
+async function seedSectionsIfEmpty(founderId: number, locale: string, sections: any[]) {
+  const [{ value: existing }] = await db
+    .select({ value: count() })
+    .from(founderSectionsTable)
+    .where(and(eq(founderSectionsTable.founderId, founderId), eq(founderSectionsTable.locale, locale)));
+  if (existing > 0) return; // admin may have edited — leave untouched
+
   for (let i = 0; i < sections.length; i++) {
     const s = sections[i];
     await db.insert(founderSectionsTable).values({
@@ -485,8 +494,8 @@ export async function seedAllContent() {
       executiveSummary: '73 Lakh clients · ₹8,320 Cr revenue · Zero VC funding · India\'s largest broker',
       published: true,
     });
-    await replaceSections(nkId, 'en', nkSectionsEn);
-    await replaceSections(nkId, 'hi', nkSectionsHi);
+    await seedSectionsIfEmpty(nkId, 'en', nkSectionsEn);
+    await seedSectionsIfEmpty(nkId, 'hi', nkSectionsHi);
     logger.info({ id: nkId }, 'nithin-kamath seeded');
 
     // Seed Rajesh Kumar Vedas
@@ -502,15 +511,15 @@ export async function seedAllContent() {
       executiveSummary: '18,000 farmer partners · ₹210 Cr revenue · 6 processing plants · 85,000+ retail touchpoints',
       published: true,
     });
-    await replaceSections(rkId, 'en', rkSectionsEn);
+    await seedSectionsIfEmpty(rkId, 'en', rkSectionsEn);
     logger.info({ id: rkId }, 'rajesh-kumar-vedas seeded');
 
     // Seed Social Heroes
     for (const hero of SOCIAL_HEROES) {
       logger.info(`Seeding ${hero.slug}...`);
       const hId = await upsertFounder(hero);
-      await replaceSections(hId, 'en', hero.sectionsEn);
-      if (hero.sectionsHi) await replaceSections(hId, 'hi', hero.sectionsHi);
+      await seedSectionsIfEmpty(hId, 'en', hero.sectionsEn);
+      if (hero.sectionsHi) await seedSectionsIfEmpty(hId, 'hi', hero.sectionsHi);
       logger.info({ id: hId }, `${hero.slug} seeded`);
     }
 

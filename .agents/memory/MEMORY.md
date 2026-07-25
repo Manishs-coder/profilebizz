@@ -1,0 +1,4 @@
+- [Seed idempotency](seed-idempotency.md) — sections use seedSectionsIfEmpty (not replaceSections) so admin edits survive redeploy
+- [Hindi content scope](hindi-content-scope.md) — only 5 founders have Hindi: Nithin Kamath, Anshu Gupta, Arunachalam, Rajendra Singh, Dashrath Manjhi
+- [Photo upload flow](photo-upload-flow.md) — multer → PRIVATE_OBJECT_DIR → served at /api/storage/objects/*; no makePublic() call
+- [DynamicFounderPage routing](dynamic-founder-routing.md) — all founders now route through DynamicFounderPage; FOUNDERS_HI used for Hindi display metadata only
