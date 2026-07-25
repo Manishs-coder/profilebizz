@@ -35,6 +35,57 @@ function esc(str) {
     .replace(/>/g, '&gt;');
 }
 
+/** Convert a section key like "early-life" → "Early Life"; Hindi keys pass through. */
+function sectionLabel(key) {
+  if (!key) return '';
+  if (/[^\x00-\x7F]/.test(key)) return key; // Hindi — use as-is
+  return key.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+/**
+ * Build semantic article HTML for a founder page.
+ * Injected into #root so crawlers see real content, not an empty shell.
+ */
+function buildArticleBody(row, sections, locale) {
+  const name        = esc(row.name || '');
+  const designation = esc(row.designation || '');
+  const oneLiner    = esc(row.one_liner || '');
+  const photoUrl    = row.cover_photo_url || row.photo_url || '';
+
+  const imgTag = photoUrl
+    ? `<img src="${esc(photoUrl)}" alt="${esc(row.name || '')}" width="400" height="400" />`
+    : '';
+
+  const localeSections = (sections || [])
+    .filter(s => s.locale === locale)
+    .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+  const sectionsHtml = localeSections.map(s => {
+    const label = esc(sectionLabel(s.section_key || ''));
+    const quote = s.pull_quote
+      ? `<blockquote>${esc(s.pull_quote)}</blockquote>`
+      : '';
+    const paras = (Array.isArray(s.body_paragraphs) ? s.body_paragraphs : [])
+      .map(p => `<p>${esc(p)}</p>`).join('');
+    return `<section><h2>${label}</h2>${quote}${paras}</section>`;
+  }).join('');
+
+  return `<article itemscope itemtype="https://schema.org/Article">
+  <header>
+    ${imgTag}
+    <h1 itemprop="name">${name}</h1>
+    <p itemprop="jobTitle">${designation}</p>
+    ${oneLiner ? `<blockquote itemprop="description">${oneLiner}</blockquote>` : ''}
+  </header>
+  ${sectionsHtml}
+</article>`;
+}
+
+/** Replace the empty #root div with pre-rendered article HTML. */
+function injectBody(html, articleHtml) {
+  return html.replace('<div id="root"></div>', `<div id="root">${articleHtml}</div>`);
+}
+
 function buildHeadBlock(row, slug, locale) {
   const pageUrl    = locale === 'hi'
     ? `${SITE_URL}/founder/hi/${slug}`
@@ -382,32 +433,52 @@ async function main() {
   const client = new pg.Client({ connectionString: dbUrl });
   await client.connect();
 
-  let founders;
+  let founders, allSections;
   try {
-    const result = await client.query(`
-      SELECT slug, name, designation, one_liner, executive_summary,
-             photo_url, cover_photo_url
-      FROM   founders
-      WHERE  published = true
-      ORDER  BY name
-    `);
-    founders = result.rows;
+    const [fResult, sResult] = await Promise.all([
+      client.query(`
+        SELECT slug, name, designation, one_liner, executive_summary,
+               photo_url, cover_photo_url, id
+        FROM   founders
+        WHERE  published = true
+        ORDER  BY name
+      `),
+      client.query(`
+        SELECT founder_id, locale, section_key, pull_quote, body_paragraphs, sort_order
+        FROM   founder_sections
+        ORDER  BY founder_id, locale, sort_order
+      `),
+    ]);
+    founders    = fResult.rows;
+    allSections = sResult.rows;
   } finally {
     await client.end();
   }
 
+  // Group sections by founder_id for quick lookup
+  const sectionsByFounder = {};
+  for (const s of allSections) {
+    if (!sectionsByFounder[s.founder_id]) sectionsByFounder[s.founder_id] = [];
+    sectionsByFounder[s.founder_id].push(s);
+  }
+
   let count = 0;
   for (const row of founders) {
-    const slug = row.slug;
+    const slug     = row.slug;
+    const sections = sectionsByFounder[row.id] || [];
 
     // English route: /founder/{slug}/index.html
-    const enHtml = injectHead(template, buildHeadBlock(row, slug, 'en'));
+    const enHead = buildHeadBlock(row, slug, 'en');
+    const enBody = buildArticleBody(row, sections, 'en');
+    const enHtml = injectBody(injectHead(template, enHead), enBody);
     const enDir  = join(distDir, 'founder', slug);
     mkdirSync(enDir, { recursive: true });
     writeFileSync(join(enDir, 'index.html'), enHtml, 'utf-8');
 
     // Hindi route: /founder/hi/{slug}/index.html
-    const hiHtml = injectHead(template, buildHeadBlock(row, slug, 'hi'));
+    const hiHead = buildHeadBlock(row, slug, 'hi');
+    const hiBody = buildArticleBody(row, sections, 'hi');
+    const hiHtml = injectBody(injectHead(template, hiHead), hiBody);
     const hiDir  = join(distDir, 'founder', 'hi', slug);
     mkdirSync(hiDir, { recursive: true });
     writeFileSync(join(hiDir, 'index.html'), hiHtml, 'utf-8');

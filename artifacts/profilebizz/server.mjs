@@ -87,9 +87,59 @@ function fetchJson(urlPath) {
   });
 }
 
-// ── OG tag injection ──────────────────────────────────────────────────────────
+// ── OG tag injection + article body builder ───────────────────────────────────
 function escAttr(s) {
   return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function escHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/** Convert a section key like "early-life" → "Early Life"; pass through Hindi keys as-is. */
+function sectionLabel(key) {
+  if (!key) return '';
+  // Hindi keys contain non-ASCII characters — use as-is
+  if (/[^\x00-\x7F]/.test(key)) return key;
+  return key.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+/**
+ * Build a semantic HTML article body from founder data + sections.
+ * Injected into #root so crawlers read real content instead of an empty shell.
+ */
+function buildArticleBody(data, sections) {
+  const name        = escHtml(data.name);
+  const designation = escHtml(data.designation || '');
+  const oneLiner    = escHtml(data.oneLiner || '');
+  const photoUrl    = data.photoUrl || '';
+
+  const imgTag = photoUrl
+    ? `<img src="${escAttr(photoUrl)}" alt="${escAttr(data.name)}" width="400" height="400" />`
+    : '';
+
+  const sectionsHtml = (sections || []).map(s => {
+    const label = escHtml(sectionLabel(s.sectionKey || ''));
+    const quote = s.pullQuote
+      ? `<blockquote>${escHtml(s.pullQuote)}</blockquote>`
+      : '';
+    const paras = (s.bodyParagraphs || []).map(p => `<p>${escHtml(p)}</p>`).join('');
+    return `<section><h2>${label}</h2>${quote}${paras}</section>`;
+  }).join('');
+
+  return `<article itemscope itemtype="https://schema.org/Article">
+  <header>
+    ${imgTag}
+    <h1 itemprop="name">${name}</h1>
+    <p itemprop="jobTitle">${designation}</p>
+    ${oneLiner ? `<blockquote itemprop="description">${oneLiner}</blockquote>` : ''}
+  </header>
+  ${sectionsHtml}
+</article>`;
+}
+
+/** Replace the empty #root div with pre-rendered article HTML for bots. */
+function injectBody(html, articleHtml) {
+  return html.replace('<div id="root"></div>', `<div id="root">${articleHtml}</div>`);
 }
 
 function injectOG(html, { title, description, image, url, locale }) {
@@ -131,30 +181,42 @@ async function buildOGHtml(urlPath) {
   let m;
   if ((m = FOUNDER_RE.exec(urlPath))) {
     const [, lang, slug] = m;
-    const locale = lang === 'hi' ? 'hi_IN' : 'en_IN';
+    const locale  = lang === 'hi' ? 'hi_IN' : 'en_IN';
+    const apiLang = lang || 'en';
     const pageUrl = lang === 'hi' ? `${SITE_URL}/founder/hi/${slug}` : `${SITE_URL}/founder/${slug}`;
 
-    const data = await fetchJson(`/api/public/founders/${slug}${lang ? `?locale=${lang}` : ''}`);
+    const [data, sections] = await Promise.all([
+      fetchJson(`/api/public/founders/${slug}${lang ? `?locale=${lang}` : ''}`),
+      fetchJson(`/api/public/founders/${slug}/sections?locale=${apiLang}`),
+    ]);
     if (!data) return spaHtml; // API down — fallback, bot sees SPA shell
 
     const title       = `${data.name} — ${data.designation} | ProfileBizz`;
     const description = data.oneLiner || data.executiveSummary || `Read the story of ${data.name} on ProfileBizz.`;
     const image       = data.photoUrl || '/og-default.jpg';
-    return injectOG(spaHtml, { title, description, image, url: pageUrl, locale });
+
+    const withMeta    = injectOG(spaHtml, { title, description, image, url: pageUrl, locale });
+    return injectBody(withMeta, buildArticleBody(data, sections || []));
   }
 
   if ((m = HERO_RE.exec(urlPath))) {
     const [, lang, slug] = m;
-    const locale = lang === 'hi' ? 'hi_IN' : 'en_IN';
+    const locale  = lang === 'hi' ? 'hi_IN' : 'en_IN';
+    const apiLang = lang || 'en';
     const pageUrl = lang === 'hi' ? `${SITE_URL}/social-hero/hi/${slug}` : `${SITE_URL}/social-hero/${slug}`;
 
-    const data = await fetchJson(`/api/public/social-heroes/${slug}${lang ? `?locale=${lang}` : ''}`);
+    const [data, sections] = await Promise.all([
+      fetchJson(`/api/public/social-heroes/${slug}${lang ? `?locale=${lang}` : ''}`),
+      fetchJson(`/api/public/founders/${slug}/sections?locale=${apiLang}`), // social heroes share the founders table
+    ]);
     if (!data) return spaHtml;
 
     const title       = `${data.name} — ${data.designation} | ProfileBizz`;
     const description = data.oneLiner || data.executiveSummary || `Read the story of ${data.name} on ProfileBizz.`;
     const image       = data.photoUrl || '/og-default.jpg';
-    return injectOG(spaHtml, { title, description, image, url: pageUrl, locale });
+
+    const withMeta    = injectOG(spaHtml, { title, description, image, url: pageUrl, locale });
+    return injectBody(withMeta, buildArticleBody(data, sections || []));
   }
 
   return null; // not a known dynamic route
