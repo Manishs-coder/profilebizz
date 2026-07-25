@@ -694,23 +694,23 @@ function Home() {
             ) : liveFounders.length > 0 ? (
               liveFounders.map((f, i) => (
                 <a key={i} href={`/founder/${f.slug}`}
-                  className="w-[260px] md:w-[300px] flex-shrink-0 snap-start group flex flex-col bg-white border border-gray-100 hover:border-black transition-colors p-5 overflow-hidden">
-                  <div className="flex items-center gap-3 mb-4 min-w-0">
+                  className="w-[200px] md:w-[220px] flex-shrink-0 snap-start group flex flex-col bg-white border border-gray-100 hover:border-black transition-colors p-3.5 overflow-hidden">
+                  <div className="flex items-center gap-2 mb-3 min-w-0">
                     <img
                       src={f.photoUrl || f.coverPhotoUrl || '/nithin-kamath.webp'}
                       alt={f.name}
-                      className="w-14 h-14 rounded-full object-cover border border-gray-100 flex-shrink-0 group-hover:ring-2 group-hover:ring-editorial transition-all"
+                      className="w-10 h-10 rounded-full object-cover border border-gray-100 flex-shrink-0 group-hover:ring-2 group-hover:ring-editorial transition-all"
                     />
                     <div className="min-w-0 flex-1">
-                      <span className="inline-block text-[9px] font-bold tracking-widest uppercase text-white bg-editorial px-2 py-0.5 mb-1">New</span>
-                      <p className="text-[10px] font-bold tracking-wider uppercase text-editorial leading-tight line-clamp-2">{f.profileTag || f.profileType || 'Founder'}</p>
+                      <span className="inline-block text-[8px] font-bold tracking-widest uppercase text-white bg-editorial px-1.5 py-0.5 mb-0.5">New</span>
+                      <p className="text-[9px] font-bold tracking-wider uppercase text-editorial leading-tight line-clamp-2">{f.profileTag || f.profileType || 'Founder'}</p>
                     </div>
                   </div>
-                  <h4 className="font-serif text-lg font-bold text-black leading-snug mb-1 group-hover:text-editorial transition-colors">{f.name}</h4>
-                  <p className="text-xs text-gray-500 font-medium mb-3 truncate">{f.designation}</p>
-                  <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 flex-1">{f.oneLiner || 'Read the full profile on ProfileBizz.'}</p>
-                  <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase text-gray-400 group-hover:text-editorial transition-colors">
-                    Read Biography <ChevronRight className="w-3 h-3" />
+                  <h4 className="font-serif text-base font-bold text-black leading-snug mb-0.5 group-hover:text-editorial transition-colors">{f.name}</h4>
+                  <p className="text-[11px] text-gray-500 font-medium mb-2 truncate">{f.designation}</p>
+                  <p className="text-xs text-gray-600 leading-relaxed line-clamp-2 flex-1">{f.oneLiner || 'Read the full profile on ProfileBizz.'}</p>
+                  <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase text-gray-400 group-hover:text-editorial transition-colors">
+                    Read Biography <ChevronRight className="w-2.5 h-2.5" />
                   </div>
                 </a>
               ))
