@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { Router } from "express";
 import multer from "multer";
 import { requireAuth } from "../middlewares/auth.js";
@@ -13,28 +14,47 @@ const upload = multer({
   },
 });
 
-// POST /api/upload  — upload an image, return its public serving URL
+/** Parse a GCS path like "/bucket-id/prefix/..." into bucketName + objectName */
+function parseGcsPath(path: string): { bucketName: string; objectName: string } {
+  const parts = path.replace(/^\/+/, "").split("/");
+  return { bucketName: parts[0], objectName: parts.slice(1).join("/") };
+}
+
+/**
+ * POST /api/upload
+ * Accepts multipart/form-data with a single "file" field.
+ * Stores the image in the private object storage directory and
+ * returns a serving URL via the storage objects endpoint.
+ */
 router.post("/upload", requireAuth, upload.single("file"), async (req, res) => {
   if (!req.file) {
     res.status(400).json({ error: "No file uploaded" });
     return;
   }
+
+  const privateDir = process.env["PRIVATE_OBJECT_DIR"];
+  if (!privateDir) {
+    res.status(500).json({ error: "Storage not configured" });
+    return;
+  }
+
   try {
-    const bucketId = process.env["DEFAULT_OBJECT_STORAGE_BUCKET_ID"];
-    if (!bucketId) throw new Error("DEFAULT_OBJECT_STORAGE_BUCKET_ID not set");
+    const ext = (req.file.originalname.split(".").pop() ?? "jpg").toLowerCase();
+    const entityId = `uploads/${randomUUID()}.${ext}`;
 
-    const ext = req.file.originalname.split(".").pop() || "jpg";
-    const objectName = `uploads/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const bucket = objectStorageClient.bucket(bucketId);
-    const file = bucket.file(objectName);
+    // Full GCS path = PRIVATE_OBJECT_DIR / entityId
+    const fullPath = `${privateDir.replace(/\/+$/, "")}/${entityId}`;
+    const { bucketName, objectName } = parseGcsPath(fullPath);
 
-    await file.save(req.file.buffer, {
+    const gcsFile = objectStorageClient.bucket(bucketName).file(objectName);
+    await gcsFile.save(req.file.buffer, {
       contentType: req.file.mimetype,
       metadata: { cacheControl: "public, max-age=31536000" },
     });
 
-    await file.makePublic();
-    const url = `https://storage.googleapis.com/${bucketId}/${objectName}`;
+    // Return an API-served URL instead of a direct GCS public URL.
+    // GET /api/storage/objects/<entityId> proxies the file from private storage.
+    const url = `/api/storage/objects/${entityId}`;
     res.json({ url });
   } catch (err) {
     console.error("Upload error:", err);
