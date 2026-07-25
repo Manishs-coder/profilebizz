@@ -675,7 +675,7 @@ function Home() {
             </div>
           </div>
 
-          <div ref={startupScrollRef} className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
+          <div ref={startupScrollRef} className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2 scroll-smooth" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}>
             {foundersLoading ? (
               Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="min-w-[260px] md:min-w-[300px] snap-start bg-white border border-gray-100 p-5 animate-pulse flex-shrink-0">
@@ -694,20 +694,20 @@ function Home() {
             ) : liveFounders.length > 0 ? (
               liveFounders.map((f, i) => (
                 <a key={i} href={`/founder/${f.slug}`}
-                  className="min-w-[260px] md:min-w-[300px] snap-start group flex flex-col bg-white border border-gray-100 hover:border-black transition-colors p-5 flex-shrink-0">
-                  <div className="flex items-center gap-3 mb-4">
+                  className="w-[260px] md:w-[300px] flex-shrink-0 snap-start group flex flex-col bg-white border border-gray-100 hover:border-black transition-colors p-5 overflow-hidden">
+                  <div className="flex items-center gap-3 mb-4 min-w-0">
                     <img
                       src={f.photoUrl || f.coverPhotoUrl || '/nithin-kamath.webp'}
                       alt={f.name}
                       className="w-14 h-14 rounded-full object-cover border border-gray-100 flex-shrink-0 group-hover:ring-2 group-hover:ring-editorial transition-all"
                     />
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <span className="inline-block text-[9px] font-bold tracking-widest uppercase text-white bg-editorial px-2 py-0.5 mb-1">New</span>
-                      <p className="text-[10px] font-bold tracking-wider uppercase text-editorial leading-none">{f.profileTag || f.profileType || 'Founder'}</p>
+                      <p className="text-[10px] font-bold tracking-wider uppercase text-editorial leading-tight line-clamp-2">{f.profileTag || f.profileType || 'Founder'}</p>
                     </div>
                   </div>
                   <h4 className="font-serif text-lg font-bold text-black leading-snug mb-1 group-hover:text-editorial transition-colors">{f.name}</h4>
-                  <p className="text-xs text-gray-500 font-medium mb-3">{f.designation}</p>
+                  <p className="text-xs text-gray-500 font-medium mb-3 truncate">{f.designation}</p>
                   <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 flex-1">{f.oneLiner || 'Read the full profile on ProfileBizz.'}</p>
                   <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase text-gray-400 group-hover:text-editorial transition-colors">
                     Read Biography <ChevronRight className="w-3 h-3" />
