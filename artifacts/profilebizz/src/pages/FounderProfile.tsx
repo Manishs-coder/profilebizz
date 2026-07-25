@@ -344,11 +344,24 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
   const [activeSection, setActiveSection] = useState('early-life');
   const [scrolled, setScrolled] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+  const [dbPhotoUrl, setDbPhotoUrl] = useState<string | null>(null);
+  const [dbCoverPhotoUrl, setDbCoverPhotoUrl] = useState<string | null>(null);
 
   // Hindi content available?
   const hasHindi = Boolean(FOUNDERS_HI[slug]);
   const activeFounder = (lang === 'hi' && hasHindi) ? { ...founder, ...FOUNDERS_HI[slug] } : founder;
   const activeSections = lang === 'hi' ? SECTIONS_HI : SECTIONS;
+
+  // Fetch photo from DB so admin-uploaded photos are always shown
+  useEffect(() => {
+    fetch(`/api/public/founders/${slug}`)
+      .then(r => r.ok ? r.json() : null)
+      .then((data: any) => {
+        if (data?.photoUrl) setDbPhotoUrl(data.photoUrl);
+        if (data?.coverPhotoUrl) setDbCoverPhotoUrl(data.coverPhotoUrl);
+      })
+      .catch(() => {});
+  }, [slug]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
