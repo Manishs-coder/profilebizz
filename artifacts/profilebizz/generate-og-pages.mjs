@@ -431,10 +431,14 @@ async function main() {
   }
 
   const client = new pg.Client({ connectionString: dbUrl });
-  await client.connect();
+  // Prevent unhandled 'error' EventEmitter crash when server terminates connection
+  client.on('error', err => console.warn('[og-gen] DB socket error (handled):', err.message));
 
-  let founders, allSections;
+  let founders = [], allSections = [];
+  let connected = false;
   try {
+    await client.connect();
+    connected = true;
     const [fResult, sResult] = await Promise.all([
       client.query(`
         SELECT slug, name, designation, one_liner, executive_summary,
@@ -451,8 +455,14 @@ async function main() {
     ]);
     founders    = fResult.rows;
     allSections = sResult.rows;
+  } catch (err) {
+    console.warn('[og-gen] DB unavailable during build:', err.message, '— skipping founder OG pages.');
+    const sitemapXml = buildSitemap([]);
+    writeFileSync(join(distDir, 'sitemap.xml'), sitemapXml, 'utf-8');
+    console.log(`[og-gen] Generated static-only sitemap.xml (${STATIC_URLS.length} URLs).`);
+    return;
   } finally {
-    await client.end();
+    if (connected) await client.end().catch(() => {});
   }
 
   // Group sections by founder_id for quick lookup
