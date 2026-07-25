@@ -105,6 +105,8 @@ function Home() {
       .catch(() => setFoundersLoading(false));
   }, []);
 
+  const heroFounder = liveFounders.find((f: PublicFounder) => f.slug === 'nithin-kamath');
+
   const scrollLeft = (ref: React.RefObject<HTMLDivElement | null>) => {
     if (ref.current) {
       ref.current.scrollBy({ left: -350, behavior: 'smooth' });
@@ -510,7 +512,7 @@ function Home() {
               <div className="relative z-10 mt-auto">
                 <div className="flex items-end gap-6 mb-6">
                   <img
-                    src="/nithin-kamath.webp"
+                    src={heroFounder?.photoUrl || '/nithin-kamath.webp'}
                     alt="Nithin Kamath"
                     className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-white/20 flex-shrink-0"
                   />
@@ -734,7 +736,7 @@ function Home() {
             <a href="/founder/nithin-kamath"
               className="lg:col-span-5 group bg-black text-white p-8 flex flex-col justify-between min-h-[340px] hover:bg-editorial transition-colors cursor-pointer">
               <div>
-                <img src="/nithin-kamath.webp"
+                <img src={heroFounder?.photoUrl || '/nithin-kamath.webp'}
                   alt="Nithin Kamath"
                   className="w-16 h-16 rounded-full object-cover border-2 border-white/20 mb-6" />
                 <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 block mb-3">Zero to One · FinTech</span>
