@@ -809,22 +809,58 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
   const [loading, setLoading] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [hindiAvailable, setHindiAvailable] = useState(false);
+  const [usingFallbackLocale, setUsingFallbackLocale] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  const filterSecs = (s: any[]) =>
+    (s || []).filter((sec: any) =>
+      sec.pullQuote || (sec.bodyParagraphs && sec.bodyParagraphs.length > 0) || sec.jsonData
+    );
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
     setFounder(null);
     setSections([]);
+    setUsingFallbackLocale(false);
+
     Promise.all([
       fetch(`/api/public/founders/${slug}`).then(r => r.ok ? r.json() : null),
       fetch(`/api/public/founders/${slug}/sections?locale=${lang}`).then(r => r.ok ? r.json() : []),
+      // Always check if Hindi sections exist so we know whether to show the button
+      lang === 'en'
+        ? fetch(`/api/public/founders/${slug}/sections?locale=hi`).then(r => r.ok ? r.json() : [])
+        : Promise.resolve(null),
     ])
-      .then(([f, s]) => {
+      .then(([f, s, hiSecs]) => {
         setFounder(f);
-        const secs = (s || []).filter((sec: any) =>
-          sec.pullQuote || (sec.bodyParagraphs && sec.bodyParagraphs.length > 0) || sec.jsonData
-        );
+
+        // If Hindi was requested but DB has no Hindi sections → fallback to English
+        let secs = filterSecs(s);
+        if (lang === 'hi' && secs.length === 0) {
+          setUsingFallbackLocale(true);
+          // Re-fetch English sections as fallback
+          fetch(`/api/public/founders/${slug}/sections?locale=en`)
+            .then(r => r.ok ? r.json() : [])
+            .then((enSecs: any[]) => {
+              const filtered = filterSecs(enSecs);
+              setSections(filtered);
+              if (filtered.length > 0) setActiveSection(filtered[0].sectionKey);
+              setLoading(false);
+            })
+            .catch(() => setLoading(false));
+          return;
+        }
+
+        // Track if Hindi content exists (for button visibility)
+        if (hiSecs !== null) {
+          setHindiAvailable(filterSecs(hiSecs).length > 0);
+        } else {
+          // We were already in Hindi mode — sections are the Hindi ones
+          setHindiAvailable(secs.length > 0);
+        }
+
         setSections(secs);
         if (secs.length > 0) setActiveSection(secs[0].sectionKey);
         setLoading(false);
@@ -1014,14 +1050,23 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
               </div>
             ))}
           </div>
-          <div className="mt-6 flex justify-center">
-            <a href={lang === 'en' ? `${import.meta.env.BASE_URL}founder/hi/${slug}` : `${import.meta.env.BASE_URL}founder/${slug}`}
-              className="flex items-center gap-2 border border-gray-300 hover:border-black px-5 py-2 text-sm font-semibold text-gray-600 hover:text-black transition-all group"
-              style={lang === 'hi' ? hf : {}}>
-              <Languages className="w-4 h-4 flex-shrink-0 text-gray-400 group-hover:text-black transition-colors" />
-              {lang === 'en' ? 'हिंदी में पढ़ें' : 'Read in English'}
-            </a>
-          </div>
+          {/* Language switch — only show if Hindi content exists, or we're already in Hindi */}
+          {(hindiAvailable || lang === 'hi') && (
+            <div className="mt-6 flex flex-col items-center gap-2">
+              {/* Fallback notice when Hindi was requested but no Hindi content in DB */}
+              {lang === 'hi' && usingFallbackLocale && (
+                <p className="text-xs text-gray-400 text-center" style={hf}>
+                  हिंदी में कहानी जल्द आएगी — अभी अंग्रेज़ी में पढ़ें
+                </p>
+              )}
+              <a href={lang === 'en' ? `${import.meta.env.BASE_URL}founder/hi/${slug}` : `${import.meta.env.BASE_URL}founder/${slug}`}
+                className="flex items-center gap-2 border border-gray-300 hover:border-black px-5 py-2 text-sm font-semibold text-gray-600 hover:text-black transition-all group"
+                style={lang === 'hi' ? hf : {}}>
+                <Languages className="w-4 h-4 flex-shrink-0 text-gray-400 group-hover:text-black transition-colors" />
+                {lang === 'en' ? 'हिंदी में पढ़ें' : 'Read in English'}
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
