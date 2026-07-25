@@ -13,6 +13,7 @@ import {
   IMPACT_CATEGORIES,
   NEWS_CATEGORIES,
 } from '@/data/navData';
+import { ChunkErrorBoundary } from '@/components/ChunkErrorBoundary';
 
 // ── Lazy-loaded page components (separate JS chunks, load on demand) ──────────
 const NotFound          = React.lazy(() => import('@/pages/not-found'));
@@ -959,6 +960,7 @@ function Home() {
 
 function Router() {
   return (
+    <ChunkErrorBoundary>
     <Suspense fallback={<div style={{ minHeight: '100vh' }} />}>
       <Switch>
         <Route path="/" component={Home} />
@@ -982,6 +984,7 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
     </Suspense>
+    </ChunkErrorBoundary>
   );
 }
 
