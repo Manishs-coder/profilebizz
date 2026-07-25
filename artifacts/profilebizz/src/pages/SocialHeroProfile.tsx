@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'wouter';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Heart, Users, Languages } from 'lucide-react';
 
 const CATEGORIES = [
@@ -409,6 +410,7 @@ const HEROES_HI: Record<string, Partial<typeof FEATURED_HEROES[0]>> = {
 export default function SocialHeroProfile({ params, locale }: { params?: { slug?: string }; locale?: 'en' | 'hi' }) {
   const slug = params?.slug ?? '';
   const lang = locale ?? 'en';
+  const [, setLocation] = useLocation();
   const [selected, setSelected] = useState<typeof FEATURED_HEROES[0] | null>(null);
   const [allHeroes, setAllHeroes] = useState<typeof FEATURED_HEROES>(FEATURED_HEROES);
   const [activeCategory, setActiveCategory] = useState('All');
@@ -591,7 +593,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
 
             {/* Stats grid — bordered like FounderProfile */}
             <div className="grid grid-cols-2 md:grid-cols-4 border border-gray-200 divide-x divide-y md:divide-y-0 divide-gray-200">
-              {activeHero.achievements.map((a, i) => (
+              {(activeHero.achievements ?? []).map((a, i) => (
                 <div key={i} className="px-5 py-4 text-left">
                   <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-1" style={lang === 'hi' ? { ...hf, letterSpacing: '0' } : {}}>{a.label}</p>
                   <p className="font-serif text-xl font-bold text-black" style={hf}>{a.value}</p>
@@ -631,7 +633,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
                   </p>
                 </div>
                 <div className="space-y-2">
-                  {activeHero.recognition.map((r, i) => (
+                  {(activeHero.recognition ?? []).map((r, i) => (
                     <div key={i} className="flex items-start gap-1.5">
                       <span className="text-editorial mt-0.5 flex-shrink-0 text-xs">▸</span>
                       <span className="text-xs text-gray-600 leading-snug" style={hf}>{r}</span>
@@ -691,7 +693,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
                 <div className="w-8 h-px bg-gray-200" />
               </div>
 
-              {activeHero.story.map((para, i) => (
+              {(activeHero.story ?? []).map((para, i) => (
                 <p key={i}
                   className={`font-serif text-[17px] md:text-[18px] text-gray-700 mb-5 ${
                     i === 0
@@ -743,7 +745,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
                 <div className="w-8 h-px bg-gray-200" />
               </div>
               <div className="space-y-3">
-                {activeHero.recognition.map((r, i) => (
+                {(activeHero.recognition ?? []).map((r, i) => (
                   <div key={i} className="flex items-start gap-3 border-b border-gray-100 pb-3">
                     <span className="text-editorial flex-shrink-0 font-bold">▸</span>
                     <span className="text-base text-gray-700" style={hf}>{r}</span>
@@ -840,7 +842,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
         <div className="mb-10">
           <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4">Featured Profile</p>
           <div
-            onClick={() => setSelected(filtered[0])}
+            onClick={() => setLocation(`/social-hero/${filtered[0]?.slug}`)}
             className="cursor-pointer group relative h-96 overflow-hidden bg-gray-100"
           >
             <img src={filtered[0]?.coverPhoto} alt={filtered[0]?.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" fetchPriority="high" />
@@ -861,7 +863,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
           {filtered.slice(1).map((hero) => (
             <div
               key={hero.slug}
-              onClick={() => { setSelected(hero); window.scrollTo(0, 0); }}
+              onClick={() => setLocation(`/social-hero/${hero.slug}`)}
               className="cursor-pointer group bg-white border border-gray-200 hover:border-black transition-colors"
             >
               <div className="relative h-48 overflow-hidden">
