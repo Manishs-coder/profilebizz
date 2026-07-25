@@ -550,7 +550,7 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
               <img
                 src={photoSrc}
                 alt={activeHero.name}
-                className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-4 ring-white shadow-xl border border-gray-100"
+                className="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover object-top ring-4 ring-white shadow-xl border border-gray-100"
                 fetchPriority="high"
                 decoding="async"
               />

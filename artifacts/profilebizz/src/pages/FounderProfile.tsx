@@ -435,7 +435,7 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
             <img
               src={founder.photo}
               alt={activeFounder.name}
-              className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-4 ring-white shadow-xl border border-gray-100"
+              className="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover object-top ring-4 ring-white shadow-xl border border-gray-100"
             />
           </div>
 
@@ -963,9 +963,9 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
           <div className="flex justify-center mb-7">
             {founder.photoUrl ? (
               <img src={founder.photoUrl} alt={founder.name}
-                className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-4 ring-white shadow-xl border border-gray-100" />
+                className="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover object-top ring-4 ring-white shadow-xl border border-gray-100" />
             ) : (
-              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gray-100 ring-4 ring-white shadow-xl flex items-center justify-center">
+              <div className="w-36 h-36 md:w-48 md:h-48 rounded-full bg-gray-100 ring-4 ring-white shadow-xl flex items-center justify-center">
                 <span className="text-4xl font-serif font-bold text-gray-300">{founder.name?.[0] || 'F'}</span>
               </div>
             )}
