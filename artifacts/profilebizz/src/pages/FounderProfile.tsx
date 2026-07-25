@@ -446,9 +446,9 @@ function StaticFounderContent({ slug, lang }: { slug: string; lang: 'en' | 'hi' 
           {/* Founder photo — large, above name */}
           <div className="flex justify-center mb-7">
             <img
-              src={founder.photo}
+              src={dbPhotoUrl || founder.photo}
               alt={activeFounder.name}
-              className="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover object-top ring-4 ring-white shadow-xl border border-gray-100"
+              className="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover object-center ring-4 ring-white shadow-xl border border-gray-100"
             />
           </div>
 
