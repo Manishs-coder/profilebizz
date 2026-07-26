@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Quote, Language
 import { FOUNDERS_HI } from '../data/foundersHi';
 import { Reveal } from '@/components/Reveal';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { SiteFooter } from '@/components/SiteFooter';
 
 const SITE_URL = 'https://profilebizz.com';
 const FALLBACK_OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
@@ -48,6 +49,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
   const [founder, setFounder] = useState<any>(null);
   const [sections, setSections] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [moreStories, setMoreStories] = useState<any[]>([]);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [hindiAvailable, setHindiAvailable] = useState(false);
@@ -125,6 +127,14 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
   }, [sections]);
 
   useScrollReveal([sections.length]);
+
+  // Fetch other stories to show at the bottom
+  useEffect(() => {
+    fetch('/api/public/founders')
+      .then(r => r.ok ? r.json() : [])
+      .then((all: any[]) => setMoreStories(all.filter((f: any) => f.slug !== slug).slice(0, 3)))
+      .catch(() => {});
+  }, [slug]);
 
   const scrollTo = (id: string) => sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const setRef = (id: string) => (el: HTMLElement | null) => { sectionRefs.current[id] = el; };
@@ -470,9 +480,51 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
               {lang === 'hi' ? 'ऊपर जाएं' : 'Back to Top'}
             </button>
           </div>
+
+          {/* ── More from ProfileBizz ── */}
+          {moreStories.length > 0 && (
+            <section className="border-t-4 border-black mt-8 pt-10 pb-16">
+              <div data-reveal="up" className="mb-8">
+                <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-editorial block mb-2">
+                  Continue Reading
+                </span>
+                <h2 className="font-serif text-2xl md:text-3xl font-bold">More from ProfileBizz</h2>
+              </div>
+              <div data-reveal="up" data-delay="100" className="grid grid-cols-1 md:grid-cols-3 gap-px bg-gray-200">
+                {moreStories.map((f: any) => (
+                  <a key={f.slug} href={`/founder/${f.slug}`}
+                    className="group bg-white p-6 hover:bg-[#fafafa] transition-colors flex flex-col">
+                    <div className="flex items-center gap-3 mb-4">
+                      <img
+                        src={f.photoUrl || f.coverPhotoUrl || '/nithin-kamath.webp'}
+                        alt={f.name}
+                        className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray-100 group-hover:ring-2 group-hover:ring-editorial transition-all"
+                      />
+                      <div className="min-w-0">
+                        <span className="text-[9px] font-bold tracking-widest uppercase text-editorial block mb-0.5">
+                          {f.profileTag || f.profileType || 'Founder'}
+                        </span>
+                        <p className="text-xs text-gray-400 font-medium truncate">{f.designation}</p>
+                      </div>
+                    </div>
+                    <h3 className="font-serif text-lg font-bold text-black mb-2 group-hover:text-editorial transition-colors leading-snug">
+                      {f.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-4 flex-1">
+                      {f.oneLiner || 'Read the full profile on ProfileBizz.'}
+                    </p>
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-editorial group-hover:underline">
+                      Read Biography →
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
         </article>
       </div>
     </div>
+    <SiteFooter />
     </>
   );
 }

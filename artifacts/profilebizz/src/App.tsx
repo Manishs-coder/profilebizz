@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
-import { Search, Share2, Mail, Rss, ChevronLeft, ChevronRight, ChevronDown, Menu, X, Globe, User, Building2, Tag, Factory, Users, Rocket, Wheat, Laptop, Bot, Plane, Zap, Dumbbell, Heart } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, ChevronDown, Menu, X, Globe, User, Building2, Tag, Factory, Users, Rocket, Wheat, Laptop, Bot, Plane, Zap, Dumbbell, Heart } from 'lucide-react';
 import SearchOverlay from '@/components/SearchOverlay';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
@@ -16,6 +16,7 @@ import {
 import { ChunkErrorBoundary } from '@/components/ChunkErrorBoundary';
 import { Reveal } from '@/components/Reveal';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { SiteFooter } from '@/components/SiteFooter';
 
 // ── Lazy-loaded page components (separate JS chunks, load on demand) ──────────
 const NotFound          = React.lazy(() => import('@/pages/not-found'));
@@ -90,6 +91,8 @@ function Home() {
   const startupScrollRef = useRef<HTMLDivElement>(null);
   const cityScrollRef = useRef<HTMLDivElement>(null);
   const newsletterRef = useRef<HTMLElement>(null);
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [heroFading, setHeroFading] = useState(false);
 
   const scrollToNewsletter = () => {
     setMobileMenuOpen(false);
@@ -118,9 +121,27 @@ function Home() {
       .catch(() => setFoundersLoading(false));
   }, []);
 
+  // Auto-rotate hero every 6 s when multiple founders available
+  useEffect(() => {
+    if (liveFounders.length <= 1) return;
+    const timer = setInterval(() => {
+      setHeroFading(true);
+      setTimeout(() => {
+        setHeroIndex(i => (i + 1) % liveFounders.length);
+        setHeroFading(false);
+      }, 350);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [liveFounders.length]);
+
   useScrollReveal([liveFounders.length]);
 
-  const heroFounder = liveFounders.find((f: PublicFounder) => f.slug === 'nithin-kamath');
+  // Current hero founder (rotates); falls back to Nithin Kamath during load
+  const currentHero = liveFounders.length > 0 ? liveFounders[heroIndex] : null;
+  // Sidebar: up to 3 other founders, wrapping around
+  const sidebarFounders = liveFounders.length > 1
+    ? [...liveFounders.slice(heroIndex + 1), ...liveFounders.slice(0, heroIndex)].slice(0, 3)
+    : [];
 
   const scrollLeft = (ref: React.RefObject<HTMLDivElement | null>) => {
     if (ref.current) {
@@ -514,8 +535,8 @@ function Home() {
         {/* ── 2. MAGAZINE HERO BANNER ── */}
         <section className="mb-14">
 
-          {/* Main Hero Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-black overflow-hidden">
+          {/* Main Hero Grid — fades during auto-rotation */}
+          <div className={`grid grid-cols-1 lg:grid-cols-12 gap-0 border border-black overflow-hidden transition-opacity duration-300 ${heroFading ? 'opacity-0' : 'opacity-100'}`}>
 
             {/* LEFT: Dark cover panel */}
             <div className="lg:col-span-7 bg-black text-white relative overflow-hidden min-h-[420px] md:min-h-[500px] flex flex-col justify-between p-8 md:p-12">
@@ -527,41 +548,47 @@ function Home() {
               <div className="relative z-10 mt-auto">
                 <div className="flex items-end gap-6 mb-6">
                   <img
-                    src={heroFounder?.photoUrl || '/nithin-kamath.webp'}
-                    alt="Nithin Kamath"
+                    src={currentHero?.photoUrl || '/nithin-kamath.webp'}
+                    alt={currentHero?.name || 'Founder'}
                     className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-white/20 flex-shrink-0"
                   />
                   <div>
-                    <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Zero to One · FinTech</p>
+                    <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/40 mb-1">
+                      {currentHero?.profileTag || currentHero?.profileType || 'Founder Profile'}
+                    </p>
                     <h2 className="font-serif text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-[1.0] tracking-tight">
-                      Nithin Kamath
+                      {currentHero?.name || 'ProfileBizz'}
                     </h2>
                   </div>
                 </div>
 
-                <p className="text-sm md:text-base text-white/50 font-medium mb-4">Co-Founder &amp; CEO, Zerodha</p>
+                <p className="text-sm md:text-base text-white/50 font-medium mb-4">
+                  {currentHero?.designation || ''}
+                </p>
 
-                <div className="border-l-2 border-editorial pl-4 mb-7">
-                  <p className="font-serif text-lg md:text-xl text-white/80 leading-[1.5] font-medium italic">
-                    "₹20 flat fee. Zero outside investors. India's largest retail broker."
-                  </p>
-                </div>
+                {currentHero?.oneLiner && (
+                  <div className="border-l-2 border-editorial pl-4 mb-7">
+                    <p className="font-serif text-lg md:text-xl text-white/80 leading-[1.5] font-medium italic">
+                      "{currentHero.oneLiner}"
+                    </p>
+                  </div>
+                )}
 
-                {/* Stats row */}
-                <div className="flex flex-wrap gap-6 mb-8">
-                  {[
-                    { l: 'Revenue', v: '₹8,320 Cr' },
-                    { l: 'Clients', v: '73 Lakh+' },
-                    { l: 'VC Raised', v: '₹0' },
-                  ].map(s => (
-                    <div key={s.l} className="border-l border-white/20 pl-3">
-                      <p className="text-[9px] font-bold tracking-widest uppercase text-white/30 mb-0.5">{s.l}</p>
-                      <p className="font-serif text-base font-bold text-white">{s.v}</p>
-                    </div>
-                  ))}
-                </div>
+                {/* Dot indicators for rotation */}
+                {liveFounders.length > 1 && (
+                  <div className="flex gap-1.5 mb-6">
+                    {liveFounders.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setHeroFading(true); setTimeout(() => { setHeroIndex(i); setHeroFading(false); }, 300); }}
+                        className={`w-1.5 h-1.5 rounded-full transition-all ${i === heroIndex ? 'bg-editorial w-4' : 'bg-white/30 hover:bg-white/60'}`}
+                        aria-label={`Show founder ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
 
-                <a href="/founder/nithin-kamath"
+                <a href={currentHero ? `/founder/${currentHero.slug}` : '/'}
                   className="inline-flex items-center gap-2 bg-editorial text-white text-xs font-bold tracking-widest uppercase px-6 py-3 hover:bg-white hover:text-black transition-colors">
                   Read Full Biography
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -569,51 +596,46 @@ function Home() {
               </div>
             </div>
 
-            {/* RIGHT: Three sidebar stories */}
+            {/* RIGHT: Other founder stories (dynamic) */}
             <div className="lg:col-span-5 border-l border-black flex flex-col divide-y divide-gray-100">
               <div className="px-6 py-4 bg-[#fafafa] border-b border-black">
                 <p className="text-[9px] font-bold tracking-[0.22em] uppercase text-gray-400">Also This Week</p>
               </div>
 
-              {[
-                {
-                  photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
-                  name: 'Rajesh Kumar Vedas',
-                  designation: 'Vedas Agro Industries',
-                  tag: 'Bharat Builder',
-                  tagline: 'From a UP village to ₹210 Cr revenue — and 18,000 farmer partners.',
-                  href: '/founder/rajesh-kumar-vedas',
-                },
-                {
-                  photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80',
-                  name: 'Falguni Nayar',
-                  designation: 'Founder & CEO, Nykaa',
-                  tag: 'Women Founder',
-                  tagline: 'Built India\'s first profitable beauty unicorn at 50 — ₹50,000 Cr market cap.',
-                  href: '#',
-                },
-                {
-                  photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
-                  name: 'Deepinder Goyal',
-                  designation: 'Founder & CEO, Zomato',
-                  tag: 'D2C Pioneer',
-                  tagline: 'From a free menu site to India\'s dominant food-delivery platform.',
-                  href: '#',
-                },
-              ].map((f, i) => (
-                <a key={i} href={f.href}
+              {sidebarFounders.length > 0 ? sidebarFounders.map((f, i) => (
+                <a key={i} href={`/founder/${f.slug}`}
                   className="group flex items-start gap-4 px-6 py-5 bg-white hover:bg-[#fafafa] transition-colors flex-1">
-                  <img src={f.photo} alt={f.name}
+                  <img src={f.photoUrl || f.coverPhotoUrl || '/nithin-kamath.webp'} alt={f.name}
                     className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray-100 group-hover:ring-2 group-hover:ring-editorial transition-all" />
                   <div className="min-w-0 flex-1">
-                    <span className="inline-block text-[9px] font-bold tracking-widest uppercase text-editorial mb-1">{f.tag}</span>
+                    <span className="inline-block text-[9px] font-bold tracking-widest uppercase text-editorial mb-1">
+                      {f.profileTag || f.profileType || 'Founder'}
+                    </span>
                     <h3 className="font-serif text-base font-bold text-black leading-snug mb-0.5 group-hover:text-editorial transition-colors">{f.name}</h3>
                     <p className="text-[11px] text-gray-400 font-medium mb-1.5">{f.designation}</p>
-                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{f.tagline}</p>
+                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{f.oneLiner || ''}</p>
                   </div>
                   <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-editorial flex-shrink-0 mt-1 transition-colors" />
                 </a>
-              ))}
+              )) : (
+                /* Placeholder rows while loading or only one founder */
+                foundersLoading ? (
+                  [0,1,2].map(i => (
+                    <div key={i} className="flex items-start gap-4 px-6 py-5 flex-1 animate-pulse">
+                      <div className="w-12 h-12 rounded-full bg-gray-100 flex-shrink-0" />
+                      <div className="flex-1 space-y-2 pt-1">
+                        <div className="h-2 bg-gray-100 rounded w-1/3" />
+                        <div className="h-3 bg-gray-100 rounded w-2/3" />
+                        <div className="h-2 bg-gray-100 rounded w-full" />
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex-1 flex items-center justify-center px-6 py-8 text-center">
+                    <p className="text-sm text-gray-400">More profiles coming soon</p>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </section>
@@ -751,7 +773,7 @@ function Home() {
             <a href="/founder/nithin-kamath" data-reveal="left"
               className="lg:col-span-5 group bg-black text-white p-8 flex flex-col justify-between min-h-[340px] hover:bg-editorial transition-colors cursor-pointer">
               <div>
-                <img src={heroFounder?.photoUrl || '/nithin-kamath.webp'}
+                <img src="/nithin-kamath.webp"
                   alt="Nithin Kamath"
                   className="w-16 h-16 rounded-full object-cover border-2 border-white/20 mb-6" />
                 <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 block mb-3">Zero to One · FinTech</span>
@@ -867,97 +889,7 @@ function Home() {
 
       </main>
 
-      {/* 7. Footer */}
-      <footer className="bg-white border-t-4 border-black pt-16 pb-8">
-        <div className="max-w-[1400px] mx-auto px-4 md:px-8">
-          
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
-            
-            {/* Brand Col */}
-            <div className="md:col-span-4">
-              <span className="font-serif font-bold text-3xl tracking-tight block mb-4">ProfileBizz India</span>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-xs">
-                The authoritative voice covering Bharat's new economy. Curated narratives for the ambitious.
-              </p>
-              <div className="flex gap-4">
-                <button aria-label="Share on social media" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-black hover:text-editorial transition-colors">
-                  <Share2 className="w-4 h-4" />
-                </button>
-                <button aria-label="Contact by email" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-black hover:text-editorial transition-colors">
-                  <Mail className="w-4 h-4" />
-                </button>
-                <button aria-label="Subscribe to RSS feed" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-black hover:text-editorial transition-colors">
-                  <Rss className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Company Links */}
-            <div className="md:col-span-2">
-              <h5 className="text-xs font-bold tracking-widest uppercase mb-4 text-black">Company</h5>
-              <ul className="flex flex-col gap-3">
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">About Us</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Contact Editorial</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Careers</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Advertise</a></li>
-              </ul>
-            </div>
-
-            {/* Explore Links */}
-            <div className="md:col-span-3">
-              <h5 className="text-xs font-bold tracking-widest uppercase mb-4 text-black">Explore</h5>
-              <div className="grid grid-cols-2 gap-3">
-                <ul className="flex flex-col gap-3">
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Profile Story</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Startup Story</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Social Hero</a></li>
-                </ul>
-                <ul className="flex flex-col gap-3">
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Bengaluru</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Mumbai</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Delhi NCR</a></li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Categories */}
-            <div className="md:col-span-3">
-              <h5 className="text-xs font-bold tracking-widest uppercase mb-4 text-black">Categories</h5>
-              <div className="grid grid-cols-2 gap-3">
-                <ul className="flex flex-col gap-3">
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Bharat Tech</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">FinTech Pulse</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">D2C Markets</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Cloud & Infra</a></li>
-                </ul>
-                <ul className="flex flex-col gap-3">
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Founders</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">WealthTech</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Mobility</a></li>
-                  <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Agritech</a></li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Legal Links */}
-            <div className="md:col-span-3">
-              <h5 className="text-xs font-bold tracking-widest uppercase mb-4 text-black">Legal</h5>
-              <ul className="flex flex-col gap-3">
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Cookie Policy</a></li>
-              </ul>
-            </div>
-
-          </div>
-
-          <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground">© 2024 ProfileBizz India. All rights reserved.</p>
-            <p className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground">MUMBAI · BENGALURU · DELHI NCR</p>
-          </div>
-
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
