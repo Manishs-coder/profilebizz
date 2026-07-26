@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'wouter';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Quote, Languages } from 'lucide-react';
 import { FOUNDERS_HI } from '../data/foundersHi';
@@ -46,7 +45,6 @@ function handleNativeShare(pageUrl: string, title: string) {
    DB-DRIVEN DYNAMIC FOUNDER PAGE
 ══════════════════════════════════════ */
 function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' }) {
-  const [, setLocation] = useLocation();
   const [founder, setFounder] = useState<any>(null);
   const [sections, setSections] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,21 +75,6 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
         : Promise.resolve(null),
     ])
       .then(([f, s, hiSecs]) => {
-        // If founder not found, check if it's actually a social hero
-        if (!f) {
-          fetch(`/api/public/social-heroes/${slug}`)
-            .then(r => r.ok ? r.json() : null)
-            .then(hero => {
-              if (hero) {
-                setLocation(`/social-hero/${slug}`);
-              } else {
-                setFounder(null);
-                setLoading(false);
-              }
-            })
-            .catch(() => { setFounder(null); setLoading(false); });
-          return;
-        }
         setFounder(f);
 
         // If Hindi was requested but DB has no Hindi sections → fallback to English

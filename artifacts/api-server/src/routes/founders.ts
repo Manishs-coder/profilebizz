@@ -5,7 +5,7 @@ import {
   founderSectionsTable,
   seoMetaTable,
 } from "@workspace/db";
-import { eq, sql, and, ne } from "drizzle-orm";
+import { eq, sql, and } from "drizzle-orm";
 import {
   CreateFounderBody,
   UpdateFounderBody,
@@ -253,7 +253,7 @@ router.get("/public/founders", async (req, res) => {
       oneLiner: foundersTable.oneLiner,
     })
     .from(foundersTable)
-    .where(and(eq(foundersTable.published, true), ne(foundersTable.profileType, 'social-hero')))
+    .where(eq(foundersTable.published, true))
     .orderBy(sql`${foundersTable.updatedAt} DESC`);
   res.json(founders);
 });
@@ -266,7 +266,7 @@ router.get("/public/founders/:slug", async (req, res) => {
     .from(foundersTable)
     .where(eq(foundersTable.slug, slug))
     .limit(1);
-  if (!founder || !founder.published || founder.profileType === 'social-hero') {
+  if (!founder || !founder.published) {
     res.status(404).json({ error: "Founder not found" });
     return;
   }

@@ -3,7 +3,7 @@
  * Safe to run multiple times (upserts by slug).
  */
 import { db, foundersTable, founderSectionsTable } from "@workspace/db";
-import { eq, and, count } from "drizzle-orm";
+import { eq, and, count, inArray } from "drizzle-orm";
 import { logger } from "./lib/logger";
 
 // ── HTML builders ──────────────────────────────────────────────────────────────
@@ -514,13 +514,19 @@ export async function seedAllContent() {
     await seedSectionsIfEmpty(rkId, 'en', rkSectionsEn);
     logger.info({ id: rkId }, 'rajesh-kumar-vedas seeded');
 
-    // Seed Social Heroes
-    for (const hero of SOCIAL_HEROES) {
-      logger.info(`Seeding ${hero.slug}...`);
-      const hId = await upsertFounder(hero);
-      await seedSectionsIfEmpty(hId, 'en', hero.sectionsEn);
-      if (hero.sectionsHi) await seedSectionsIfEmpty(hId, 'hi', hero.sectionsHi);
-      logger.info({ id: hId }, `${hero.slug} seeded`);
+    // Remove any social heroes that were previously mis-seeded into foundersTable
+    const socialHeroSlugs = SOCIAL_HEROES.map(h => h.slug);
+    if (socialHeroSlugs.length > 0) {
+      const staleHeroes = await db
+        .select({ id: foundersTable.id })
+        .from(foundersTable)
+        .where(inArray(foundersTable.slug, socialHeroSlugs));
+      if (staleHeroes.length > 0) {
+        const ids = staleHeroes.map(r => r.id);
+        await db.delete(founderSectionsTable).where(inArray(founderSectionsTable.founderId, ids));
+        await db.delete(foundersTable).where(inArray(foundersTable.slug, socialHeroSlugs));
+        logger.info({ count: ids.length }, 'Cleaned up social heroes from foundersTable');
+      }
     }
 
     logger.info('All content seeded successfully');
