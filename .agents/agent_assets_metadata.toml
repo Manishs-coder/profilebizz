@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "K3wLK-f7SM9T5UlE9Cb4U"
+uri = "file://profilebizz_backup_20260726.sql"
+type = "unspecified"
+title = "ProfileBizz Database Backup — 26 July 2026"
