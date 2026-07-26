@@ -14,6 +14,8 @@ import {
   NEWS_CATEGORIES,
 } from '@/data/navData';
 import { ChunkErrorBoundary } from '@/components/ChunkErrorBoundary';
+import { Reveal } from '@/components/Reveal';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 // ── Lazy-loaded page components (separate JS chunks, load on demand) ──────────
 const NotFound          = React.lazy(() => import('@/pages/not-found'));
@@ -115,6 +117,8 @@ function Home() {
       .then((data: PublicFounder[]) => { setLiveFounders(data); setFoundersLoading(false); })
       .catch(() => setFoundersLoading(false));
   }, []);
+
+  useScrollReveal([liveFounders.length]);
 
   const heroFounder = liveFounders.find((f: PublicFounder) => f.slug === 'nithin-kamath');
 
@@ -616,10 +620,10 @@ function Home() {
 
         {/* ── Categories Section ── */}
         <section className="mb-14">
-          <div className="flex items-baseline justify-between border-b border-black pb-3 mb-6">
+          <div data-reveal="up" className="flex items-baseline justify-between border-b border-black pb-3 mb-6">
             <h2 className="font-serif text-xl md:text-2xl font-bold">Explore Categories</h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-gray-200">
+          <div data-reveal="up" data-delay="120" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-gray-200">
             {[
               { Icon: Heart,     label: 'Social Hero Profile', desc: 'Changemakers & impact leaders',   href: '/social-hero' },
               { Icon: User,      label: 'Founder Story',       desc: 'Zero to one journeys',            href: '/founder/nithin-kamath' },
@@ -641,14 +645,14 @@ function Home() {
 
         {/* ── 3. BROWSE BY FOUNDER TYPE ── */}
         <section className="mb-16">
-          <div className="flex items-baseline justify-between border-b border-black pb-4 mb-8">
+          <div data-reveal="up" className="flex items-baseline justify-between border-b border-black pb-4 mb-8">
             <h2 className="font-serif text-2xl md:text-3xl font-bold">Browse by Founder Type</h2>
             <a href="#" className="text-xs font-bold tracking-widest uppercase text-gray-400 hover:text-editorial transition-colors">
               View All →
             </a>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-200">
+          <div data-reveal="up" data-delay="120" className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-200">
             {[
               { Icon: Rocket,   type: 'Zero to One',        desc: 'First-generation founders who started from scratch',      count: '24 Profiles' },
               { Icon: Users,    type: 'Women Founders',     desc: 'Indian women who built businesses against the odds',       count: '18 Profiles' },
@@ -672,7 +676,7 @@ function Home() {
 
         {/* ── 4. RECENTLY ADDED PROFILES ── */}
         <section className="mb-16">
-          <div className="flex items-end justify-between border-b border-black pb-4 mb-8">
+          <div data-reveal="up" className="flex items-end justify-between border-b border-black pb-4 mb-8">
             <h2 className="font-serif text-2xl md:text-3xl font-bold">Recently Added</h2>
             <div className="flex items-center gap-2">
               <button onClick={() => scrollLeft(startupScrollRef)}
@@ -734,7 +738,7 @@ function Home() {
 
         {/* ── 5. FEATURED PROFILES GRID ── */}
         <section className="mb-16">
-          <div className="border-b border-black pb-4 mb-8">
+          <div data-reveal="up" className="border-b border-black pb-4 mb-8">
             <div className="flex items-center justify-between">
               <h2 className="font-serif text-2xl md:text-3xl font-bold">Editor's Selection</h2>
               <span className="text-xs font-bold tracking-widest uppercase text-gray-400">Curated Biographies</span>
@@ -744,7 +748,7 @@ function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
             {/* Large card */}
-            <a href="/founder/nithin-kamath"
+            <a href="/founder/nithin-kamath" data-reveal="left"
               className="lg:col-span-5 group bg-black text-white p-8 flex flex-col justify-between min-h-[340px] hover:bg-editorial transition-colors cursor-pointer">
               <div>
                 <img src={heroFounder?.photoUrl || '/nithin-kamath.webp'}
@@ -763,7 +767,7 @@ function Home() {
             </a>
 
             {/* Small cards col */}
-            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div data-reveal="right" data-delay="150" className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 {
                   photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
@@ -822,14 +826,14 @@ function Home() {
 
         {/* ── 6. Newsletter Banner ── */}
         <section ref={newsletterRef} id="newsletter" className="bg-black text-white p-8 md:p-16 mb-24 flex flex-col lg:flex-row items-center gap-12 justify-between">
-          <div className="max-w-xl text-center lg:text-left">
+          <div data-reveal="left" className="max-w-xl text-center lg:text-left">
             <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-editorial block mb-4">Weekly Founder Digest</span>
             <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4 text-white">One New Biography. Every Week.</h2>
             <p className="text-white/60 md:text-lg leading-relaxed">
               Deep-dive founder biographies from Bharat's most remarkable builders — delivered to your inbox every Monday morning.
             </p>
           </div>
-          <div className="w-full max-w-md">
+          <div data-reveal="right" data-delay="100" className="w-full max-w-md">
             {subscribeStatus === 'success' ? (
               <div className="border border-editorial px-6 py-4 text-center">
                 <p className="text-editorial font-bold tracking-wide text-sm mb-1">✓ You're subscribed!</p>

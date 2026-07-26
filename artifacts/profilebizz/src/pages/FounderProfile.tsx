@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Quote, Languages } from 'lucide-react';
 import { FOUNDERS_HI } from '../data/foundersHi';
+import { Reveal } from '@/components/Reveal';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 const SITE_URL = 'https://profilebizz.com';
 const FALLBACK_OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
@@ -121,6 +123,8 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, [sections]);
+
+  useScrollReveal([sections.length]);
 
   const scrollTo = (id: string) => sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const setRef = (id: string) => (el: HTMLElement | null) => { sectionRefs.current[id] = el; };
@@ -245,7 +249,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
       </header>
 
       {/* ── Centered White Hero Header ── */}
-      <div className="bg-white mt-14">
+      <div data-reveal="up" className="bg-white mt-14">
         <div className="max-w-3xl mx-auto px-6 md:px-10 pt-12 pb-10 text-center">
           <div className="flex items-center justify-center gap-2 mb-8">
             <span className="inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.18em] uppercase text-editorial border border-editorial px-3 py-1.5" style={hf}>
@@ -386,7 +390,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
 
               return (
                 <React.Fragment key={sec.sectionKey}>
-                  <section id={sec.sectionKey} ref={setRef(sec.sectionKey)} className="mb-16 scroll-mt-24">
+                  <section id={sec.sectionKey} ref={setRef(sec.sectionKey)} data-reveal="up" className="mb-16 scroll-mt-24">
                     <SectionLabel index={String(idx + 1).padStart(2, '0')} label={sec.sectionKey === 'story' ? (lang === 'hi' ? 'कहानी' : 'Story') : sec.sectionKey} />
 
                     {sec.pullQuote && (

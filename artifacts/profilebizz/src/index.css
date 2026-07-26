@@ -5,6 +5,38 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ── Scroll Reveal Animations ───────────────────────────────────────────── */
+/* Base: hidden + shifted before reveal */
+[data-reveal] {
+  opacity: 0;
+  will-change: opacity, transform;
+  transition:
+    opacity  0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal="up"],
+[data-reveal] {
+  transform: translateY(28px);
+}
+[data-reveal="left"]  { transform: translateX(-28px); }
+[data-reveal="right"] { transform: translateX(28px);  }
+[data-reveal="scale"] { transform: scale(0.95);       }
+
+/* Revealed: fully visible, no offset */
+[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Hindi / Devanagari language mode */
 .lang-hi,
 .lang-hi p,
