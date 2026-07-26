@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'wouter';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Heart, Users, Languages } from 'lucide-react';
+import { SiteFooter } from '@/components/SiteFooter';
 
 const CATEGORIES = [
   { slug: 'changemakers', label: 'Changemakers', icon: '🌟', desc: 'Individuals reshaping India through bold action' },
@@ -883,7 +884,34 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
           ))}
         </div>
       </div>
+
+      {/* ── Aur Padhein — Founder Profiles ── */}
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-16 border-t-4 border-black mt-8">
+        <div className="mb-8">
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-editorial block mb-2">और पढ़ें</span>
+          <h2 className="font-serif text-2xl md:text-3xl font-bold">ProfileBizz Founder Profiles</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-gray-200">
+          {FEATURED_HEROES.slice(0, 3).map((hero) => (
+            <a key={hero.slug} href={`/social-hero/${hero.slug}`}
+              className="group bg-white p-6 hover:bg-[#fafafa] transition-colors flex flex-col">
+              <div className="flex items-center gap-3 mb-4">
+                <img src={hero.photo} alt={hero.name}
+                  className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray-100 group-hover:ring-2 group-hover:ring-editorial transition-all" />
+                <div className="min-w-0">
+                  <span className="text-[9px] font-bold tracking-widest uppercase text-editorial block mb-0.5">{hero.category}</span>
+                  <p className="text-xs text-gray-400 font-medium truncate">{hero.location}</p>
+                </div>
+              </div>
+              <h3 className="font-serif text-lg font-bold text-black mb-2 group-hover:text-editorial transition-colors leading-snug">{hero.name}</h3>
+              <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-4 flex-1">{hero.pullQuote}</p>
+              <span className="text-[10px] font-bold tracking-widest uppercase text-editorial group-hover:underline">Read Profile →</span>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
+    <SiteFooter />
     </>
   );
 }

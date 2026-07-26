@@ -32,10 +32,10 @@ export function SiteFooter() {
           <div className="md:col-span-2">
             <h5 className="text-xs font-bold tracking-widest uppercase mb-4 text-black">Company</h5>
             <ul className="flex flex-col gap-3">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">About Us</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Contact Editorial</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Careers</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Advertise</a></li>
+              <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">About Us</a></li>
+              <li><a href="mailto:editorial@profilebizz.com" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Contact Editorial</a></li>
+              <li><a href="mailto:careers@profilebizz.com" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Careers</a></li>
+              <li><a href="mailto:advertise@profilebizz.com" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Advertise</a></li>
             </ul>
           </div>
 
@@ -49,9 +49,9 @@ export function SiteFooter() {
                 <li><a href="/women-story" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Women Founder</a></li>
               </ul>
               <ul className="flex flex-col gap-3">
-                <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Bengaluru</a></li>
-                <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Mumbai</a></li>
-                <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Delhi NCR</a></li>
+                <li><a href="/#categories" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Bengaluru</a></li>
+                <li><a href="/#categories" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Mumbai</a></li>
+                <li><a href="/#categories" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Delhi NCR</a></li>
               </ul>
             </div>
           </div>
@@ -64,13 +64,13 @@ export function SiteFooter() {
                 <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Bharat Tech</a></li>
                 <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">FinTech Pulse</a></li>
                 <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">D2C Markets</a></li>
-                <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Rural Heroes</a></li>
+                <li><a href="/social-hero" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Rural Heroes</a></li>
               </ul>
               <ul className="flex flex-col gap-3">
                 <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Founders</a></li>
                 <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">WealthTech</a></li>
                 <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Agritech</a></li>
-                <li><a href="/" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Social Impact</a></li>
+                <li><a href="/social-hero" className="text-sm text-muted-foreground hover:text-editorial transition-colors">Social Impact</a></li>
               </ul>
             </div>
           </div>
@@ -78,9 +78,9 @@ export function SiteFooter() {
           {/* Legal */}
           <div className="md:col-span-12 border-t border-border pt-8 grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
             <ul className="flex gap-6">
-              <li><a href="#" className="text-xs text-muted-foreground hover:text-editorial transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-xs text-muted-foreground hover:text-editorial transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-xs text-muted-foreground hover:text-editorial transition-colors">Cookie Policy</a></li>
+              <li><a href="mailto:legal@profilebizz.com" className="text-xs text-muted-foreground hover:text-editorial transition-colors">Privacy Policy</a></li>
+              <li><a href="mailto:legal@profilebizz.com" className="text-xs text-muted-foreground hover:text-editorial transition-colors">Terms of Service</a></li>
+              <li><a href="mailto:legal@profilebizz.com" className="text-xs text-muted-foreground hover:text-editorial transition-colors">Cookie Policy</a></li>
             </ul>
             <p className="text-xs text-muted-foreground text-center">© {new Date().getFullYear()} ProfileBizz India. All rights reserved.</p>
             <p className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground text-right">MUMBAI · BENGALURU · DELHI NCR</p>

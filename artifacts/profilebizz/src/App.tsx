@@ -631,9 +631,27 @@ function Home() {
                     </div>
                   ))
                 ) : (
-                  <div className="flex-1 flex items-center justify-center px-6 py-8 text-center">
-                    <p className="text-sm text-gray-400">More profiles coming soon</p>
-                  </div>
+                  /* Editorial placeholders when only one founder exists */
+                  <>
+                    {[
+                      { name: 'Anshu Gupta', tag: 'Social Hero', role: 'Founder, Goonj', photo: '/anshu-gupta.webp', href: '/social-hero/anshu-gupta', teaser: 'From 67 clothes to 5 million lives — the man who turned urban surplus into rural dignity.' },
+                      { name: 'Arunachalam Muruganantham', tag: 'Social Hero', role: 'Pad Man of India', photo: '/arunachalam-muruganantham.webp', href: '/social-hero/arunachalam-muruganantham', teaser: 'A school dropout who built a ₹500 Cr sanitary pad revolution — and gave it all away.' },
+                      { name: 'Ela Bhatt', tag: 'Women Founder', role: 'Founder, SEWA', photo: '/ela-bhatt.webp', href: '/social-hero/ela-bhatt', teaser: '2.5 million self-employed women. One quiet lawyer from Ahmedabad who believed they deserved more.' },
+                    ].map((f, i) => (
+                      <a key={i} href={f.href}
+                        className="group flex items-start gap-4 px-6 py-5 bg-white hover:bg-[#fafafa] transition-colors flex-1">
+                        <img src={f.photo} alt={f.name}
+                          className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray-100 group-hover:ring-2 group-hover:ring-editorial transition-all" />
+                        <div className="min-w-0 flex-1">
+                          <span className="inline-block text-[9px] font-bold tracking-widest uppercase text-editorial mb-1">{f.tag}</span>
+                          <h3 className="font-serif text-base font-bold text-black leading-snug mb-0.5 group-hover:text-editorial transition-colors">{f.name}</h3>
+                          <p className="text-[11px] text-gray-400 font-medium mb-1.5">{f.role}</p>
+                          <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{f.teaser}</p>
+                        </div>
+                        <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-editorial flex-shrink-0 mt-1 transition-colors" />
+                      </a>
+                    ))}
+                  </>
                 )
               )}
             </div>
