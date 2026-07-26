@@ -6,6 +6,7 @@ import uploadRouter from "./upload.js";
 import storageRouter from "./storage.js";
 import categoriesRouter from "./categories.js";
 import subCategoriesRouter from "./subcategories.js";
+import backupRouter from "./backup.js";
 
 const router: IRouter = Router();
 
@@ -16,5 +17,6 @@ router.use(uploadRouter);
 router.use(storageRouter);
 router.use(categoriesRouter);
 router.use(subCategoriesRouter);
+router.use(backupRouter);
 
 export default router;

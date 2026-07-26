@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link, useLocation } from "wouter"
-import { LayoutDashboard, Users, Tag, LogOut, FileText, Menu, X } from "lucide-react"
+import { LayoutDashboard, Users, Tag, LogOut, FileText, Menu, X, Database } from "lucide-react"
 import { useLogout, useGetMe } from "@workspace/api-client-react"
 import { Button } from "../ui"
 
@@ -27,6 +27,12 @@ export function Sidebar() {
       label: "Taxonomy",
       items: [
         { icon: Tag, label: "Categories", href: "/categories" },
+      ],
+    },
+    {
+      label: "System",
+      items: [
+        { icon: Database, label: "Database Backup", href: "/backup" },
       ],
     },
   ]

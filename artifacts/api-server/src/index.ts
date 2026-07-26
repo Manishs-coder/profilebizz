@@ -3,6 +3,8 @@ import { logger } from "./lib/logger";
 import { db, adminUsersTable, categoriesTable } from "@workspace/db";
 import bcrypt from "bcryptjs";
 import { seedAllContent } from "./seed-content";
+import { schedule } from "node-cron";
+import { createBackup } from "./lib/backup";
 
 const rawPort = process.env["PORT"];
 
@@ -61,4 +63,16 @@ app.listen(port, async (err) => {
   await seedDefaultAdmin();
   await seedCategories();
   await seedAllContent();
+
+  // Daily automatic backup at 2:00 AM IST (UTC+5:30 → 20:30 UTC)
+  schedule("30 20 * * *", async () => {
+    logger.info("Starting scheduled daily database backup");
+    try {
+      const filename = await createBackup();
+      logger.info({ filename }, "Scheduled backup completed");
+    } catch (err) {
+      logger.error({ err }, "Scheduled backup failed");
+    }
+  });
+  logger.info("Daily backup cron scheduled (02:00 IST)");
 });
