@@ -82,7 +82,7 @@ function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [subscribeEmail, setSubscribeEmail] = useState('');
-  const [subscribeStatus, setSubscribeStatus] = useState<'idle'|'success'|'error'>('idle');
+  const [subscribeStatus, setSubscribeStatus] = useState<'idle'|'invalid'|'unavailable'>('idle');
   const bizDropdownRef = useRef<HTMLDivElement>(null);
   const founderDropdownRef = useRef<HTMLDivElement>(null);
   const brandDropdownRef = useRef<HTMLDivElement>(null);
@@ -101,11 +101,12 @@ function Home() {
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!subscribeEmail.includes('@')) { setSubscribeStatus('error'); return; }
-    // Store intent locally + show success (backend email integration can be added later)
-    setSubscribeStatus('success');
-    setSubscribeEmail('');
-    setTimeout(() => setSubscribeStatus('idle'), 4000);
+    if (!subscribeEmail.includes('@')) {
+      setSubscribeStatus('invalid');
+      return;
+    }
+    // Do not claim a subscription was stored until a newsletter service is connected.
+    setSubscribeStatus('unavailable');
   };
 
   useEffect(() => {
@@ -156,7 +157,7 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-black selection:bg-editorial selection:text-white pb-20">
+    <div className="min-h-screen overflow-x-hidden bg-[#f9f9f9] text-black selection:bg-editorial selection:text-white pb-20">
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       
       {/* 1. Sticky Top Navbar */}
@@ -273,7 +274,7 @@ function Home() {
                       {businessStories.map((item, idx) => (
                         <a
                           key={idx}
-                          href="#"
+                          href="/success/business-growth"
                           className="group flex flex-col py-2.5 border-b border-gray-100 last:border-0"
                         >
                           <span className="text-sm font-semibold text-black group-hover:text-editorial transition-colors duration-150">
@@ -408,7 +409,7 @@ function Home() {
             {[
               { label: 'Social Hero Profile', href: `/social-hero` },
               { label: 'Founder Story',        href: `/founder/nithin-kamath` },
-              { label: 'Business Stories',     href: `#` },
+              { label: 'Business Stories',     href: `/success/business-growth` },
               { label: 'Brand Stories',        href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
               { label: 'Industry Stories',     href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
             ].map((tab, i) => (
@@ -549,30 +550,28 @@ function Home() {
                 <div className="flex items-end gap-6 mb-6">
                   <img
                     src={currentHero?.photoUrl || '/nithin-kamath.webp'}
-                    alt={currentHero?.name || 'Founder'}
+                    alt={currentHero?.name || 'Nithin Kamath'}
                     className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-white/20 flex-shrink-0"
                   />
                   <div>
                     <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/40 mb-1">
-                      {currentHero?.profileTag || currentHero?.profileType || 'Founder Profile'}
+                      {currentHero?.profileTag || currentHero?.profileType || 'Zero to One · FinTech'}
                     </p>
-                    <h2 className="font-serif text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-[1.0] tracking-tight">
-                      {currentHero?.name || 'ProfileBizz'}
-                    </h2>
+                    <h1 className="font-serif text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-[1.0] tracking-tight">
+                      {currentHero?.name || 'Nithin Kamath'}
+                    </h1>
                   </div>
                 </div>
 
                 <p className="text-sm md:text-base text-white/50 font-medium mb-4">
-                  {currentHero?.designation || ''}
+                  {currentHero?.designation || 'Co-Founder & CEO, Zerodha'}
                 </p>
 
-                {currentHero?.oneLiner && (
-                  <div className="border-l-2 border-editorial pl-4 mb-7">
-                    <p className="font-serif text-lg md:text-xl text-white/80 leading-[1.5] font-medium italic">
-                      "{currentHero.oneLiner}"
-                    </p>
-                  </div>
-                )}
+                <div className="border-l-2 border-editorial pl-4 mb-7">
+                  <p className="font-serif text-lg md:text-xl text-white/80 leading-[1.5] font-medium italic">
+                    "{currentHero?.oneLiner || "The founder who built India's largest retail broker without outside funding."}"
+                  </p>
+                </div>
 
                 {/* Dot indicators for rotation */}
                 {liveFounders.length > 1 && (
@@ -588,7 +587,7 @@ function Home() {
                   </div>
                 )}
 
-                <a href={currentHero ? `/founder/${currentHero.slug}` : '/'}
+                <a href={currentHero ? `/founder/${currentHero.slug}` : '/founder/nithin-kamath'}
                   className="inline-flex items-center gap-2 bg-editorial text-white text-xs font-bold tracking-widest uppercase px-6 py-3 hover:bg-white hover:text-black transition-colors">
                   Read Full Biography
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -667,10 +666,10 @@ function Home() {
             {[
               { Icon: Heart,     label: 'Social Hero Profile', desc: 'Changemakers & impact leaders',   href: '/social-hero' },
               { Icon: User,      label: 'Founder Story',       desc: 'Zero to one journeys',            href: '/founder/nithin-kamath' },
-              { Icon: Building2, label: 'Business Stories',    desc: 'MSMEs, startups & scale-ups',     href: '#' },
+              { Icon: Building2, label: 'Business Stories',    desc: 'MSMEs, startups & scale-ups',     href: '/success/business-growth' },
               { Icon: Tag,       label: 'Brand Stories',       desc: "India's iconic brand journeys",   href: `/brand/${FEATURED_BRANDS[0]?.slug || 'amul'}` },
               { Icon: Factory,   label: 'Industry Stories',    desc: 'Sector deep-dives & analysis',    href: `/industry/${FEATURED_INDUSTRIES[0]?.slug || 'steel'}` },
-              { Icon: Users,     label: 'Women Story',         desc: 'Women who redefined the rules',   href: '/social-hero' },
+              { Icon: Users,     label: 'Women Story',         desc: 'Women who redefined the rules',   href: '/women-story' },
             ].map(({ Icon, label, desc, href }, i) => (
               <a key={i} href={href}
                 className="group flex flex-col px-5 py-6 bg-white hover:bg-[#f5f0ee] border-2 border-transparent hover:border-editorial transition-colors cursor-pointer">
@@ -687,23 +686,23 @@ function Home() {
         <section className="mb-16">
           <div data-reveal="up" className="flex items-baseline justify-between border-b border-black pb-4 mb-8">
             <h2 className="font-serif text-2xl md:text-3xl font-bold">Browse by Founder Type</h2>
-            <a href="#" className="text-xs font-bold tracking-widest uppercase text-gray-400 hover:text-editorial transition-colors">
-              View All →
+            <a href="/founder/nithin-kamath" className="text-xs font-bold tracking-widest uppercase text-gray-400 hover:text-editorial transition-colors">
+              Featured Profile →
             </a>
           </div>
 
           <div data-reveal="up" data-delay="120" className="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-200">
             {[
-              { Icon: Rocket,   type: 'Zero to One',        desc: 'First-generation founders who started from scratch',      count: '24 Profiles' },
-              { Icon: Users,    type: 'Women Founders',     desc: 'Indian women who built businesses against the odds',       count: '18 Profiles' },
-              { Icon: Wheat,    type: 'Bharat Builders',    desc: 'Rural & Tier-2 entrepreneurs rewriting the script',       count: '31 Profiles' },
-              { Icon: Laptop,   type: 'Tech Founders',      desc: 'Engineers & product thinkers who scaled globally',        count: '42 Profiles' },
-              { Icon: Bot,      type: 'AI Founders',        desc: "Building India's next wave with artificial intelligence",  count: '15 Profiles' },
-              { Icon: Plane,    type: 'Immigrant Founders', desc: 'Left abroad to build in Bharat — or vice versa',          count: '11 Profiles' },
-              { Icon: Zap,      type: 'Under 30',           desc: "Young founders who didn't wait for permission",           count: '19 Profiles' },
-              { Icon: Dumbbell, type: 'First-Gen Entrep.',  desc: 'No family business. No safety net. Just grit.',          count: '27 Profiles' },
-            ].map(({ Icon, type, desc, count }, i) => (
-              <a key={i} href="#" className="bg-white px-5 py-7 group cursor-pointer hover:bg-[#f5f0ee] hover:border-editorial border-2 border-transparent transition-colors flex flex-col">
+              { Icon: Rocket,   type: 'Zero to One',        desc: 'First-generation founders who started from scratch',      count: '24 Profiles', href: '/founder/nithin-kamath' },
+              { Icon: Users,    type: 'Women Founders',     desc: 'Indian women who built businesses against the odds',       count: '18 Profiles', href: '/women-story' },
+              { Icon: Wheat,    type: 'Bharat Builders',    desc: 'Rural & Tier-2 entrepreneurs rewriting the script',       count: '31 Profiles', href: '/founder/rajesh-kumar-vedas' },
+              { Icon: Laptop,   type: 'Tech Founders',      desc: 'Engineers & product thinkers who scaled globally',        count: '42 Profiles', href: '/industry/it' },
+              { Icon: Bot,      type: 'AI Founders',        desc: "Building India's next wave with artificial intelligence",  count: '15 Profiles', href: '/industry/it' },
+              { Icon: Plane,    type: 'Immigrant Founders', desc: 'Left abroad to build in Bharat — or vice versa',          count: '11 Profiles', href: '/founder/nithin-kamath' },
+              { Icon: Zap,      type: 'Under 30',           desc: "Young founders who didn't wait for permission",           count: '19 Profiles', href: '/success/startup-success' },
+              { Icon: Dumbbell, type: 'First-Gen Entrep.',  desc: 'No family business. No safety net. Just grit.',          count: '27 Profiles', href: '/success/business-growth' },
+            ].map(({ Icon, type, desc, count, href }, i) => (
+              <a key={i} href={href} className="bg-white px-5 py-7 group cursor-pointer hover:bg-[#f5f0ee] hover:border-editorial border-2 border-transparent transition-colors flex flex-col">
                 <Icon className="w-7 h-7 text-gray-400 group-hover:text-editorial transition-colors mb-4" strokeWidth={1.5} />
                 <h4 className="font-serif text-lg font-bold text-black group-hover:text-editorial transition-colors mb-2 leading-snug">{type}</h4>
                 <p className="text-sm text-gray-500 leading-relaxed mb-4 flex-1">{desc}</p>
@@ -823,7 +822,7 @@ function Home() {
                   designation: 'Nykaa',
                   tag: 'Women Founder · D2C',
                   tagline: 'Quit investment banking at 49 to build beauty commerce. Became India\'s richest self-made woman.',
-                  href: '#',
+                  href: '/women-story/falguni-nayar',
                 },
                 {
                   photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
@@ -831,7 +830,7 @@ function Home() {
                   designation: 'Zomato',
                   tag: 'D2C Pioneer · FoodTech',
                   tagline: 'Started by photographing restaurant menus. Built a ₹1.5 lakh Cr company that feeds 20 million Indians daily.',
-                  href: '#',
+                  href: '/industry/fmcg',
                 },
                 {
                   photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
@@ -839,7 +838,7 @@ function Home() {
                   designation: 'OYO Rooms',
                   tag: 'Under 30 · Hospitality',
                   tagline: 'India\'s youngest self-made billionaire. Built a global hotel network from a rented room in Delhi.',
-                  href: '#',
+                  href: '/success/startup-success',
                 },
               ].map((f, i) => (
                 <a key={i} href={f.href}
@@ -874,12 +873,6 @@ function Home() {
             </p>
           </div>
           <div data-reveal="right" data-delay="100" className="w-full max-w-md">
-            {subscribeStatus === 'success' ? (
-              <div className="border border-editorial px-6 py-4 text-center">
-                <p className="text-editorial font-bold tracking-wide text-sm mb-1">✓ You're subscribed!</p>
-                <p className="text-white/60 text-sm">We'll send your first digest next Monday.</p>
-              </div>
-            ) : (
               <form onSubmit={handleSubscribe}>
                 <label htmlFor="newsletter-email" className="text-[11px] font-bold tracking-widest uppercase text-white/40 block mb-2">
                   Your Email Address
@@ -891,17 +884,19 @@ function Home() {
                     value={subscribeEmail}
                     onChange={e => setSubscribeEmail(e.target.value)}
                     placeholder="you@company.in"
-                    className={`w-full bg-transparent border-b-2 py-2 focus:outline-none text-lg text-white transition-colors placeholder:text-white/30 ${subscribeStatus === 'error' ? 'border-red-500' : 'border-white/20 focus:border-editorial'}`}
+                    className={`w-full bg-transparent border-b-2 py-2 focus:outline-none text-lg text-white transition-colors placeholder:text-white/30 ${subscribeStatus !== 'idle' ? 'border-red-500' : 'border-white/20 focus:border-editorial'}`}
                   />
                   <button type="submit" className="bg-editorial text-white text-xs font-bold tracking-widest uppercase px-6 py-3 hover:bg-white hover:text-black transition-colors flex-shrink-0">
                     Subscribe
                   </button>
                 </div>
-                {subscribeStatus === 'error' && (
+                {subscribeStatus === 'invalid' && (
                   <p className="text-red-400 text-xs mt-2">Please enter a valid email address.</p>
                 )}
+                {subscribeStatus === 'unavailable' && (
+                  <p className="text-amber-300 text-xs mt-2">Newsletter subscriptions are being activated. Please try again shortly.</p>
+                )}
               </form>
-            )}
           </div>
         </section>
 
