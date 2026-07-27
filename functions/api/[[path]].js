@@ -413,7 +413,6 @@ async function importData(db, payload) {
 async function handleRequest(context) {
   const { request, env } = context;
   if (!env.DB) return error("Cloudflare D1 binding DB is not configured", 503);
-  await ensureSchema(env.DB);
 
   const url = new URL(request.url);
   const path = url.pathname.replace(/^\/api\/?/, "");
