@@ -64,6 +64,9 @@ const STATIC_RESULTS: StaticResult[] = [
   { type: 'social-hero', slug: 'rajendra-singh',           name: "Rajendra Singh",           subtitle: 'Waterman of India · Revived 11 Rivers',             tag: 'Social Hero', icon: '💧', href: '/social-hero/rajendra-singh',           keywords: ['rajendra singh','waterman','river','water conservation','social'] },
 ];
 
+// Keep unfinished editorial entries out of search until their destination exists.
+const SEARCHABLE_STATIC_RESULTS = STATIC_RESULTS.filter(({ href }) => href !== '#');
+
 interface SearchOverlayProps {
   open: boolean;
   onClose: () => void;
@@ -94,7 +97,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
       .then((data: FounderResult[]) => {
         setAllFounders(data);
         // Default: show mix of brands, social heroes, industries
-        setResults(STATIC_RESULTS.slice(0, 6).map(d => ({ kind: 'static' as const, data: d })));
+        setResults(SEARCHABLE_STATIC_RESULTS.slice(0, 6).map(d => ({ kind: 'static' as const, data: d })));
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -104,7 +107,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
   // Filter as user types
   useEffect(() => {
     if (!query.trim()) {
-      setResults(STATIC_RESULTS.slice(0, 6).map(d => ({ kind: 'static' as const, data: d })));
+      setResults(SEARCHABLE_STATIC_RESULTS.slice(0, 6).map(d => ({ kind: 'static' as const, data: d })));
       return;
     }
     const q = query.toLowerCase().trim();
@@ -120,7 +123,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
       .map(d => ({ kind: 'founder' as const, data: d }));
 
     // Filter static (brands, industries, social heroes)
-    const matchedStatic: AnyResult[] = STATIC_RESULTS
+    const matchedStatic: AnyResult[] = SEARCHABLE_STATIC_RESULTS
       .filter(s =>
         s.name.toLowerCase().includes(q) ||
         s.subtitle.toLowerCase().includes(q) ||
@@ -144,7 +147,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
 
   if (!open) return null;
 
-  const totalIndexed = allFounders.length + STATIC_RESULTS.length;
+  const totalIndexed = allFounders.length + SEARCHABLE_STATIC_RESULTS.length;
 
   return (
     <div className="fixed inset-0 z-[100] flex flex-col">

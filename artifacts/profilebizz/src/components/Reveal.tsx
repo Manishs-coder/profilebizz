@@ -48,7 +48,6 @@ export function Reveal({
   }, [delay, threshold]);
 
   return (
-    // @ts-expect-error — dynamic tag ref typing
     <Tag ref={ref} data-reveal={direction} className={className}>
       {children}
     </Tag>

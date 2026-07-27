@@ -37,6 +37,15 @@ yarn-error.log
 testem.log
 /typings
 
+# secrets and database exports
+.env
+.env.*
+!.env.example
+*.sql
+!migrations/*.sql
+*.dump
+*.backup
+
 # System Files
 .DS_Store
 Thumbs.db
