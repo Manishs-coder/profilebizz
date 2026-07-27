@@ -24,7 +24,7 @@ function formatDate(iso: string): string {
   }).format(new Date(iso))
 }
 
-const API_BASE = import.meta.env.BASE_URL.replace(/\/$/, "")
+const API_BASE = ""
 
 async function apiFetch(path: string, options?: RequestInit) {
   const res = await fetch(`${API_BASE}/api${path}`, {
@@ -90,7 +90,7 @@ export default function BackupPage() {
               Database Backup
             </h1>
             <p className="text-slate-500 mt-1">
-              Automatic backup roz raat 2:00 AM IST ko hota hai. Last 7 backups stored rehte hain.
+              Cloudflare par manual JSON backup banayein. Last 7 backups stored rehte hain.
             </p>
           </div>
           <Button
@@ -136,8 +136,8 @@ export default function BackupPage() {
           </div>
           <div className="bg-white border rounded-xl p-5 shadow-sm">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Schedule</p>
-            <p className="text-sm font-semibold text-slate-700 mt-2">Roz 2:00 AM IST</p>
-            <p className="text-xs text-slate-400 mt-1">Automatic</p>
+            <p className="text-sm font-semibold text-slate-700 mt-2">On demand</p>
+            <p className="text-xs text-slate-400 mt-1">Manual backup</p>
           </div>
         </div>
 
@@ -205,10 +205,7 @@ export default function BackupPage() {
         {/* Info note */}
         <div className="text-xs text-slate-400 bg-slate-50 border rounded-lg p-4 leading-relaxed">
           <strong className="text-slate-600">Restore kaise karein:</strong>{" "}
-          Koi backup download karo, phir yeh command chalaao:{" "}
-          <code className="bg-white border rounded px-1 py-0.5 font-mono text-slate-700">
-            psql DATABASE_URL &lt; backup_file.sql
-          </code>
+          Download ki hui JSON file ko safe rakhein. Zarurat par ise Cloudflare database mein restore kiya ja sakta hai.
         </div>
       </div>
     </AdminLayout>

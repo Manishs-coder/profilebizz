@@ -42,6 +42,7 @@ testem.log
 .env.*
 !.env.example
 *.sql
+!migrations/*.sql
 *.dump
 *.backup
 
