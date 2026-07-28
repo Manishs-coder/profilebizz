@@ -280,10 +280,6 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
           entityType="Person"
           designation={selected.title}
         />
-        <SocialShareButtons
-          url={_womenDetailUrl}
-          title={`${selected.name} — ${selected.title} | ProfileBizz`}
-        />
         <div className="min-h-screen bg-[#f9f9f9] text-black">
         <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>
           <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
@@ -329,6 +325,11 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
             ))}
           </div>
         </div>
+
+        <SocialShareButtons
+          url={_womenDetailUrl}
+          title={`${selected.name} — ${selected.title} | ProfileBizz`}
+        />
 
         {/* Body */}
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-10">
