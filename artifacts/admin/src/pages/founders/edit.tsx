@@ -238,6 +238,11 @@ export default function FounderEdit() {
                           onChange={(e) => setBasicInfo((prev) => ({ ...prev, category: e.target.value }))}
                         >
                           <option value="">Select Category</option>
+                          {basicInfo.category &&
+                            categories &&
+                            !categories.some((cat) => cat.name === basicInfo.category) && (
+                              <option value={basicInfo.category}>{basicInfo.category}</option>
+                            )}
                           {categories && categories.length > 0
                             ? categories.map((cat) => (
                                 <option key={cat.id} value={cat.name}>
@@ -410,7 +415,9 @@ export default function FounderEdit() {
                   </form>
                 )}
 
-                {!isNew && activeTab === "sections" && <SectionsEditor slug={slug} />}
+                {!isNew && activeTab === "sections" && (
+                  <SectionsEditor slug={slug} isSocialHero={founder?.profileType === "social-hero"} />
+                )}
                 {!isNew && activeTab === "seo" && <SeoEditor slug={slug} />}
               </>
             )}
@@ -489,6 +496,7 @@ function AwardsEditor({
 
 // ─── Interviews structured editor ───────────────────────────────────────────
 type Interview = { title: string; publication: string; year: string; url: string }
+type Achievement = { label: string; value: string }
 
 function InterviewsEditor({
   value,
@@ -566,10 +574,75 @@ function InterviewsEditor({
   )
 }
 
+function AchievementsEditor({
+  value,
+  onChange,
+}: {
+  value: Achievement[]
+  onChange: (val: Achievement[]) => void
+}) {
+  const add = () => onChange([...value, { label: "", value: "" }])
+  const remove = (i: number) => onChange(value.filter((_, idx) => idx !== i))
+  const update = (i: number, field: keyof Achievement, val: string) =>
+    onChange(value.map((item, idx) => (idx === i ? { ...item, [field]: val } : item)))
+
+  return (
+    <div className="space-y-3">
+      {value.map((item, i) => (
+        <div key={i} className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3 items-end bg-white border rounded-lg p-3">
+          <div className="space-y-1">
+            <Label className="text-xs">Label</Label>
+            <Input value={item.label} onChange={(e) => update(i, "label", e.target.value)} placeholder="Lives Touched" />
+          </div>
+          <div className="space-y-1">
+            <Label className="text-xs">Value</Label>
+            <Input value={item.value} onChange={(e) => update(i, "value", e.target.value)} placeholder="5 Million+" />
+          </div>
+          <Button type="button" variant="ghost" size="sm" className="text-red-500" onClick={() => remove(i)}>
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      ))}
+      <Button type="button" variant="outline" size="sm" className="gap-2" onClick={add}>
+        <Plus className="h-4 w-4" /> Add Achievement
+      </Button>
+    </div>
+  )
+}
+
+function RecognitionEditor({
+  value,
+  onChange,
+}: {
+  value: string[]
+  onChange: (val: string[]) => void
+}) {
+  const add = () => onChange([...value, ""])
+  const remove = (i: number) => onChange(value.filter((_, idx) => idx !== i))
+  const update = (i: number, val: string) =>
+    onChange(value.map((item, idx) => (idx === i ? val : item)))
+
+  return (
+    <div className="space-y-3">
+      {value.map((item, i) => (
+        <div key={i} className="flex gap-2 items-center">
+          <Input value={item} onChange={(e) => update(i, e.target.value)} placeholder="Award or recognition" />
+          <Button type="button" variant="ghost" size="sm" className="text-red-500" onClick={() => remove(i)}>
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      ))}
+      <Button type="button" variant="outline" size="sm" className="gap-2" onClick={add}>
+        <Plus className="h-4 w-4" /> Add Recognition
+      </Button>
+    </div>
+  )
+}
+
 // ─── Sections Editor ─────────────────────────────────────────────────────────
 const NAMED_SECTIONS = ["Early Life", "Education", "Career", "Entrepreneurial Journey", "Challenges", "Success", "Leadership Style"]
 
-function SectionsEditor({ slug }: { slug: string }) {
+function SectionsEditor({ slug, isSocialHero }: { slug: string; isSocialHero: boolean }) {
   const [locale, setLocale] = React.useState<"en" | "hi">("en")
   const { data: sections, isLoading } = useGetFounderSections(slug, locale, {
     query: { enabled: !!slug, queryKey: getGetFounderSectionsQueryKey(slug, locale) },
@@ -584,6 +657,12 @@ function SectionsEditor({ slug }: { slug: string }) {
   const [pullQuoteHi, setPullQuoteHi] = React.useState("")
   const [awardsEn, setAwardsEn] = React.useState<Award[]>([])
   const [interviewsEn, setInterviewsEn] = React.useState<Interview[]>([])
+  const [achievementsEn, setAchievementsEn] = React.useState<Achievement[]>([])
+  const [achievementsHi, setAchievementsHi] = React.useState<Achievement[]>([])
+  const [recognitionEn, setRecognitionEn] = React.useState<string[]>([])
+  const [recognitionHi, setRecognitionHi] = React.useState<string[]>([])
+  const [philosophyEn, setPhilosophyEn] = React.useState("")
+  const [philosophyHi, setPhilosophyHi] = React.useState("")
 
   const story = locale === "en" ? storyEn : storyHi
   const setStory = locale === "en" ? setStoryEn : setStoryHi
@@ -611,6 +690,20 @@ function SectionsEditor({ slug }: { slug: string }) {
       setStoryEn(combinedText)
       setPullQuoteEn(firstQuote)
 
+      const achievementsSection = sections.find((s) => s.sectionKey === "achievements")
+      setAchievementsEn(
+        Array.isArray((achievementsSection?.jsonData as { items?: Achievement[] } | null)?.items)
+          ? (achievementsSection?.jsonData as { items: Achievement[] }).items
+          : []
+      )
+      const recognitionSection = sections.find((s) => s.sectionKey === "recognition")
+      setRecognitionEn(
+        Array.isArray((recognitionSection?.jsonData as { items?: string[] } | null)?.items)
+          ? (recognitionSection?.jsonData as { items: string[] }).items
+          : []
+      )
+      setPhilosophyEn(sections.find((s) => s.sectionKey === "philosophy")?.bodyParagraphs?.[0] || "")
+
       const awardsSection = sections.find((s) => s.sectionKey === "Awards")
       if (awardsSection?.jsonData && Array.isArray(awardsSection.jsonData))
         setAwardsEn(awardsSection.jsonData as Award[])
@@ -621,6 +714,19 @@ function SectionsEditor({ slug }: { slug: string }) {
     } else {
       setStoryHi(combinedText)
       setPullQuoteHi(firstQuote)
+      const achievementsSection = sections.find((s) => s.sectionKey === "achievements")
+      setAchievementsHi(
+        Array.isArray((achievementsSection?.jsonData as { items?: Achievement[] } | null)?.items)
+          ? (achievementsSection?.jsonData as { items: Achievement[] }).items
+          : []
+      )
+      const recognitionSection = sections.find((s) => s.sectionKey === "recognition")
+      setRecognitionHi(
+        Array.isArray((recognitionSection?.jsonData as { items?: string[] } | null)?.items)
+          ? (recognitionSection?.jsonData as { items: string[] }).items
+          : []
+      )
+      setPhilosophyHi(sections.find((s) => s.sectionKey === "philosophy")?.bodyParagraphs?.[0] || "")
     }
   }, [sections, locale])
 
@@ -630,7 +736,34 @@ function SectionsEditor({ slug }: { slug: string }) {
       .map((p) => p.trim())
       .filter(Boolean)
 
-    const payload = [
+    const socialHeroPayload = [
+      {
+        sectionKey: "story",
+        pullQuote,
+        bodyParagraphs: paragraphs,
+        jsonData: null,
+      },
+      {
+        sectionKey: "achievements",
+        pullQuote: "",
+        bodyParagraphs: [],
+        jsonData: { items: locale === "en" ? achievementsEn : achievementsHi },
+      },
+      {
+        sectionKey: "recognition",
+        pullQuote: "",
+        bodyParagraphs: [],
+        jsonData: { items: locale === "en" ? recognitionEn : recognitionHi },
+      },
+      {
+        sectionKey: "philosophy",
+        pullQuote: "",
+        bodyParagraphs: [locale === "en" ? philosophyEn : philosophyHi].filter(Boolean),
+        jsonData: null,
+      },
+    ]
+
+    const founderPayload = [
       {
         sectionKey: "story",
         pullQuote,
@@ -644,6 +777,7 @@ function SectionsEditor({ slug }: { slug: string }) {
         ? [{ sectionKey: "Interviews", pullQuote: "", bodyParagraphs: [], jsonData: interviewsEn }]
         : []),
     ]
+    const payload = isSocialHero ? socialHeroPayload : founderPayload
 
     updateMutation.mutate(
       { slug, data: { locale, sections: payload } },
@@ -725,8 +859,35 @@ function SectionsEditor({ slug }: { slug: string }) {
           />
         </div>
 
+        {isSocialHero && (
+          <>
+            <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
+              <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Achievements</h3>
+              <AchievementsEditor
+                value={locale === "en" ? achievementsEn : achievementsHi}
+                onChange={locale === "en" ? setAchievementsEn : setAchievementsHi}
+              />
+            </div>
+            <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
+              <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Recognition</h3>
+              <RecognitionEditor
+                value={locale === "en" ? recognitionEn : recognitionHi}
+                onChange={locale === "en" ? setRecognitionEn : setRecognitionHi}
+              />
+            </div>
+            <div className="space-y-2 border rounded-xl p-6 bg-slate-50/50">
+              <Label className="text-lg font-serif font-bold">Philosophy</Label>
+              <Textarea
+                value={locale === "en" ? philosophyEn : philosophyHi}
+                onChange={(e) => (locale === "en" ? setPhilosophyEn(e.target.value) : setPhilosophyHi(e.target.value))}
+                className="min-h-[140px]"
+              />
+            </div>
+          </>
+        )}
+
         {/* Awards — English only */}
-        {locale === "en" && (
+        {!isSocialHero && locale === "en" && (
           <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
             <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Awards & Recognition</h3>
             <AwardsEditor value={awardsEn} onChange={setAwardsEn} />
@@ -734,7 +895,7 @@ function SectionsEditor({ slug }: { slug: string }) {
         )}
 
         {/* Interviews — English only */}
-        {locale === "en" && (
+        {!isSocialHero && locale === "en" && (
           <div className="space-y-4 border rounded-xl p-6 bg-slate-50/50">
             <h3 className="text-lg font-serif font-bold text-slate-900 border-b pb-2">Interviews & Media</h3>
             <InterviewsEditor value={interviewsEn} onChange={setInterviewsEn} />
