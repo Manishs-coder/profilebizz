@@ -298,10 +298,16 @@ export async function onRequest(context) {
 
   const info = routeInfo(url.pathname);
   if (!info || context.request.method !== "GET") return context.next();
+  if (url.pathname.endsWith("/")) {
+    url.pathname = url.pathname.slice(0, -1);
+    return Response.redirect(url.toString(), 301);
+  }
   const profile = await getProfile(context.env.DB, info.slug, info.locale);
   if (!profile) return notFoundPage();
 
-  const response = await context.next();
+  const assetUrl = new URL(context.request.url);
+  assetUrl.pathname = `${assetUrl.pathname}/`;
+  const response = await context.next(new Request(assetUrl, context.request));
   if (!response.headers.get("content-type")?.includes("text/html")) return response;
   const headers = new Headers(response.headers);
   headers.set("content-type", "text/html; charset=UTF-8");
