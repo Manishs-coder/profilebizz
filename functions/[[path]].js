@@ -1,8 +1,36 @@
 const SITE_URL = "https://profilebizz.com";
 const DEFAULT_IMAGE = `${SITE_URL}/og-cover.jpg`;
 
+function repairMojibakeText(value) {
+  const replacements = [
+    ["\u00e2\u20ac\u201d", "—"],
+    ["\u00e2\u20ac\u201c", "–"],
+    ["\u00e2\u20ac\u00a6", "…"],
+    ["\u00e2\u20ac\u2122", "’"],
+    ["\u00e2\u20ac\u0153", "“"],
+    ["\u00e2\u20ac\u009d", "”"],
+    ["\u00e2\u201a\u00b9", "₹"],
+    ["\u00c2", ""],
+  ];
+  return replacements.reduce(
+    (text, [broken, corrected]) => text.split(broken).join(corrected),
+    String(value ?? ""),
+  );
+}
+
+function repairMojibake(value) {
+  if (typeof value === "string") return repairMojibakeText(value);
+  if (Array.isArray(value)) return value.map(repairMojibake);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, repairMojibake(item)]),
+    );
+  }
+  return value;
+}
+
 function htmlEscape(value) {
-  return String(value ?? "")
+  return repairMojibakeText(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -91,7 +119,7 @@ async function getProfile(db, slug, locale) {
         ORDER BY sort_order`,
     ).bind(row.id).all());
   }
-  return { row, sections: results || [] };
+  return repairMojibake({ row, sections: results || [] });
 }
 
 function resolvedSeo(profile, info) {
@@ -111,6 +139,8 @@ function resolvedSeo(profile, info) {
   );
   const title = row.seo_title || `${row.name} — ${row.designation || row.category || "Profile"} | ProfileBizz`;
   const canonical = info.locale === "hi" ? currentUrl : (row.canonical_url || currentUrl);
+  const cleanTitle = repairMojibakeText(title);
+  const cleanDescription = repairMojibakeText(description);
   const image = absoluteUrl(row.og_image || row.cover_photo_url || row.photo_url);
   const entityType = schemaEntityType(row);
   const graph = {
@@ -155,14 +185,14 @@ function resolvedSeo(profile, info) {
     ],
   };
   return {
-    title,
-    description,
+    title: cleanTitle,
+    description: cleanDescription,
     canonical,
     image,
     keywords: row.keywords || "",
     robots: row.robots || "index, follow",
     twitterCard: row.twitter_card || "summary_large_image",
-    graph,
+    graph: repairMojibake(graph),
   };
 }
 
