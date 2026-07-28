@@ -7,10 +7,11 @@
     "/women-story/*",
     "/brand/*",
     "/industry/*",
+    "/admin/*",
     "/sitemap.xml"
   ],
   "exclude": [
     "/assets/*",
-    "/admin/*"
+    "/admin/assets/*"
   ]
 }
