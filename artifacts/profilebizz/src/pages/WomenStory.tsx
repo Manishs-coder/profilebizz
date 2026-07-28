@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, Share2, BookmarkPlus, Star, TrendingUp, Award, Heart } from 'lucide-react';
 import { SiteFooter } from '@/components/SiteFooter';
 import { ProfileSeo } from '@/components/ProfileSeo';
+import { SocialShareButtons } from '@/components/SocialShareButtons';
 
 const CATEGORIES = [
   { slug: 'startup-founders', label: 'Startup Founders', icon: '🚀' },
@@ -278,6 +279,10 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
           entityName={selected.name}
           entityType="Person"
           designation={selected.title}
+        />
+        <SocialShareButtons
+          url={_womenDetailUrl}
+          title={`${selected.name} — ${selected.title} | ProfileBizz`}
         />
         <div className="min-h-screen bg-[#f9f9f9] text-black">
         <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>

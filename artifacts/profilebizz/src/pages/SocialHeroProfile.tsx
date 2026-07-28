@@ -4,6 +4,7 @@ import { useLocation } from 'wouter';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Heart, Users, Languages } from 'lucide-react';
 import { SiteFooter } from '@/components/SiteFooter';
 import { ProfileSeo } from '@/components/ProfileSeo';
+import { SocialShareButtons } from '@/components/SocialShareButtons';
 
 const CATEGORIES = [
   { slug: 'changemakers', label: 'Changemakers', icon: '🌟', desc: 'Individuals reshaping India through bold action' },
@@ -517,6 +518,10 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
           alternateUrl={lang === 'hi'
             ? `https://profilebizz.com/social-hero/${selected.slug}`
             : (hiData ? `https://profilebizz.com/social-hero/hi/${selected.slug}` : null)}
+        />
+        <SocialShareButtons
+          url={_heroDetailUrl}
+          title={`${activeHero.name} — Social Hero Profile | ProfileBizz`}
         />
         <div className="min-h-screen bg-[#f9f9f9] text-black">
 

@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Milestone } from 'lucide-react';
 import { FEATURED_BRANDS } from '@/data/navData';
 import { ProfileSeo } from '@/components/ProfileSeo';
+import { SocialShareButtons } from '@/components/SocialShareButtons';
 
 const SECTIONS = [
   { id: 'origin',      label: 'Brand Origin' },
@@ -869,6 +870,10 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
         image={brand.coverPhoto}
         entityName={brand.name}
         entityType="Organization"
+      />
+      <SocialShareButtons
+        url={_brandUrl}
+        title={`${brand.name} — ${brand.tagline} | ProfileBizz`}
       />
       <div className="min-h-screen bg-[#f9f9f9] text-black">
 

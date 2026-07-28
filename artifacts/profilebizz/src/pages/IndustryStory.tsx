@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Users, Building2, Lightbulb } from 'lucide-react';
 import { FEATURED_INDUSTRIES } from '@/data/navData';
 import { ProfileSeo } from '@/components/ProfileSeo';
+import { SocialShareButtons } from '@/components/SocialShareButtons';
 
 const SECTIONS = [
   { id: 'overview',    label: 'Industry Overview' },
@@ -764,6 +765,10 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
         image={industry.coverPhoto}
         entityName={industry.name}
         entityType="Thing"
+      />
+      <SocialShareButtons
+        url={_industryUrl}
+        title={`${industry.name} — ${industry.tagline} | ProfileBizz`}
       />
       <div className="min-h-screen bg-[#f9f9f9] text-black">
 
