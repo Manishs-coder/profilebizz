@@ -284,6 +284,15 @@ async function sitemap(db) {
 
 export async function onRequest(context) {
   const url = new URL(context.request.url);
+  if (url.pathname.startsWith("/admin/")) {
+    const lastSegment = url.pathname.split("/").pop() || "";
+    if (!lastSegment.includes(".")) {
+      const adminUrl = new URL(context.request.url);
+      adminUrl.pathname = "/admin/";
+      return context.next(new Request(adminUrl, context.request));
+    }
+    return context.next();
+  }
   if (!context.env.DB) return context.next();
   if (url.pathname === "/sitemap.xml") return sitemap(context.env.DB);
 
