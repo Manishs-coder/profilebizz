@@ -314,6 +314,15 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
           </div>
         </div>
 
+        <div className="bg-white">
+          <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-4">
+            <SocialShareButtons
+              url={_womenDetailUrl}
+              title={`${selected.name} — ${selected.title} | ProfileBizz`}
+            />
+          </div>
+        </div>
+
         {/* Stats */}
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-5 flex flex-wrap gap-x-10 gap-y-3">
@@ -325,11 +334,6 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
             ))}
           </div>
         </div>
-
-        <SocialShareButtons
-          url={_womenDetailUrl}
-          title={`${selected.name} — ${selected.title} | ProfileBizz`}
-        />
 
         {/* Body */}
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-10">

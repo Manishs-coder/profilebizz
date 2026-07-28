@@ -913,6 +913,15 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
         </div>
       </div>
 
+      <div className="bg-white">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-4">
+          <SocialShareButtons
+            url={_brandUrl}
+            title={`${brand.name} — Brand Story | ProfileBizz`}
+          />
+        </div>
+      </div>
+
       {/* ── Stats bar ── */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-5 flex flex-col md:flex-row gap-6 items-start md:items-center">
@@ -934,11 +943,6 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
           </p>
         </div>
       </div>
-
-      <SocialShareButtons
-        url={_brandUrl}
-        title={`${brand.name} — Brand Story | ProfileBizz`}
-      />
 
       {/* ── Other Brands Bar ── */}
       <div className="bg-white border-b border-gray-200">
