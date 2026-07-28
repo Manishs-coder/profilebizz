@@ -127,6 +127,7 @@ export interface SectionItem {
 
 export interface FounderSectionsInput {
   sections: SectionItem[];
+  locale?: string;
 }
 
 export interface SeoMeta {
