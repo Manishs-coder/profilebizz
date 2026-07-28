@@ -23,51 +23,44 @@ const WINDOWS_1252_BYTES: Record<string, number> = {
   '\u0153': 0x9c, '\u017e': 0x9e, '\u0178': 0x9f,
 };
 
-const MOJIBAKE_MARKERS = /(?:Ã|Â|â|ðŸ|ï¸|à¤|à¥)/g;
-
-function mojibakeScore(value: string): number {
-  return (value.match(MOJIBAKE_MARKERS) || []).length
-    + (value.match(/\ufffd/g) || []).length * 10;
-}
-
-function decodeByteRun(value: string): string {
-  if (mojibakeScore(value) === 0) return value;
-
-  const bytes: number[] = [];
-  for (const char of value) {
-    const code = char.codePointAt(0)!;
-    const byte = code <= 0xff ? code : WINDOWS_1252_BYTES[char];
-    if (byte === undefined) return value;
-    bytes.push(byte);
-  }
-
-  try {
-    const decoded = new TextDecoder('utf-8', { fatal: true }).decode(new Uint8Array(bytes));
-    return mojibakeScore(decoded) < mojibakeScore(value) ? decoded : value;
-  } catch {
-    return value;
-  }
-}
-
 function decodeUtf8Mojibake(value: string): string {
+  const chars = Array.from(value);
   let output = '';
-  let byteRun = '';
 
-  const flush = () => {
-    output += decodeByteRun(byteRun);
-    byteRun = '';
+  const byteFor = (char: string): number | undefined => {
+    const code = char.codePointAt(0)!;
+    return code <= 0xff ? code : WINDOWS_1252_BYTES[char];
   };
 
-  for (const char of value) {
-    const code = char.codePointAt(0)!;
-    if (code <= 0xff) {
-      byteRun += char;
-    } else {
-      flush();
-      output += char;
+  for (let index = 0; index < chars.length;) {
+    const first = byteFor(chars[index]);
+    const length = first !== undefined && first >= 0xc2 && first <= 0xdf ? 2
+      : first !== undefined && first >= 0xe0 && first <= 0xef ? 3
+      : first !== undefined && first >= 0xf0 && first <= 0xf4 ? 4
+      : 0;
+
+    if (length > 0 && index + length <= chars.length) {
+      const bytes = chars.slice(index, index + length).map(byteFor);
+      const validContinuation = bytes.slice(1).every(
+        byte => byte !== undefined && byte >= 0x80 && byte <= 0xbf,
+      );
+
+      if (validContinuation) {
+        try {
+          output += new TextDecoder('utf-8', { fatal: true })
+            .decode(new Uint8Array(bytes as number[]));
+          index += length;
+          continue;
+        } catch {
+          // Keep the original character when the candidate is not valid UTF-8.
+        }
+      }
     }
+
+    output += chars[index];
+    index += 1;
   }
-  flush();
+
   return output;
 }
 
