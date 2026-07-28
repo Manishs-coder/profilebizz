@@ -17,6 +17,7 @@ import { ChunkErrorBoundary } from '@/components/ChunkErrorBoundary';
 import { Reveal } from '@/components/Reveal';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { SiteFooter } from '@/components/SiteFooter';
+import SocialHeroProfile from '@/pages/SocialHeroProfile';
 
 // ── Lazy-loaded page components (separate JS chunks, load on demand) ──────────
 const NotFound          = React.lazy(() => import('@/pages/not-found'));
@@ -27,7 +28,6 @@ const LocalBusiness     = React.lazy(() => import('@/pages/LocalBusiness'));
 const SuccessStory      = React.lazy(() => import('@/pages/SuccessStory'));
 const SocialImpact      = React.lazy(() => import('@/pages/SocialImpact'));
 const BusinessNews      = React.lazy(() => import('@/pages/BusinessNews'));
-const SocialHeroProfile = React.lazy(() => import('@/pages/SocialHeroProfile'));
 const WomenStory        = React.lazy(() => import('@/pages/WomenStory'));
 
 const queryClient = new QueryClient();
