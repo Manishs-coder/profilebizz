@@ -4,6 +4,9 @@
 # ── All crawlers (default) ──────────────────────────────────────────────────
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /search
 Disallow: /src/
 Disallow: /.local/
 Disallow: /node_modules/

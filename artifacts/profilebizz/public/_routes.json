@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "include": [
+    "/api/*",
+    "/founder/*",
+    "/social-hero/*",
+    "/women-story/*",
+    "/brand/*",
+    "/industry/*",
+    "/sitemap.xml"
+  ],
+  "exclude": [
+    "/assets/*",
+    "/admin/*"
+  ]
+}

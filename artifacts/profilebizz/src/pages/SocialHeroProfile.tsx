@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'wouter';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Heart, Users, Languages } from 'lucide-react';
 import { SiteFooter } from '@/components/SiteFooter';
+import { ProfileSeo } from '@/components/ProfileSeo';
 
 const CATEGORIES = [
   { slug: 'changemakers', label: 'Changemakers', icon: '🌟', desc: 'Individuals reshaping India through bold action' },
@@ -503,6 +504,20 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
           <meta name="twitter:image" content={_ogImage} />
           <script type="application/ld+json">{_heroDetailJsonLd}</script>
         </Helmet>
+        <ProfileSeo
+          slug={selected.slug}
+          title={`${activeHero.name} — Social Hero Profile | ProfileBizz`}
+          description={`Read the inspiring story of ${activeHero.name}, one of India's leading ${selected.category}. Full profile and impact journey curated by ProfileBizz.`}
+          canonicalUrl={_heroDetailUrl}
+          image={_ogImage}
+          entityName={activeHero.name}
+          entityType="Person"
+          designation={selected.category}
+          locale={lang}
+          alternateUrl={lang === 'hi'
+            ? `https://profilebizz.com/social-hero/${selected.slug}`
+            : (hiData ? `https://profilebizz.com/social-hero/hi/${selected.slug}` : null)}
+        />
         <div className="min-h-screen bg-[#f9f9f9] text-black">
 
         {/* ── Sticky Top Bar ── */}

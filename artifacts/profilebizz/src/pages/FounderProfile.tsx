@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, Award, Quote, Languages } from 'lucide-react';
 import { FOUNDERS_HI } from '../data/foundersHi';
 import { Reveal } from '@/components/Reveal';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { SiteFooter } from '@/components/SiteFooter';
+import { ProfileSeo } from '@/components/ProfileSeo';
 
 const SITE_URL = 'https://profilebizz.com';
 const FALLBACK_OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
@@ -186,50 +186,23 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
     || `Read the in-depth profile of ${displayName} on ProfileBizz.`;
   const ogDescription = truncate(rawDesc);
   const ogImage = toAbsoluteUrl(founder.coverPhotoUrl || founder.photoUrl);
-  const articleJsonLd = JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: ogTitle,
-    description: ogDescription,
-    image: ogImage,
-    url: pageUrl,
-    author: { '@type': 'Organization', name: 'ProfileBizz Editorial' },
-    publisher: {
-      '@type': 'Organization',
-      name: 'ProfileBizz',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/favicon.svg` },
-    },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
-  });
 
   return (
     <>
-    <Helmet>
-      <title>{ogTitle}</title>
-      <meta name="description" content={ogDescription} />
-      <link rel="canonical" href={pageUrl} />
-      {/* Open Graph */}
-      <meta property="og:type" content="article" />
-      <meta property="og:url" content={pageUrl} />
-      <meta property="og:site_name" content="ProfileBizz" />
-      <meta property="og:title" content={ogTitle} />
-      <meta property="og:description" content={ogDescription} />
-      <meta property="og:image" content={ogImage} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:locale" content={lang === 'hi' ? 'hi_IN' : 'en_IN'} />
-      {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@profilebizz" />
-      <meta name="twitter:title" content={ogTitle} />
-      <meta name="twitter:description" content={ogDescription} />
-      <meta name="twitter:image" content={ogImage} />
-      {/* Article authorship */}
-      <meta property="article:author" content="ProfileBizz Editorial" />
-      <meta property="article:publisher" content={SITE_URL} />
-      {/* JSON-LD structured data */}
-      <script type="application/ld+json">{articleJsonLd}</script>
-    </Helmet>
+    <ProfileSeo
+      slug={slug}
+      title={ogTitle}
+      description={ogDescription}
+      canonicalUrl={pageUrl}
+      image={ogImage}
+      entityName={displayName}
+      entityType="Person"
+      designation={displayDesignation}
+      locale={lang}
+      alternateUrl={hindiAvailable
+        ? (lang === 'hi' ? `${SITE_URL}/founder/${slug}` : `${SITE_URL}/founder/hi/${slug}`)
+        : null}
+    />
     <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Sticky Top Bar ── */}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, Share2, BookmarkPlus, Star, TrendingUp, Award, Heart } from 'lucide-react';
 import { SiteFooter } from '@/components/SiteFooter';
+import { ProfileSeo } from '@/components/ProfileSeo';
 
 const CATEGORIES = [
   { slug: 'startup-founders', label: 'Startup Founders', icon: '🚀' },
@@ -268,6 +269,16 @@ export default function WomenStory({ params }: { params?: { slug?: string } }) {
           <meta name="twitter:image" content={selected.coverPhoto} />
           <script type="application/ld+json">{_womenDetailJsonLd}</script>
         </Helmet>
+        <ProfileSeo
+          slug={selected.slug}
+          title={`${selected.name} — ${selected.title} | ProfileBizz`}
+          description={selected.pullQuote}
+          canonicalUrl={_womenDetailUrl}
+          image={selected.coverPhoto}
+          entityName={selected.name}
+          entityType="Person"
+          designation={selected.title}
+        />
         <div className="min-h-screen bg-[#f9f9f9] text-black">
         <header className={`fixed top-0 w-full z-50 bg-white border-b border-gray-200 transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>
           <div className="max-w-[1400px] mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
