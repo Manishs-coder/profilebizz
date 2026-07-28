@@ -871,10 +871,6 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
         entityName={brand.name}
         entityType="Organization"
       />
-      <SocialShareButtons
-        url={_brandUrl}
-        title={`${brand.name} — ${brand.tagline} | ProfileBizz`}
-      />
       <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top Bar ── */}
@@ -938,6 +934,11 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
           </p>
         </div>
       </div>
+
+      <SocialShareButtons
+        url={_brandUrl}
+        title={`${brand.name} — Brand Story | ProfileBizz`}
+      />
 
       {/* ── Other Brands Bar ── */}
       <div className="bg-white border-b border-gray-200">

@@ -519,10 +519,6 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
             ? `https://profilebizz.com/social-hero/${selected.slug}`
             : (hiData ? `https://profilebizz.com/social-hero/hi/${selected.slug}` : null)}
         />
-        <SocialShareButtons
-          url={_heroDetailUrl}
-          title={`${activeHero.name} — Social Hero Profile | ProfileBizz`}
-        />
         <div className="min-h-screen bg-[#f9f9f9] text-black">
 
         {/* ── Sticky Top Bar ── */}
@@ -637,6 +633,11 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
             </div>
           </div>
         </div>
+
+        <SocialShareButtons
+          url={_heroDetailUrl}
+          title={`${activeHero.name} — Social Hero Profile | ProfileBizz`}
+        />
 
         {/* ── Body: Left Sidebar + Main Article ── */}
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-10 flex flex-col lg:flex-row gap-10">

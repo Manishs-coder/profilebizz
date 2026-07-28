@@ -766,10 +766,6 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
         entityName={industry.name}
         entityType="Thing"
       />
-      <SocialShareButtons
-        url={_industryUrl}
-        title={`${industry.name} — ${industry.tagline} | ProfileBizz`}
-      />
       <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top Bar ── */}
@@ -825,6 +821,11 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
           <p className="md:max-w-sm text-sm text-gray-600 leading-relaxed italic border-l-2 border-editorial pl-4">{industry.oneLiner}</p>
         </div>
       </div>
+
+      <SocialShareButtons
+        url={_industryUrl}
+        title={`${industry.name} — Industry Story | ProfileBizz`}
+      />
 
       {/* ── Industry Switcher ── */}
       <div className="bg-white border-b border-gray-200">

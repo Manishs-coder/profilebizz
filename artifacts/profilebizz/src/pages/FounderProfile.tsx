@@ -204,7 +204,6 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
         ? (lang === 'hi' ? `${SITE_URL}/founder/${slug}` : `${SITE_URL}/founder/hi/${slug}`)
         : null}
     />
-    <SocialShareButtons url={pageUrl} title={ogTitle} />
     <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Sticky Top Bar ── */}
@@ -303,6 +302,8 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
           )}
         </div>
       </div>
+
+      <SocialShareButtons url={pageUrl} title={ogTitle} />
 
       {/* ── Mobile Section Nav ── */}
       {sections.length > 0 && (

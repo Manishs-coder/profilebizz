@@ -51,35 +51,37 @@ export function SocialShareButtons({ url, title }: SocialShareButtonsProps) {
   return (
     <aside
       aria-label="Share this story"
-      className="fixed bottom-3 left-1/2 z-[70] flex max-w-[calc(100vw-1rem)] -translate-x-1/2 items-center gap-1 rounded-full border border-gray-200 bg-white/95 p-1.5 shadow-xl backdrop-blur md:bottom-6"
+      className="border-b border-gray-200 bg-white"
     >
-      <span className="hidden pl-3 pr-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500 sm:block">
-        Share
-      </span>
-      {links.map(({ label, href, icon: Icon, className }) => (
-        <a
-          key={label}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Share on ${label}`}
-          title={`Share on ${label}`}
-          className={`flex h-10 items-center gap-1.5 rounded-full border border-gray-200 px-3 text-xs font-semibold text-gray-700 transition-colors ${className}`}
+      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-2 px-4 py-3 md:px-8">
+        <span className="mr-1 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+          Share Story
+        </span>
+        {links.map(({ label, href, icon: Icon, className }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Share on ${label}`}
+            title={`Share on ${label}`}
+            className={`flex h-9 items-center gap-1.5 border border-gray-200 px-2.5 text-xs font-semibold text-gray-700 transition-colors ${className}`}
+          >
+            <Icon className="h-4 w-4" />
+            <span>{label}</span>
+          </a>
+        ))}
+        <button
+          type="button"
+          onClick={copyLink}
+          aria-label="Copy story link"
+          title="Copy story link"
+          className="flex h-9 items-center gap-1.5 border border-gray-200 px-2.5 text-xs font-semibold text-gray-700 transition-colors hover:border-editorial hover:bg-editorial hover:text-white"
         >
-          <Icon className="h-4 w-4" />
-          <span className="hidden lg:inline">{label}</span>
-        </a>
-      ))}
-      <button
-        type="button"
-        onClick={copyLink}
-        aria-label="Copy story link"
-        title="Copy story link"
-        className="flex h-10 items-center gap-1.5 rounded-full border border-gray-200 px-3 text-xs font-semibold text-gray-700 transition-colors hover:border-editorial hover:bg-editorial hover:text-white"
-      >
-        {copied ? <Check className="h-4 w-4" /> : <Link2 className="h-4 w-4" />}
-        <span className="hidden lg:inline">{copied ? 'Copied' : 'Copy'}</span>
-      </button>
+          {copied ? <Check className="h-4 w-4" /> : <Link2 className="h-4 w-4" />}
+          <span>{copied ? 'Copied' : 'Copy'}</span>
+        </button>
+      </div>
     </aside>
   );
 }
