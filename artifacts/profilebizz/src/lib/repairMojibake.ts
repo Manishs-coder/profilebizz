@@ -60,7 +60,7 @@ function decodeUtf8Mojibake(value: string): string {
 
   for (const char of value) {
     const code = char.codePointAt(0)!;
-    if (code <= 0xff || WINDOWS_1252_BYTES[char] !== undefined) {
+    if (code <= 0xff) {
       byteRun += char;
     } else {
       flush();
