@@ -589,6 +589,12 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
               style={lang === 'hi' ? { fontFamily: "'Noto Sans Devanagari', sans-serif", lineHeight: '1.9' } : {}}>
               {activeHero.pullQuote}
             </p>
+            <div className="mb-8 flex justify-center">
+              <SocialShareButtons
+                url={_heroDetailUrl}
+                title={`${activeHero.name} — Social Hero Profile | ProfileBizz`}
+              />
+            </div>
 
             {/* Divider */}
             <div className="flex items-center gap-4 mb-8">
@@ -633,11 +639,6 @@ export default function SocialHeroProfile({ params, locale }: { params?: { slug?
             </div>
           </div>
         </div>
-
-        <SocialShareButtons
-          url={_heroDetailUrl}
-          title={`${activeHero.name} — Social Hero Profile | ProfileBizz`}
-        />
 
         {/* ── Body: Left Sidebar + Main Article ── */}
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-10 flex flex-col lg:flex-row gap-10">

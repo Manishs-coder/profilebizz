@@ -806,6 +806,15 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
         </div>
       </div>
 
+      <div className="bg-white">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-4">
+          <SocialShareButtons
+            url={_industryUrl}
+            title={`${industry.name} — Industry Story | ProfileBizz`}
+          />
+        </div>
+      </div>
+
       {/* ── Stats bar ── */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-5 flex flex-col md:flex-row gap-6 items-start md:items-center">
@@ -821,11 +830,6 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
           <p className="md:max-w-sm text-sm text-gray-600 leading-relaxed italic border-l-2 border-editorial pl-4">{industry.oneLiner}</p>
         </div>
       </div>
-
-      <SocialShareButtons
-        url={_industryUrl}
-        title={`${industry.name} — Industry Story | ProfileBizz`}
-      />
 
       {/* ── Industry Switcher ── */}
       <div className="bg-white border-b border-gray-200">

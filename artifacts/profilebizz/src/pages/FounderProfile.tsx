@@ -6,6 +6,7 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { SiteFooter } from '@/components/SiteFooter';
 import { ProfileSeo } from '@/components/ProfileSeo';
 import { SocialShareButtons } from '@/components/SocialShareButtons';
+import { repairMojibake } from '@/lib/repairMojibake';
 
 const SITE_URL = 'https://profilebizz.com';
 const FALLBACK_OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
@@ -78,6 +79,9 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
         : Promise.resolve(null),
     ])
       .then(([f, s, hiSecs]) => {
+        f = repairMojibake(f);
+        s = repairMojibake(s);
+        hiSecs = repairMojibake(hiSecs);
         setFounder(f);
 
         // If Hindi was requested but DB has no Hindi sections → fallback to English
@@ -88,7 +92,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
           fetch(`/api/public/founders/${slug}/sections?locale=en`)
             .then(r => r.ok ? r.json() : [])
             .then((enSecs: any[]) => {
-              const filtered = filterSecs(enSecs);
+              const filtered = filterSecs(repairMojibake(enSecs));
               setSections(filtered);
               if (filtered.length > 0) setActiveSection(filtered[0].sectionKey);
               setLoading(false);
@@ -133,7 +137,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
   useEffect(() => {
     fetch('/api/public/founders')
       .then(r => r.ok ? r.json() : [])
-      .then((all: any[]) => setMoreStories(all.filter((f: any) => f.slug !== slug).slice(0, 3)))
+      .then((all: any[]) => setMoreStories(repairMojibake(all).filter((f: any) => f.slug !== slug).slice(0, 3)))
       .catch(() => {});
   }, [slug]);
 
@@ -262,6 +266,9 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
               {displayOneLiner}
             </p>
           )}
+          <div className="mb-8 flex justify-center">
+            <SocialShareButtons url={pageUrl} title={ogTitle} />
+          </div>
           <div className="flex items-center gap-4 mb-8">
             <div className="flex-1 h-px bg-gray-200" />
             <span className="text-gray-300 text-lg">◆</span>
@@ -302,8 +309,6 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
           )}
         </div>
       </div>
-
-      <SocialShareButtons url={pageUrl} title={ogTitle} />
 
       {/* ── Mobile Section Nav ── */}
       {sections.length > 0 && (
