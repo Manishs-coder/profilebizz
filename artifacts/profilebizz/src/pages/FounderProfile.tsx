@@ -5,6 +5,7 @@ import { Reveal } from '@/components/Reveal';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { SiteFooter } from '@/components/SiteFooter';
 import { ProfileSeo } from '@/components/ProfileSeo';
+import { SocialShareButtons } from '@/components/SocialShareButtons';
 
 const SITE_URL = 'https://profilebizz.com';
 const FALLBACK_OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
@@ -203,6 +204,7 @@ function DynamicFounderPage({ slug, lang }: { slug: string; lang: 'en' | 'hi' })
         ? (lang === 'hi' ? `${SITE_URL}/founder/${slug}` : `${SITE_URL}/founder/hi/${slug}`)
         : null}
     />
+    <SocialShareButtons url={pageUrl} title={ogTitle} />
     <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Sticky Top Bar ── */}
