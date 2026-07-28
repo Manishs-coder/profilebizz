@@ -293,8 +293,7 @@ export async function onRequest(context) {
     }
     return context.next();
   }
-  if (!context.env.DB) return context.next();
-  if (url.pathname === "/sitemap.xml") return sitemap(context.env.DB);
+  if (url.pathname === "/sitemap.xml" && context.env.DB) return sitemap(context.env.DB);
 
   const info = routeInfo(url.pathname);
   if (!info || context.request.method !== "GET") return context.next();
@@ -302,11 +301,13 @@ export async function onRequest(context) {
     url.pathname = url.pathname.slice(0, -1);
     return Response.redirect(url.toString(), 301);
   }
+  const assetUrl = new URL(context.request.url);
+  assetUrl.pathname = `${assetUrl.pathname}/`;
+  if (!context.env.DB) return context.next(new Request(assetUrl, context.request));
+
   const profile = await getProfile(context.env.DB, info.slug, info.locale);
   if (!profile) return notFoundPage();
 
-  const assetUrl = new URL(context.request.url);
-  assetUrl.pathname = `${assetUrl.pathname}/`;
   const response = await context.next(new Request(assetUrl, context.request));
   if (!response.headers.get("content-type")?.includes("text/html")) return response;
   const headers = new Headers(response.headers);
