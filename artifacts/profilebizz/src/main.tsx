@@ -5,7 +5,12 @@ import App from './App';
 
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root')!;
+// Cloudflare injects crawlable article HTML for bots and no-JS visitors.
+// React owns the container once the interactive application starts.
+rootElement.replaceChildren();
+
+createRoot(rootElement).render(
   <HelmetProvider>
     <App />
   </HelmetProvider>

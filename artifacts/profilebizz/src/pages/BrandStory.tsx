@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Milestone } from 'lucide-react';
 import { FEATURED_BRANDS } from '@/data/navData';
+import { ProfileSeo } from '@/components/ProfileSeo';
 
 const SECTIONS = [
   { id: 'origin',      label: 'Brand Origin' },
@@ -860,6 +861,15 @@ export default function BrandStory({ params }: { params?: { slug?: string } }) {
         <meta name="twitter:image" content={brand.coverPhoto} />
         <script type="application/ld+json">{_brandJsonLd}</script>
       </Helmet>
+      <ProfileSeo
+        slug={slug}
+        title={`${brand.name} — ${brand.tagline} | ProfileBizz`}
+        description={brand.oneLiner}
+        canonicalUrl={_brandUrl}
+        image={brand.coverPhoto}
+        entityName={brand.name}
+        entityType="Organization"
+      />
       <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top Bar ── */}

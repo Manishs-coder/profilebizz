@@ -273,6 +273,47 @@ router.get("/public/founders/:slug", async (req, res) => {
   res.json({ ...founder, createdAt: founder.createdAt.toISOString(), updatedAt: founder.updatedAt.toISOString() });
 });
 
+// GET /api/public/founders/:slug/seo
+router.get("/public/founders/:slug/seo", async (req, res) => {
+  const slug = param(req.params.slug);
+  const [founder] = await db
+    .select()
+    .from(foundersTable)
+    .where(eq(foundersTable.slug, slug))
+    .limit(1);
+  if (!founder || !founder.published) {
+    res.status(404).json({ error: "Founder not found" });
+    return;
+  }
+  const [seo] = await db
+    .select()
+    .from(seoMetaTable)
+    .where(eq(seoMetaTable.founderId, founder.id))
+    .limit(1);
+  res.json({
+    ...(seo || {
+      founderId: founder.id,
+      seoTitle: null,
+      seoDescription: null,
+      keywords: null,
+      canonicalUrl: null,
+      ogImage: null,
+      ogTitle: null,
+      twitterCard: "summary_large_image",
+      schemaType: "Person",
+      focusKeyword: null,
+      robots: "index, follow",
+    }),
+    slug: founder.slug,
+    name: founder.name,
+    designation: founder.designation,
+    category: founder.category,
+    profileType: founder.profileType,
+    createdAt: founder.createdAt.toISOString(),
+    updatedAt: founder.updatedAt.toISOString(),
+  });
+});
+
 // GET /api/public/founders/:slug/sections?locale=en
 router.get("/public/founders/:slug/sections", async (req, res) => {
   const slug = param(req.params.slug);

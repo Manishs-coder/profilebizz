@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Share2, BookmarkPlus, TrendingUp, Users, Building2, Lightbulb } from 'lucide-react';
 import { FEATURED_INDUSTRIES } from '@/data/navData';
+import { ProfileSeo } from '@/components/ProfileSeo';
 
 const SECTIONS = [
   { id: 'overview',    label: 'Industry Overview' },
@@ -755,6 +756,15 @@ export default function IndustryStory({ params }: { params?: { slug?: string } }
         <meta name="twitter:image" content={industry.coverPhoto} />
         <script type="application/ld+json">{_industryJsonLd}</script>
       </Helmet>
+      <ProfileSeo
+        slug={slug}
+        title={`${industry.name} — ${industry.tagline} | ProfileBizz`}
+        description={industry.oneLiner}
+        canonicalUrl={_industryUrl}
+        image={industry.coverPhoto}
+        entityName={industry.name}
+        entityType="Thing"
+      />
       <div className="min-h-screen bg-[#f9f9f9] text-black">
 
       {/* ── Top Bar ── */}

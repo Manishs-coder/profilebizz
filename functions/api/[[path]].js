@@ -503,6 +503,21 @@ async function handleRequest(context) {
       .bind(parts[2])
       .first();
     if (!founder) return error("Founder not found", 404);
+    if (parts[3] === "seo") {
+      const seo = await env.DB.prepare("SELECT * FROM seo_meta WHERE founder_id = ? LIMIT 1")
+        .bind(founder.id)
+        .first();
+      return json({
+        ...mapSeo(seo, founder.id),
+        slug: founder.slug,
+        name: founder.name,
+        designation: founder.designation,
+        category: founder.category,
+        profileType: founder.profile_type,
+        createdAt: founder.created_at,
+        updatedAt: founder.updated_at,
+      });
+    }
     if (parts[3] === "sections") {
       const locale = url.searchParams.get("locale") || "en";
       const { results } = await env.DB
