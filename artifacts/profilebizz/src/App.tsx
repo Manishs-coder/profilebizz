@@ -67,6 +67,23 @@ interface PublicFounder {
   oneLiner: string | null;
 }
 
+const WOMEN_PROFILE_SLUGS = new Set([
+  'falguni-nayar',
+  'kiran-mazumdar-shaw',
+  'vandana-luthra',
+  'priya-paul',
+  'indra-nooyi',
+  'jyoti-naik',
+]);
+
+function publicProfileHref(profile: PublicFounder): string {
+  if (profile.profileType === 'industry') return `/industry/${profile.slug}`;
+  if (profile.profileType === 'brand') return `/brand/${profile.slug}`;
+  if (profile.profileType === 'social-hero') return `/social-hero/${profile.slug}`;
+  if (WOMEN_PROFILE_SLUGS.has(profile.slug)) return `/women-story/${profile.slug}`;
+  return `/founder/${profile.slug}`;
+}
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [bizDropdown, setBizDropdown] = useState(false);
@@ -91,8 +108,6 @@ function Home() {
   const startupScrollRef = useRef<HTMLDivElement>(null);
   const cityScrollRef = useRef<HTMLDivElement>(null);
   const newsletterRef = useRef<HTMLElement>(null);
-  const [heroIndex, setHeroIndex] = useState(0);
-  const [heroFading, setHeroFading] = useState(false);
 
   const scrollToNewsletter = () => {
     setMobileMenuOpen(false);
@@ -122,27 +137,15 @@ function Home() {
       .catch(() => setFoundersLoading(false));
   }, []);
 
-  // Auto-rotate hero every 6 s when multiple founders available
-  useEffect(() => {
-    if (liveFounders.length <= 1) return;
-    const timer = setInterval(() => {
-      setHeroFading(true);
-      setTimeout(() => {
-        setHeroIndex(i => (i + 1) % liveFounders.length);
-        setHeroFading(false);
-      }, 350);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [liveFounders.length]);
-
   useScrollReveal([liveFounders.length]);
 
-  // Current hero founder (rotates); falls back to Nithin Kamath during load
-  const currentHero = liveFounders.length > 0 ? liveFounders[heroIndex] : null;
-  // Sidebar: up to 3 other founders, wrapping around
-  const sidebarFounders = liveFounders.length > 1
-    ? [...liveFounders.slice(heroIndex + 1), ...liveFounders.slice(0, heroIndex)].slice(0, 3)
-    : [];
+  // Fixed editorial selection: one cover story and three stories inside the edition.
+  const magazineSlugs = ['anshu-gupta', 'rajesh-kumar-vedas', 'nithin-kamath', 'falguni-nayar'];
+  const magazineProfiles = magazineSlugs
+    .map(slug => liveFounders.find(founder => founder.slug === slug))
+    .filter((founder): founder is PublicFounder => Boolean(founder));
+  const currentHero = magazineProfiles[0] || liveFounders[0] || null;
+  const sidebarFounders = magazineProfiles.slice(1, 4);
 
   const scrollLeft = (ref: React.RefObject<HTMLDivElement | null>) => {
     if (ref.current) {
@@ -536,14 +539,18 @@ function Home() {
         {/* ── 2. MAGAZINE HERO BANNER ── */}
         <section className="mb-14">
 
-          {/* Main Hero Grid — fades during auto-rotation */}
-          <div className={`grid grid-cols-1 lg:grid-cols-12 gap-0 border border-black overflow-hidden transition-opacity duration-300 ${heroFading ? 'opacity-0' : 'opacity-100'}`}>
+          {/* Static magazine cover grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-black overflow-hidden">
 
             {/* LEFT: Dark cover panel */}
             <div className="lg:col-span-7 bg-black text-white relative overflow-hidden min-h-[420px] md:min-h-[500px] flex flex-col justify-between p-8 md:p-12">
               {/* Decorative grain overlay */}
               <div className="absolute inset-0 opacity-[0.03]"
                 style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")', backgroundSize: '150px' }} />
+              <div className="relative z-10 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
+                <span>ProfileBizz Magazine</span>
+                <span>Cover Story</span>
+              </div>
 
               {/* Founder info */}
               <div className="relative z-10 mt-auto">
@@ -573,21 +580,7 @@ function Home() {
                   </p>
                 </div>
 
-                {/* Dot indicators for rotation */}
-                {liveFounders.length > 1 && (
-                  <div className="flex gap-1.5 mb-6">
-                    {liveFounders.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => { setHeroFading(true); setTimeout(() => { setHeroIndex(i); setHeroFading(false); }, 300); }}
-                        className={`w-1.5 h-1.5 rounded-full transition-all ${i === heroIndex ? 'bg-editorial w-4' : 'bg-white/30 hover:bg-white/60'}`}
-                        aria-label={`Show founder ${i + 1}`}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                <a href={currentHero ? `/founder/${currentHero.slug}` : '/founder/nithin-kamath'}
+                <a href={currentHero ? publicProfileHref(currentHero) : '/founder/nithin-kamath'}
                   className="inline-flex items-center gap-2 bg-editorial text-white text-xs font-bold tracking-widest uppercase px-6 py-3 hover:bg-white hover:text-black transition-colors">
                   Read Full Biography
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -598,11 +591,11 @@ function Home() {
             {/* RIGHT: Other founder stories (dynamic) */}
             <div className="lg:col-span-5 border-l border-black flex flex-col divide-y divide-gray-100">
               <div className="px-6 py-4 bg-[#fafafa] border-b border-black">
-                <p className="text-[9px] font-bold tracking-[0.22em] uppercase text-gray-400">Also This Week</p>
+                <p className="text-[9px] font-bold tracking-[0.22em] uppercase text-gray-400">Inside This Edition</p>
               </div>
 
               {sidebarFounders.length > 0 ? sidebarFounders.map((f, i) => (
-                <a key={i} href={`/founder/${f.slug}`}
+                <a key={i} href={publicProfileHref(f)}
                   className="group flex items-start gap-4 px-6 py-5 bg-white hover:bg-[#fafafa] transition-colors flex-1">
                   <img src={f.photoUrl || f.coverPhotoUrl || '/nithin-kamath.webp'} alt={f.name}
                     className="w-12 h-12 rounded-full object-cover flex-shrink-0 border border-gray-100 group-hover:ring-2 group-hover:ring-editorial transition-all" />
@@ -749,7 +742,7 @@ function Home() {
               ))
             ) : liveFounders.length > 0 ? (
               liveFounders.map((f, i) => (
-                <a key={i} href={`/founder/${f.slug}`}
+                <a key={i} href={publicProfileHref(f)}
                   className="w-[220px] flex-shrink-0 snap-start group flex flex-col bg-white border border-gray-100 hover:border-black transition-colors p-4 overflow-hidden">
                   <div className="flex items-center gap-2 mb-3">
                     <img
